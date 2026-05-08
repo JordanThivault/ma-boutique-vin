@@ -1,0 +1,129 @@
+// src/app/api/webhooks/stripe/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { stripe } from "@/lib/stripe";
+import { db } from "@/lib/db";
+import Stripe from "stripe";
+
+export async function POST(req: NextRequest) {
+  const body = await req.text();
+  const signature = req.headers.get("stripe-signature");
+
+  if (!signature) {
+    return NextResponse.json({ error: "Signature manquante" }, { status: 400 });
+  }
+
+  let event: Stripe.Event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET!
+    );
+  } catch (err) {
+    console.error("[WEBHOOK] Signature invalide:", err);
+    return NextResponse.json({ error: "Signature invalide" }, { status: 400 });
+  }
+
+  switch (event.type) {
+    case "checkout.session.completed": {
+      const session = event.data.object as Stripe.Checkout.Session;
+      await handleCheckoutCompleted(session);
+      break;
+    }
+    case "payment_intent.payment_failed": {
+      const paymentIntent = event.data.object as Stripe.PaymentIntent;
+      console.log("[WEBHOOK] Paiement échoué:", paymentIntent.id);
+      break;
+    }
+    default:
+      console.log(`[WEBHOOK] Événement non géré: ${event.type}`);
+  }
+
+  return NextResponse.json({ received: true });
+}
+
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+  if (session.payment_status !== "paid") return;
+
+  // ✅ Guard anti-doublon — crucial en prod
+  const existing = await db.order.findUnique({
+    where: { stripeSessionId: session.id },
+  });
+  if (existing) {
+    console.log(`[WEBHOOK] Commande déjà existante: ${existing.id}`);
+    return;
+  }
+
+  const metadata = session.metadata as {
+    userId: string;
+    items: string;
+  };
+
+  const items: Array<{ productId: string; quantity: number }> = JSON.parse(
+    metadata.items
+  );
+
+  const products = await db.product.findMany({
+    where: { id: { in: items.map((i) => i.productId) } },
+  });
+
+  const customerDetails = session.customer_details;
+
+  const subtotal = session.amount_subtotal ?? 0;
+  const total = session.amount_total ?? 0;
+  const shippingCost = total - subtotal;
+
+  try {
+    await db.$transaction(async (tx) => {
+      const order = await tx.order.create({
+        data: {
+          stripeSessionId: session.id,
+          stripePaymentId: session.payment_intent as string,
+          status: "PAID",
+          subtotal,
+          shippingCost,
+          total,
+          currency: session.currency ?? "eur",
+          shippingName: customerDetails?.name ?? "Inconnu",
+          shippingEmail: customerDetails?.email ?? "",
+          shippingAddress: customerDetails?.address?.line1 ?? "",
+          shippingCity: customerDetails?.address?.city ?? "",
+          shippingPostal: customerDetails?.address?.postal_code ?? "",
+          shippingCountry: customerDetails?.address?.country ?? "",
+          userId: metadata.userId !== "guest" ? metadata.userId : undefined,
+          items: {
+            create: items.map((item) => {
+              const product = products.find((p) => p.id === item.productId)!;
+              return {
+                productId: item.productId,
+                quantity: item.quantity,
+                price: product.price,
+              };
+            }),
+          },
+        },
+      });
+
+      // Décrémenter le stock
+      for (const item of items) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: { stock: { decrement: item.quantity } },
+        });
+      }
+
+      // Vider le panier si connecté
+      if (metadata.userId !== "guest") {
+        await tx.cartItem.deleteMany({
+          where: { userId: metadata.userId },
+        });
+      }
+
+      console.log(`[WEBHOOK] Commande créée: ${order.id}`);
+    });
+  } catch (error) {
+    console.error("[WEBHOOK] Erreur création commande:", error);
+    throw error;
+  }
+}
