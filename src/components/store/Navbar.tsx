@@ -2,14 +2,31 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, Search, User, Menu, X } from "lucide-react";
+import {
+  ShoppingBag,
+  Search,
+  User,
+  Menu,
+  X,
+} from "lucide-react";
+
 import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSession, signOut } from "@/lib/auth-client";
+
+import {
+  useSession,
+  signOut,
+} from "@/lib/auth-client";
+
 import type { SessionUser } from "@/lib/auth-client";
+
 import { useRouter } from "next/navigation";
-import { useState, useSyncExternalStore } from "react";
+import {
+  useState,
+  useSyncExternalStore,
+} from "react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,19 +45,35 @@ function useIsMounted() {
 
 export function Navbar() {
   const { totalItems, toggleCart } = useCart();
+
   const { data: session } = useSession();
+
   const router = useRouter();
-  const [searchOpen, setSearchOpen] = useState(false);
+
+  const [searchOpen, setSearchOpen] =
+    useState(false);
+
   const [query, setQuery] = useState("");
-  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [mobileOpen, setMobileOpen] =
+    useState(false);
+
   const mounted = useIsMounted();
 
   const count = mounted ? totalItems() : 0;
 
-  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+  function handleSearch(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
+
     if (query.trim()) {
-      router.push(`/products?q=${encodeURIComponent(query.trim())}`);
+      router.push(
+        `/products?q=${encodeURIComponent(
+          query.trim()
+        )}`
+      );
+
       setSearchOpen(false);
       setQuery("");
     }
@@ -51,37 +84,55 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold tracking-tight text-neutral-900">
+          <Link
+            href="/"
+            className="text-xl font-bold tracking-tight text-neutral-900"
+          >
             Ma Boutique
           </Link>
 
-          {/* Nav links */}
+          {/* Navigation desktop */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-600">
-            <Link href="/products" className="hover:text-neutral-900 transition-colors">
+            <Link
+              href="/products"
+              className="hover:text-neutral-900 transition-colors"
+            >
               Produits
             </Link>
-            <Link href="/products?featured=true" className="hover:text-neutral-900 transition-colors">
+
+            <Link
+              href="/products?featured=true"
+              className="hover:text-neutral-900 transition-colors"
+            >
               Nouveautés
             </Link>
           </nav>
 
-          {/* Right actions */}
+          {/* Actions droite */}
           <div className="flex items-center gap-2">
-            {/* Search */}
+            {/* Recherche */}
             {searchOpen ? (
-              <form onSubmit={handleSearch} className="flex items-center gap-2">
+              <form
+                onSubmit={handleSearch}
+                className="flex items-center gap-2"
+              >
                 <Input
                   autoFocus
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) =>
+                    setQuery(e.target.value)
+                  }
                   placeholder="Rechercher..."
                   className="w-48 h-9"
                 />
+
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  onClick={() => setSearchOpen(false)}
+                  onClick={() =>
+                    setSearchOpen(false)
+                  }
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -90,33 +141,75 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setSearchOpen(true)}
+                onClick={() =>
+                  setSearchOpen(true)
+                }
               >
                 <Search className="h-5 w-5" />
               </Button>
             )}
 
-            {/* User menu */}
+            {/* Menu utilisateur */}
             {session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                  >
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
+
                 <DropdownMenuContent align="end">
                   <div className="px-3 py-2 text-sm">
-                    <p className="font-medium">{session.user.name}</p>
-                    <p className="text-neutral-400 text-xs">{session.user.email}</p>
+                    <p className="font-medium">
+                      {session.user.name}
+                    </p>
+
+                    <p className="text-neutral-400 text-xs">
+                      {session.user.email}
+                    </p>
                   </div>
+
                   <DropdownMenuSeparator />
-                  {(session.user as SessionUser).role === "ADMIN" && (
+
+                  {/* ✅ Ajout — Mon profil */}
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/profile">
+                      Mon profil
+                    </Link>
+                  </DropdownMenuItem>
+
+                  {/* ✅ Mes commandes */}
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/orders">
+                      Mes commandes
+                    </Link>
+                  </DropdownMenuItem>
+
+                  {/* ✅ Dashboard admin */}
+                  {(session.user as SessionUser)
+                    .role === "ADMIN" && (
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard">Dashboard admin</Link>
+                      <Link href="/dashboard">
+                        Dashboard admin
+                      </Link>
                     </DropdownMenuItem>
                   )}
+
+                  <DropdownMenuSeparator />
+
+                  {/* Déconnexion */}
                   <DropdownMenuItem
-                    onClick={() => signOut({ fetchOptions: { onSuccess: () => router.refresh() } })}
+                    onClick={() =>
+                      signOut({
+                        fetchOptions: {
+                          onSuccess: () =>
+                            router.refresh(),
+                        },
+                      })
+                    }
                     className="text-red-500"
                   >
                     Se déconnecter
@@ -124,12 +217,18 @@ export function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Connexion</Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                asChild
+              >
+                <Link href="/login">
+                  Connexion
+                </Link>
               </Button>
             )}
 
-            {/* Cart */}
+            {/* Panier */}
             <Button
               variant="ghost"
               size="icon"
@@ -137,6 +236,7 @@ export function Navbar() {
               onClick={toggleCart}
             >
               <ShoppingBag className="h-5 w-5" />
+
               {mounted && count > 0 && (
                 <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-neutral-900 text-[10px] font-bold text-white">
                   {count > 9 ? "9+" : count}
@@ -144,24 +244,45 @@ export function Navbar() {
               )}
             </Button>
 
-            {/* Mobile menu */}
+            {/* Menu mobile */}
             <Button
               variant="ghost"
               size="icon"
               className="md:hidden"
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() =>
+                setMobileOpen(!mobileOpen)
+              }
             >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
 
-        {/* Mobile nav */}
+        {/* Navigation mobile */}
         {mobileOpen && (
           <div className="border-t py-4 md:hidden">
             <nav className="flex flex-col gap-3 text-sm font-medium">
-              <Link href="/products" onClick={() => setMobileOpen(false)}>Produits</Link>
-              <Link href="/products?featured=true" onClick={() => setMobileOpen(false)}>Nouveautés</Link>
+              <Link
+                href="/products"
+                onClick={() =>
+                  setMobileOpen(false)
+                }
+              >
+                Produits
+              </Link>
+
+              <Link
+                href="/products?featured=true"
+                onClick={() =>
+                  setMobileOpen(false)
+                }
+              >
+                Nouveautés
+              </Link>
             </nav>
           </div>
         )}

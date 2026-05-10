@@ -16,6 +16,9 @@ import {
 import { toast } from "sonner";
 import { Loader2, Plus, X } from "lucide-react";
 
+// ✅ UploadThing
+import { UploadButton } from "@/lib/uploadthing";
+
 interface Category {
   id: string;
   name: string;
@@ -71,155 +74,157 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     if (result?.error) {
       toast.error(result.error);
       setLoading(false);
+      return;
     }
-    // redirect handled server-side on success
+
+    toast.success(product ? "Produit mis à jour" : "Produit créé");
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+
+      {/* ===================== INFO ===================== */}
       <div className="rounded-2xl border bg-white p-6 space-y-4">
         <h2 className="font-semibold text-neutral-900">Informations générales</h2>
 
         <div>
-          <Label htmlFor="name">Nom du produit *</Label>
-          <Input
-            id="name"
-            name="name"
-            required
-            defaultValue={product?.name}
-            placeholder="Mon super produit"
-            className="mt-1"
-          />
+          <Label>Nom du produit *</Label>
+          <Input name="name" required defaultValue={product?.name} className="mt-1" />
         </div>
 
         <div>
-          <Label htmlFor="description">Description *</Label>
+          <Label>Description *</Label>
           <textarea
-            id="description"
             name="description"
             required
             defaultValue={product?.description}
-            placeholder="Description détaillée du produit..."
             rows={4}
-            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
+            className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
           />
         </div>
 
         <div>
-          <Label htmlFor="categoryId">Catégorie</Label>
+          <Label>Catégorie</Label>
           <Select name="categoryId" defaultValue={product?.categoryId ?? "none"}>
             <SelectTrigger className="mt-1">
-            <SelectValue placeholder="Sélectionner une catégorie" />
+              <SelectValue placeholder="Sélectionner une catégorie" />
             </SelectTrigger>
 
             <SelectContent>
-            <SelectItem value="none">Aucune catégorie</SelectItem>
+              <SelectItem value="none">Aucune catégorie</SelectItem>
 
               {categories.map((cat) => (
-            <SelectItem key={cat.id} value={cat.id}>
-               {cat.name}
-            </SelectItem>
-           ))}
+                <SelectItem key={cat.id} value={cat.id}>
+                  {cat.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
       </div>
 
+      {/* ===================== PRIX ===================== */}
       <div className="rounded-2xl border bg-white p-6 space-y-4">
         <h2 className="font-semibold text-neutral-900">Prix & Stock</h2>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="price">Prix (€) *</Label>
+            <Label>Prix (€) *</Label>
             <Input
-              id="price"
               name="price"
               type="number"
               step="0.01"
-              min="0.01"
               required
               defaultValue={product ? (product.price / 100).toFixed(2) : ""}
-              placeholder="29.99"
-              className="mt-1"
             />
           </div>
+
           <div>
-            <Label htmlFor="comparePrice">Prix barré (€)</Label>
+            <Label>Prix barré</Label>
             <Input
-              id="comparePrice"
               name="comparePrice"
               type="number"
               step="0.01"
-              defaultValue={product?.comparePrice ? (product.comparePrice / 100).toFixed(2) : ""}
-              placeholder="39.99"
-              className="mt-1"
+              defaultValue={
+                product?.comparePrice
+                  ? (product.comparePrice / 100).toFixed(2)
+                  : ""
+              }
             />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="stock">Stock *</Label>
-            <Input
-              id="stock"
-              name="stock"
-              type="number"
-              min="0"
-              required
-              defaultValue={product?.stock ?? 0}
-              className="mt-1"
-            />
+            <Label>Stock *</Label>
+            <Input name="stock" type="number" required defaultValue={product?.stock ?? 0} />
           </div>
+
           <div>
-            <Label htmlFor="sku">SKU</Label>
-            <Input
-              id="sku"
-              name="sku"
-              defaultValue={product?.sku ?? ""}
-              placeholder="REF-001"
-              className="mt-1"
-            />
+            <Label>SKU</Label>
+            <Input name="sku" defaultValue={product?.sku ?? ""} />
           </div>
         </div>
 
         <div>
-          <Label htmlFor="weight">Poids (grammes)</Label>
-          <Input
-            id="weight"
-            name="weight"
-            type="number"
-            min="0"
-            defaultValue={product?.weight ?? ""}
-            placeholder="500"
-            className="mt-1"
-          />
+          <Label>Poids (g)</Label>
+          <Input name="weight" type="number" defaultValue={product?.weight ?? ""} />
         </div>
       </div>
 
+      {/* ===================== IMAGES (UPLOADTHING) ===================== */}
       <div className="rounded-2xl border bg-white p-6 space-y-4">
         <h2 className="font-semibold text-neutral-900">Images</h2>
 
-        <div className="flex gap-2">
+        {/* UploadThing */}
+        <UploadButton
+          endpoint="productImage"
+          appearance={{
+            button: "bg-neutral-900 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-neutral-700 ut-uploading:bg-neutral-600",
+            allowedContent: "text-neutral-400 text-xs mt-2",
+          }}
+          onClientUploadComplete={(res) => {
+            const urls = res.map((f) => f.ufsUrl);
+            setImages((prev) => [...prev, ...urls]);
+            toast.success(`${res.length} image(s) ajoutée(s)`);
+          }}
+          onUploadError={(error) => {
+            toast.error(error.message);
+          }}
+        />
+
+        {/* URL manuelle */}
+        <div className="flex gap-2 mt-3">
           <Input
             value={newImageUrl}
             onChange={(e) => setNewImageUrl(e.target.value)}
-            placeholder="https://... (URL de l'image)"
-            onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addImage())}
+            placeholder="Coller une URL image"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addImage();
+              }
+            }}
           />
           <Button type="button" variant="outline" onClick={addImage}>
             <Plus className="h-4 w-4" />
           </Button>
         </div>
 
+        {/* Preview */}
         {images.length > 0 && (
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-3 mt-3">
             {images.map((url) => (
-              <div key={url} className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
-                <img src={url} alt="" className="h-full w-full object-cover" />
+              <div
+                key={url}
+                className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
+              >
+                <img src={url} alt="Image produit" className="h-full w-full object-cover" />
+
                 <button
                   type="button"
                   onClick={() => removeImage(url)}
-                  className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                  className="absolute right-1 top-1 h-6 w-6 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -229,48 +234,47 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         )}
       </div>
 
+      {/* ===================== VISIBILITE ===================== */}
       <div className="rounded-2xl border bg-white p-6 space-y-4">
-        <h2 className="font-semibold text-neutral-900">Visibilité</h2>
+        <h2 className="font-semibold">Visibilité</h2>
 
-        <div className="flex items-center gap-6">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              name="published"
-              value="true"
-              defaultChecked={product?.published ?? true}
-              className="h-4 w-4 rounded border-gray-300"
-            />
-            <span className="text-sm">Publié</span>
-          </label>
+        <label className="flex gap-2">
+          <input
+            type="checkbox"
+            name="published"
+            value="true"
+            defaultChecked={product?.published ?? true}
+          />
+          Publié
+        </label>
 
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              name="featured"
-              value="true"
-              defaultChecked={product?.featured ?? false}
-              className="h-4 w-4 rounded border-gray-300"
-            />
-            <span className="text-sm">Produit vedette</span>
-          </label>
-        </div>
+        <label className="flex gap-2">
+          <input
+            type="checkbox"
+            name="featured"
+            value="true"
+            defaultChecked={product?.featured ?? false}
+          />
+          Produit vedette
+        </label>
       </div>
 
-      <div className="flex gap-3 justify-end">
+      {/* ===================== ACTIONS ===================== */}
+      <div className="flex justify-end gap-3">
         <Button type="button" variant="outline" onClick={() => history.back()}>
           Annuler
         </Button>
-        <Button type="submit" disabled={loading}>
+
+        <Button disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Enregistrement...
+              Sauvegarde...
             </>
           ) : product ? (
             "Mettre à jour"
           ) : (
-            "Créer le produit"
+            "Créer"
           )}
         </Button>
       </div>

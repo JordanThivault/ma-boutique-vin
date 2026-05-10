@@ -15,7 +15,7 @@ const ProductSchema = z.object({
   price: z.coerce.number().min(1, "Le prix doit être supérieur à 0"),
   comparePrice: z.coerce.number().optional(),
   stock: z.coerce.number().min(0),
-  images: z.string(), // JSON array de URLs
+  images: z.string(),
   categoryId: z.string().optional(),
   featured: z.boolean().default(false),
   published: z.boolean().default(true),
@@ -50,18 +50,20 @@ export async function createProduct(formData: FormData) {
 
   const parsed = ProductSchema.safeParse(raw);
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    // ✅ Fix — utilise .issues au lieu de .errors
+    return { error: parsed.error.issues[0].message };
   }
 
   const { name, price, comparePrice, ...rest } = parsed.data;
   const images = JSON.parse(rest.images) as string[];
 
   try {
-    const product = await db.product.create({
+    // ✅ Fix — supprime la variable product inutilisée
+    await db.product.create({
       data: {
         name,
         slug: slugify(name),
-        price: Math.round(price * 100), // convertir en centimes
+        price: Math.round(price * 100),
         comparePrice: comparePrice ? Math.round(comparePrice * 100) : undefined,
         images,
         description: rest.description,
@@ -76,13 +78,15 @@ export async function createProduct(formData: FormData) {
 
     revalidatePath("/dashboard/products");
     revalidatePath("/products");
-    redirect(`/dashboard/products`);
   } catch (error: unknown) {
     if ((error as { code?: string })?.code === "P2002") {
       return { error: "Un produit avec ce nom existe déjà" };
     }
     return { error: "Erreur lors de la création du produit" };
   }
+
+  // ✅ Fix — redirect en dehors du try/catch
+  redirect("/dashboard/products");
 }
 
 export async function updateProduct(id: string, formData: FormData) {
@@ -104,32 +108,42 @@ export async function updateProduct(id: string, formData: FormData) {
 
   const parsed = ProductSchema.safeParse(raw);
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    // ✅ Fix — utilise .issues au lieu de .errors
+    return { error: parsed.error.issues[0].message };
   }
 
   const { name, price, comparePrice, ...rest } = parsed.data;
   const images = JSON.parse(rest.images) as string[];
 
-  await db.product.update({
-    where: { id },
-    data: {
-      name,
-      slug: slugify(name),
-      price: Math.round(price * 100),
-      comparePrice: comparePrice ? Math.round(comparePrice * 100) : null,
-      images,
-      description: rest.description,
-      stock: rest.stock,
-      categoryId: rest.categoryId || null,
-      featured: rest.featured,
-      published: rest.published,
-      sku: rest.sku || null,
-      weight: rest.weight,
-    },
-  });
+  try {
+    await db.product.update({
+      where: { id },
+      data: {
+        name,
+        slug: slugify(name),
+        price: Math.round(price * 100),
+        comparePrice: comparePrice ? Math.round(comparePrice * 100) : null,
+        images,
+        description: rest.description,
+        stock: rest.stock,
+        categoryId: rest.categoryId || null,
+        featured: rest.featured,
+        published: rest.published,
+        sku: rest.sku || null,
+        weight: rest.weight,
+      },
+    });
 
-  revalidatePath("/dashboard/products");
-  revalidatePath("/products");
+    revalidatePath("/dashboard/products");
+    revalidatePath("/products");
+  } catch (error: unknown) {
+    if ((error as { code?: string })?.code === "P2002") {
+      return { error: "Un produit avec ce nom existe déjà" };
+    }
+    return { error: "Erreur lors de la mise à jour du produit" };
+  }
+
+  // ✅ Fix — redirect en dehors du try/catch
   redirect("/dashboard/products");
 }
 
