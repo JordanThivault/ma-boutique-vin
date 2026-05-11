@@ -28,9 +28,9 @@ export default async function HomePage() {
               Nouvelle collection disponible
             </span>
             <h1 className="mt-6 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-              Qualité sans{" "}
+              Site en cours de développement{" "}
               <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                compromis
+                certaines fonctionnalités peuvent être incomplètes ou en cours de test.
               </span>
             </h1>
             <p className="mt-6 text-xl text-neutral-300">
