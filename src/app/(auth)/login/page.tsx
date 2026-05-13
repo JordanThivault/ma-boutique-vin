@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,23 +17,27 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
 
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const { error } = await signIn.email({
+    const { error } = await authClient.signIn.email({
       email,
       password,
     });
 
     if (error) {
-      toast.error(error.message ?? "Email ou mot de passe incorrect");
+      toast.error(
+        error.message ??
+          "Email ou mot de passe incorrect"
+      );
 
       setLoading(false);
 
@@ -44,15 +48,25 @@ export default function LoginPage() {
 
     router.push("/");
     router.refresh();
+
+    setLoading(false);
   }
 
   async function handleGoogleSignIn() {
-    setGoogleLoading(true);
+    try {
+      setGoogleLoading(true);
 
-    await signIn.social({
-      provider: "google",
-      callbackURL: "/",
-    });
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch {
+      toast.error(
+        "Une erreur est survenue avec Google"
+      );
+
+      setGoogleLoading(false);
+    }
   }
 
   return (
@@ -76,9 +90,14 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4"
+          >
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">
+                Email
+              </Label>
 
               <Input
                 id="email"
@@ -91,7 +110,9 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">
+                Mot de passe
+              </Label>
 
               <Input
                 id="password"
@@ -103,7 +124,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* ✅ Mot de passe oublié */}
             <div className="flex justify-end">
               <Link
                 href="/reset-password"
@@ -142,6 +162,7 @@ export default function LoginPage() {
           </div>
 
           <Button
+            type="button"
             variant="outline"
             className="w-full"
             onClick={handleGoogleSignIn}
@@ -176,7 +197,7 @@ export default function LoginPage() {
               </svg>
             )}
 
-            Google
+            Continuer avec Google
           </Button>
 
           <p className="mt-6 text-center text-sm text-neutral-500">

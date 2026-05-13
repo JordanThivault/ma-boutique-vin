@@ -11,7 +11,15 @@ Stack complète pour une boutique de produits physiques.
 - **Stripe** — Checkout Session + Webhooks
 
 ---
-
+Next.js 15 (App Router + Server Actions)
+Prisma 6 + PostgreSQL (Neon)
+Better Auth (email/password + Google OAuth partiel)
+Stripe (Checkout Session + Webhooks)
+shadcn/ui + Tailwind CSS v3
+Zustand (cart persistant localStorage)
+Uploadthing (upload images produits)
+Resend (emails transactionnels)
+Vercel (déploiement prod)
 ## Structure du projet
 
 ```
@@ -68,7 +76,71 @@ ecommerce-mvp/
 ```
 
 ---
-
+src/
+├── app/
+│   ├── (store)/              # Layout public (Navbar + Footer + CartSidebar + AgeModal)
+│   │   ├── page.tsx          # Homepage hero + produits vedettes
+│   │   ├── products/
+│   │   │   ├── page.tsx      # Catalogue + filtres catégories + recherche
+│   │   │   └── [slug]/page.tsx
+│   │   ├── cart/page.tsx
+│   │   ├── checkout/success/page.tsx
+│   │   ├── account/
+│   │   │   ├── layout.tsx    # Protection route (redirect si non connecté)
+│   │   │   ├── orders/page.tsx
+│   │   │   └── profile/page.tsx
+│   │   ├── cgv/page.tsx
+│   │   ├── confidentialite/page.tsx
+│   │   └── mentions-legales/page.tsx
+│   ├── (auth)/
+│   │   ├── login/page.tsx
+│   │   ├── register/page.tsx
+│   │   └── reset-password/
+│   │       ├── page.tsx
+│   │       └── confirm/page.tsx
+│   ├── dashboard/            # Admin — protégé role=ADMIN
+│   │   ├── layout.tsx
+│   │   ├── page.tsx          # Stats + dernières commandes
+│   │   ├── products/
+│   │   │   ├── page.tsx
+│   │   │   ├── new/page.tsx
+│   │   │   └── [id]/edit/page.tsx
+│   │   └── orders/page.tsx
+│   ├── actions/
+│   │   ├── products.ts       # CRUD Server Actions
+│   │   └── orders.ts         # updateOrderStatus
+│   └── api/
+│       ├── auth/[...all]/route.ts
+│       ├── checkout/route.ts
+│       ├── webhooks/stripe/route.ts
+│       └── uploadthing/route.ts
+├── components/
+│   ├── ui/                   # shadcn/ui
+│   ├── store/
+│   │   ├── Navbar.tsx        # useSyncExternalStore pour mounted (hydration fix)
+│   │   ├── Footer.tsx        # idem
+│   │   ├── ProductCard.tsx   # e.preventDefault() sur addToCart (Link imbriqué fix)
+│   │   ├── CartSidebar.tsx
+│   │   ├── AddToCartButton.tsx
+│   │   └── AgeVerificationModal.tsx  # localStorage +18, useSyncExternalStore
+│   └── admin/
+│       ├── AdminSidebar.tsx
+│       ├── ProductForm.tsx   # Uploadthing intégré
+│       ├── DeleteProductButton.tsx
+│       └── UpdateOrderStatusButton.tsx
+├── hooks/
+│   └── useCart.ts            # Zustand + persist localStorage
+└── lib/
+    ├── auth.ts               # Better Auth config + additionalFields role
+    ├── auth-client.ts        # createAuthClient + type SessionUser
+    ├── db.ts                 # Prisma singleton
+    ├── stripe.ts             # Stripe client
+    ├── uploadthing.ts        # generateUploadButton/Dropzone
+    ├── utils.ts              # cn, slugify, formatPrice, formatDate
+    └── emails/
+        ├── resend.ts
+        └── order-confirmation.tsx  # Template HTML inline
+        
 ## Installation
 
 ```bash
