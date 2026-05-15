@@ -1,4 +1,3 @@
-// src/components/store/Footer.tsx
 "use client";
 
 import Link from "next/link";
@@ -13,121 +12,112 @@ function useIsMounted() {
   );
 }
 
-export function Footer() {
+export default function Footer() {
   const { data: session } = useSession();
   const mounted = useIsMounted();
 
   return (
-    <footer className="border-t bg-neutral-950 text-neutral-400">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-4">
+    <footer className="bg-stone-950 text-stone-400 pt-16 pb-8 px-6">
+      <div className="max-w-7xl mx-auto">
 
-          {/* Brand */}
-          <div>
-            <p className="text-lg font-bold text-white">Ma Boutique</p>
-            <p className="mt-2 text-sm leading-relaxed">
-              Des vins et produits artisanaux de qualité, livrés rapidement.
+        {/* TOP GRID */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-14 border-b border-stone-800">
+
+          {/* BRAND */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex flex-col leading-none mb-5">
+              <span className="font-sans text-[9px] tracking-[0.25em] uppercase text-stone-600">
+                Domaine
+              </span>
+              <span className="font-serif text-xl text-white">
+                test
+              </span>
+              <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-stone-600">
+                Chinon
+              </span>
+            </div>
+
+            <p className="text-xs text-stone-500 leading-relaxed">
+              Vins et expériences au cœur du terroir de Chinon.
             </p>
           </div>
 
-          {/* Navigation */}
+          {/* NAVIGATION */}
           <div>
-            <p className="font-medium text-white">Navigation</p>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link href="/products" className="hover:text-white transition-colors">
-                  Produits
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?featured=true" className="hover:text-white transition-colors">
-                  Nouveautés
-                </Link>
-              </li>
-              <li>
-                <Link href="/cart" className="hover:text-white transition-colors">
-                  Mon panier
-                </Link>
-              </li>
+            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+              Navigation
+            </h4>
+
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/products">Produits</Link></li>
+              <li><Link href="/experiences">Expériences</Link></li>
+              <li><Link href="/journal">Journal</Link></li>
+              <li><Link href="/cart">Panier</Link></li>
             </ul>
           </div>
 
-          {/* Mon compte — ✅ rendu uniquement après hydration */}
+          {/* MON COMPTE */}
           <div>
-            <p className="font-medium text-white">Mon compte</p>
-            <ul className="mt-4 space-y-2 text-sm">
-              {!mounted ? (
-                // ✅ SSR → liens neutres sans session
+            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+              Mon compte
+            </h4>
+
+            <ul className="space-y-3 text-sm">
+              {!mounted || !session ? (
                 <>
-                  <li>
-                    <Link href="/login" className="hover:text-white transition-colors">
-                      Connexion
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/register" className="hover:text-white transition-colors">
-                      Créer un compte
-                    </Link>
-                  </li>
-                </>
-              ) : session ? (
-                <>
-                  <li>
-                    <Link href="/account/orders" className="hover:text-white transition-colors">
-                      Mes commandes
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/account/profile" className="hover:text-white transition-colors">
-                      Mon profil
-                    </Link>
-                  </li>
+                  <li><Link href="/login">Connexion</Link></li>
+                  <li><Link href="/register">Créer un compte</Link></li>
                 </>
               ) : (
                 <>
-                  <li>
-                    <Link href="/login" className="hover:text-white transition-colors">
-                      Connexion
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/register" className="hover:text-white transition-colors">
-                      Créer un compte
-                    </Link>
-                  </li>
+                  <li><Link href="/account/orders">Commandes</Link></li>
+                  <li><Link href="/account/profile">Profil</Link></li>
                 </>
               )}
             </ul>
           </div>
 
-          {/* Informations légales */}
+          {/* LEGAL */}
           <div>
-            <p className="font-medium text-white">Informations</p>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link href="/cgv" className="hover:text-white transition-colors">
-                  CGV
-                </Link>
-              </li>
-              <li>
-                <Link href="/confidentialite" className="hover:text-white transition-colors">
-                  Politique de confidentialité
-                </Link>
-              </li>
-              <li>
-                <Link href="/mentions-legales" className="hover:text-white transition-colors">
-                  Mentions légales
-                </Link>
-              </li>
+            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+              Informations
+            </h4>
+
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/mentions-legales">Mentions légales</Link></li>
+              <li><Link href="/confidentialite">Confidentialité</Link></li>
+              <li><Link href="/cgv">CGV</Link></li>
             </ul>
           </div>
 
+          {/* NEWSLETTER CTA */}
+          <div>
+            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+              Newsletter
+            </h4>
+
+            <p className="text-xs text-stone-500 mb-3">
+              Recevez les nouveautés du domaine
+            </p>
+
+            <Link
+              href="/#newsletter"
+              className="text-xs tracking-[0.2em] uppercase text-amber-600 hover:text-amber-500"
+            >
+              S’inscrire →
+            </Link>
+          </div>
         </div>
 
-        <div className="mt-12 border-t border-neutral-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© {new Date().getFullYear()} Ma Boutique. Tous droits réservés.</p>
-          <p>Paiements sécurisés par Stripe 🔒 — L abus d alcool est dangereux pour la santé 🍷</p>
+        {/* BOTTOM */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-600">
+          <p>© {new Date().getFullYear()} Domaine test</p>
+
+          <p className="text-center text-stone-700 text-[11px]">
+            L’abus d’alcool est dangereux pour la santé.
+          </p>
         </div>
+
       </div>
     </footer>
   );

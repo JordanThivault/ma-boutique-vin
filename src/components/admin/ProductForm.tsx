@@ -6,6 +6,7 @@ import { createProduct, updateProduct } from "@/app/actions/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -219,7 +220,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 key={url}
                 className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
               >
-                <img src={url} alt="Image produit" className="h-full w-full object-cover" />
+                <Image src={url} alt="Image produit" fill className="h-full w-full object-cover" />
 
                 <button
                   type="button"

@@ -1,26 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Jost } from "next/font/google";
 import { Toaster } from "sonner";
 
 import "./globals.css";
 
-const geistSans = Geist({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const jost = Jost({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  weight: ["300", "400", "500"],
+  variable: "--font-jost",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Ma Boutique Vin",
-    template: "%s | Ma Boutique Vin",
+    default: "Domaine Test — Chinon, Val de Loire",
+    template: "%s — Domaine Test",
   },
   description:
-    "Découvrez notre sélection de vins d’exception, champagnes et spiritueux.",
+    "Vins de caractère issus du terroir de Chinon.",
 };
 
 export default function RootLayout({
@@ -31,10 +36,9 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${cormorant.variable} ${jost.variable}`}
     >
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+      <body className="font-sans antialiased bg-white text-stone-900 ">
         {children}
 
         <Toaster

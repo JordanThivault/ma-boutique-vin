@@ -1,6 +1,6 @@
 // src/app/(store)/layout.tsx
-import { Navbar } from "@/components/store/Navbar";
-import { Footer } from "@/components/store/Footer";
+import  Navbar  from "@/components/store/Navbar";
+import  Footer  from "@/components/store/Footer";
 import { CartSidebar } from "@/components/store/CartSidebar";
 import { AgeVerificationModal } from "@/components/store/AgeVerificationModal";
 

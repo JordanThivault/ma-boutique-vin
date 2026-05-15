@@ -1,32 +1,12 @@
-// src/components/store/Navbar.tsx
 "use client";
 
 import Link from "next/link";
-import {
-  ShoppingBag,
-  Search,
-  User,
-  Menu,
-  X,
-} from "lucide-react";
-
-import { useCart } from "@/hooks/useCart";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import {
-  useSession,
-  signOut,
-} from "@/lib/auth-client";
-
-import type { SessionUser } from "@/lib/auth-client";
-
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-  useState,
-  useSyncExternalStore,
-} from "react";
-
+import { useSession, signOut } from "@/lib/auth-client";
+import { useCart } from "@/hooks/useCart";
+import { ShoppingBag, User, Menu, X } from "lucide-react";
+import type { SessionUser } from "@/lib/auth-client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,258 +15,199 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-function useIsMounted() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
-}
+const NAV_ITEMS = [
+  { label: "Les vins", href: "/products" },
+  { label: "Le domaine", href: "/domaine" },
+  { label: "Savoir-faire", href: "/savoir-faire" },
+  { label: "Expériences", href: "/experiences" },
+  { label: "Journal", href: "/journal" },
+];
 
-export function Navbar() {
-  const { totalItems, toggleCart } = useCart();
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { data: session } = useSession();
+  const isTop = !scrolled;
 
   const router = useRouter();
+  const { data: session } = useSession();
+  const { openCart, totalItems } = useCart();
+  const cartCount = totalItems();
 
-  const [searchOpen, setSearchOpen] =
-    useState(false);
-
-  const [query, setQuery] = useState("");
-
-  const [mobileOpen, setMobileOpen] =
-    useState(false);
-
-  const mounted = useIsMounted();
-
-  const count = mounted ? totalItems() : 0;
-
-  function handleSearch(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
-    e.preventDefault();
-
-    if (query.trim()) {
-      router.push(
-        `/products?q=${encodeURIComponent(
-          query.trim()
-        )}`
-      );
-
-      setSearchOpen(false);
-      setQuery("");
-    }
-  }
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-4">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold tracking-tight text-neutral-900"
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-sm shadow-sm"
+          : "bg-gradient-to-b from-black/40 to-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 lg:h-20">
+
+        {/* Logo */}
+        <Link href="/" className="flex flex-col leading-none">
+          <span
+            className={`text-[9px] tracking-[0.25em] uppercase transition-colors ${
+              isTop ? "text-white/70" : "text-stone-400"
+            }`}
           >
-            Ma Boutique
-          </Link>
+            Domaine
+          </span>
 
-          {/* Navigation desktop */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-600">
+          <span
+            className={`font-serif text-lg transition-colors ${
+              isTop ? "text-white" : "text-stone-900"
+            }`}
+          >
+            Test
+          </span>
+
+          <span
+            className={`text-[9px] tracking-[0.3em] uppercase transition-colors ${
+              isTop ? "text-white/70" : "text-stone-400"
+            }`}
+          >
+            Chinon
+          </span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden lg:flex items-center gap-8">
+          {NAV_ITEMS.map((item) => (
             <Link
-              href="/products"
-              className="hover:text-neutral-900 transition-colors"
+              key={item.href}
+              href={item.href}
+              className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
+                isTop
+                  ? "text-white/80 hover:text-white"
+                  : "text-stone-700 hover:text-stone-900"
+              }`}
             >
-              Produits
+              {item.label}
             </Link>
+          ))}
+        </nav>
 
-            <Link
-              href="/products?featured=true"
-              className="hover:text-neutral-900 transition-colors"
-            >
-              Nouveautés
-            </Link>
-          </nav>
+        {/* Right */}
+        <div className="flex items-center gap-3">
 
-          {/* Actions droite */}
-          <div className="flex items-center gap-2">
-            {/* Recherche */}
-            {searchOpen ? (
-              <form
-                onSubmit={handleSearch}
-                className="flex items-center gap-2"
-              >
-                <Input
-                  autoFocus
-                  value={query}
-                  onChange={(e) =>
-                    setQuery(e.target.value)
-                  }
-                  placeholder="Rechercher..."
-                  className="w-48 h-9"
-                />
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() =>
-                    setSearchOpen(false)
-                  }
+          {/* User */}
+          {session ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={`p-1 transition-colors ${
+                    isTop
+                      ? "text-white/80 hover:text-white"
+                      : "text-stone-700 hover:text-stone-900"
+                  }`}
                 >
-                  <X className="h-4 w-4" />
-                </Button>
-              </form>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() =>
-                  setSearchOpen(true)
-                }
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            )}
+                  <User className="h-5 w-5" />
+                </button>
+              </DropdownMenuTrigger>
 
-            {/* Menu utilisateur */}
-            {session ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                  >
-                    <User className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <div className="px-3 py-2 text-sm">
+                  <p className="font-medium">{session.user.name}</p>
+                  <p className="text-neutral-400 text-xs">{session.user.email}</p>
+                </div>
 
-                <DropdownMenuContent align="end">
-                  <div className="px-3 py-2 text-sm">
-                    <p className="font-medium">
-                      {session.user.name}
-                    </p>
+                <DropdownMenuSeparator />
 
-                    <p className="text-neutral-400 text-xs">
-                      {session.user.email}
-                    </p>
-                  </div>
+                <DropdownMenuItem asChild>
+                  <Link href="/account/profile">Mon profil</Link>
+                </DropdownMenuItem>
 
-                  <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/account/orders">Mes commandes</Link>
+                </DropdownMenuItem>
 
-                  {/* ✅ Ajout — Mon profil */}
+                {(session.user as SessionUser).role === "ADMIN" && (
                   <DropdownMenuItem asChild>
-                    <Link href="/account/profile">
-                      Mon profil
-                    </Link>
+                    <Link href="/dashboard">Dashboard admin</Link>
                   </DropdownMenuItem>
+                )}
 
-                  {/* ✅ Mes commandes */}
-                  <DropdownMenuItem asChild>
-                    <Link href="/account/orders">
-                      Mes commandes
-                    </Link>
-                  </DropdownMenuItem>
+                <DropdownMenuSeparator />
 
-                  {/* ✅ Dashboard admin */}
-                  {(session.user as SessionUser)
-                    .role === "ADMIN" && (
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard">
-                        Dashboard admin
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
+                <DropdownMenuItem
+                  onClick={() =>
+                    signOut({
+                      fetchOptions: { onSuccess: () => router.refresh() },
+                    })
+                  }
+                  className="text-red-500"
+                >
+                  Se déconnecter
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link
+              href="/login"
+              className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
+                isTop
+                  ? "text-white/80 hover:text-white"
+                  : "text-stone-700 hover:text-stone-900"
+              }`}
+            >
+              Connexion
+            </Link>
+          )}
 
-                  <DropdownMenuSeparator />
+          {/* Cart */}
+          <button
+            onClick={openCart}
+            className={`relative p-1 transition-colors ${
+              isTop
+                ? "text-white/80 hover:text-white"
+                : "text-stone-700 hover:text-stone-900"
+            }`}
+          >
+            <ShoppingBag className="h-5 w-5" />
 
-                  {/* Déconnexion */}
-                  <DropdownMenuItem
-                    onClick={() =>
-                      signOut({
-                        fetchOptions: {
-                          onSuccess: () =>
-                            router.refresh(),
-                        },
-                      })
-                    }
-                    className="text-red-500"
-                  >
-                    Se déconnecter
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                asChild
-              >
-                <Link href="/login">
-                  Connexion
-                </Link>
-              </Button>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-stone-900 text-[10px] font-bold text-white">
+                {cartCount > 9 ? "9+" : cartCount}
+              </span>
             )}
+          </button>
 
-            {/* Panier */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative"
-              onClick={toggleCart}
-            >
-              <ShoppingBag className="h-5 w-5" />
-
-              {mounted && count > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-neutral-900 text-[10px] font-bold text-white">
-                  {count > 9 ? "9+" : count}
-                </span>
-              )}
-            </Button>
-
-            {/* Menu mobile */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() =>
-                setMobileOpen(!mobileOpen)
-              }
-            >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
-          </div>
+          {/* Burger */}
+          <button
+            className={`lg:hidden p-1 transition-colors ${
+              isTop
+                ? "text-white/80 hover:text-white"
+                : "text-stone-700 hover:text-stone-900"
+            }`}
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-
-        {/* Navigation mobile */}
-        {mobileOpen && (
-          <div className="border-t py-4 md:hidden">
-            <nav className="flex flex-col gap-3 text-sm font-medium">
-              <Link
-                href="/products"
-                onClick={() =>
-                  setMobileOpen(false)
-                }
-              >
-                Produits
-              </Link>
-
-              <Link
-                href="/products?featured=true"
-                onClick={() =>
-                  setMobileOpen(false)
-                }
-              >
-                Nouveautés
-              </Link>
-            </nav>
-          </div>
-        )}
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-white border-t px-6 py-6 space-y-5">
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileOpen(false)}
+              className="block text-sm uppercase tracking-[0.15em] text-stone-700 hover:text-stone-900"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
     </header>
   );
 }
