@@ -84,7 +84,7 @@ export default function HeroSection() {
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 animate-pulse">
         <span className="text-[10px] tracking-[0.3em] uppercase font-sans">
-          Découvrir
+          Découvrir 
         </span>
         <div className="w-px h-10 bg-white/30" />
       </div>

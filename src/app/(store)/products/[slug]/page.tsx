@@ -40,7 +40,7 @@ export default async function ProductPage({ params }: Props) {
   const mainImage = product.images[0] ?? "/placeholder-product.jpg";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-16 lg:pt-20">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         {/* Images */}
         <div className="space-y-4">

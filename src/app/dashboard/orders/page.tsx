@@ -108,7 +108,7 @@ export default async function AdminOrdersPage() {
 
         {orders.length === 0 && (
           <div className="rounded-2xl border bg-white py-16 text-center text-neutral-400">
-            Aucune commande pour l'instant
+            Aucune commande pour l instant
           </div>
         )}
       </div>

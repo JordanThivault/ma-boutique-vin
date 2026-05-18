@@ -1,4 +1,3 @@
-// src/components/store/AgeVerificationModal.tsx
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
@@ -18,60 +17,69 @@ export function AgeVerificationModal() {
 
   function handleAccept() {
     localStorage.setItem("age-verified", "true");
-    setAccepted(true); // ✅ juste un state change, pas de reload
+    setAccepted(true);
   }
 
   function handleDecline() {
     window.location.href = "https://www.google.com";
   }
 
-  // SSR ou déjà accepté dans cette session
   if (!mounted || accepted) return null;
-
-  // Déjà vérifié dans une session précédente
   if (localStorage.getItem("age-verified") === "true") return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="mx-4 w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 backdrop-blur-md px-6">
 
-        <div className="mb-6 text-center">
-          <span className="text-6xl">🍷</span>
+      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-black/60 shadow-2xl">
+
+        {/* glow subtil */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+
+        <div className="relative p-10 text-center">
+
+          {/* titre */}
+          <h2 className="text-2xl font-serif tracking-wide text-white">
+            Accès à l’univers du Domaine
+          </h2>
+
+          {/* texte */}
+          <p className="mt-4 text-sm leading-relaxed text-white/70">
+            Ce site présente des vins et des expériences réservées aux personnes majeures.  
+            L’alcool doit être consommé avec modération.
+          </p>
+
+          <p className="mt-6 text-sm text-white/80">
+            Confirmez-vous avoir <span className="font-medium text-white">18 ans ou plus</span> ?
+          </p>
+
+          {/* actions */}
+          <div className="mt-8 flex flex-col gap-3">
+
+            <Button
+              size="lg"
+              onClick={handleAccept}
+              className="w-full bg-white text-black hover:bg-white/90 transition"
+            >
+              Entrer
+            </Button>
+
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={handleDecline}
+              className="w-full border-white/30 text-black hover:bg-white/10 transition"
+            >
+              Quitter
+            </Button>
+
+          </div>
+
+          {/* legal */}
+          <p className="mt-8 text-[11px] leading-relaxed text-white/40">
+            L’abus d’alcool est dangereux pour la santé. Vente interdite aux mineurs de moins de 18 ans.
+          </p>
+
         </div>
-
-        <h2 className="text-center text-2xl font-bold text-neutral-900">
-          Vérification de l âge
-        </h2>
-
-        <p className="mt-3 text-center text-neutral-500 leading-relaxed">
-          Ce site vend des boissons alcoolisées. Vous devez avoir{" "}
-          <strong className="text-neutral-900">18 ans ou plus</strong> pour
-          accéder à ce contenu.
-        </p>
-
-        <p className="mt-2 text-center text-sm text-neutral-400">
-          Avez-vous 18 ans ou plus ?
-        </p>
-
-        <div className="mt-8 flex flex-col gap-3">
-          <Button size="lg" className="w-full" onClick={handleAccept}>
-            Oui, j ai 18 ans ou plus
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="w-full"
-            onClick={handleDecline}
-          >
-            Non, j ai moins de 18 ans
-          </Button>
-        </div>
-
-        <p className="mt-6 text-center text-xs text-neutral-400 leading-relaxed">
-          L abus d alcool est dangereux pour la santé. À consommer avec modération.
-          La vente d alcool aux mineurs est interdite par la loi.
-        </p>
-
       </div>
     </div>
   );

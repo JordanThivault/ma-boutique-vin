@@ -151,11 +151,20 @@ export async function deleteProduct(id: string) {
   await requireAdmin();
 
   try {
-    await db.product.delete({ where: { id } });
+    await db.product.delete({
+      where: { id },
+    });
+
     revalidatePath("/dashboard/products");
     revalidatePath("/products");
+
     return { success: true };
-  } catch {
-    return { error: "Impossible de supprimer ce produit (commandes existantes)" };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      error:
+        "Impossible de supprimer ce produit. Il est probablement lié à une commande existante.",
+    };
   }
 }

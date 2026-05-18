@@ -102,7 +102,7 @@ export default function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className={`p-1 transition-colors ${
+                  className={`p-1 cursor-pointer transition-colors ${
                     isTop
                       ? "text-white/80 hover:text-white"
                       : "text-stone-700 hover:text-stone-900"
@@ -164,7 +164,7 @@ export default function Navbar() {
           {/* Cart */}
           <button
             onClick={openCart}
-            className={`relative p-1 transition-colors ${
+            className={`relative p-1 cursor-pointer transition-colors ${
               isTop
                 ? "text-white/80 hover:text-white"
                 : "text-stone-700 hover:text-stone-900"
@@ -181,7 +181,7 @@ export default function Navbar() {
 
           {/* Burger */}
           <button
-            className={`lg:hidden p-1 transition-colors ${
+            className={`lg:hidden p-1 cursor-pointer transition-colors ${
               isTop
                 ? "text-white/80 hover:text-white"
                 : "text-stone-700 hover:text-stone-900"

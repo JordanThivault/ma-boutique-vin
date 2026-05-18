@@ -1,8 +1,8 @@
-// src/components/admin/DeletePostButton.tsx
+// src/components/admin/DeleteCampaignButton.tsx
 "use client";
 
 import { useState } from "react";
-import { deletePost } from "@/app/actions/posts";
+import { deleteCampaign } from "@/app/actions/newsletter-reservations";
 
 import { Button } from "@/components/ui/button";
 
@@ -18,16 +18,29 @@ import {
 
 import { Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export default function DeletePostButton({ postId }: { postId: string }) {
+export default function DeleteCampaignButton({
+  campaignId,
+  isSent,
+}: {
+  campaignId: string;
+  isSent: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleDelete() {
+    if (isSent) {
+      toast.error("Impossible de supprimer une campagne déjà envoyée.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const result = await deletePost(postId);
+      const result = await deleteCampaign(campaignId);
 
       if (result?.error) {
         toast.error(result.error);
@@ -35,11 +48,11 @@ export default function DeletePostButton({ postId }: { postId: string }) {
         return;
       }
 
-      toast.success("Article supprimé");
+      toast.success("Campagne supprimée");
 
       setOpen(false);
 
-      // refresh propre comme products
+      // refresh dashboard
       window.location.reload();
     } catch {
       toast.error("Erreur lors de la suppression");
@@ -55,6 +68,8 @@ export default function DeletePostButton({ postId }: { postId: string }) {
           variant="ghost"
           size="icon"
           className="text-neutral-400 hover:text-red-500"
+          disabled={isSent}
+          title={isSent ? "Campagne envoyée (non supprimable)" : "Supprimer"}
         >
           <Trash2 className="h-4 w-4" />
         </Button>
@@ -62,10 +77,10 @@ export default function DeletePostButton({ postId }: { postId: string }) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Supprimer l’article</DialogTitle>
+          <DialogTitle>Supprimer la campagne</DialogTitle>
 
           <DialogDescription>
-            Êtes-vous sûr de vouloir supprimer cet article ?
+            Êtes-vous sûr de vouloir supprimer cette campagne ?
             <br />
             Cette action est irréversible.
           </DialogDescription>
@@ -83,7 +98,7 @@ export default function DeletePostButton({ postId }: { postId: string }) {
           <Button
             variant="destructive"
             onClick={handleDelete}
-            disabled={loading}
+            disabled={loading || isSent}
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />

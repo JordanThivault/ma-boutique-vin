@@ -211,6 +211,8 @@ model Post {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("posts")
 }
 
 // ============================================================
@@ -223,6 +225,26 @@ model NewsletterSubscriber {
   active Boolean @default(true)
 
   createdAt DateTime @default(now())
+
+  @@map("newsletter_subscribers")
+}
+
+model NewsletterCampaign {
+  id             String                   @id @default(cuid())
+  subject        String
+  content        String                   @db.Text
+  status         NewsletterCampaignStatus @default(DRAFT)
+  sentAt         DateTime?
+  recipientCount Int                      @default(0)
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+
+  @@map("newsletter_campaigns")
+}
+
+enum NewsletterCampaignStatus {
+  DRAFT
+  SENT
 }
 
 // ============================================================
@@ -249,10 +271,29 @@ model Reservation {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("reservations")
 }
 
 enum ReservationStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+model Experience {
+  id          String   @id @default(cuid())
+  title       String
+  type        String
+  duration    String
+  price       String
+  description String   @db.Text
+  includes    String[]
+  image       String?
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("experiences")
 }

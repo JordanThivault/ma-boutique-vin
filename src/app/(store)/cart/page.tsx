@@ -73,7 +73,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
       <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="sm" asChild>
           <Link href="/products">

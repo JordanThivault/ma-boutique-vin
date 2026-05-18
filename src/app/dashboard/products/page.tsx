@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus, Pencil, Eye } from "lucide-react";
 import { DeleteProductButton } from "@/components/admin/DeleteProductButton";
+import Image from "next/image";
 
 async function getProducts() {
   return db.product.findMany({
@@ -50,9 +51,11 @@ export default async function AdminProductsPage() {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     {product.images[0] && (
-                      <img
+                      <Image
                         src={product.images[0]}
                         alt={product.name}
+                        width={400}
+                        height={400}
                         className="h-10 w-10 rounded-lg object-cover bg-neutral-100"
                       />
                     )}

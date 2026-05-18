@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
+import ReservationStatusButton from "@/components/admin/ReservationStatusButton";
 
 export const metadata = { title: "Réservations — Dashboard" };
 
@@ -26,11 +27,20 @@ export default async function ReservationsPage() {
     orderBy: { createdAt: "desc" },
   });
 
+  const pending = reservations.filter((r) => r.status === "PENDING").length;
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">Réservations</h1>
-        <span className="text-sm text-gray-500">{reservations.length} demande(s)</span>
+        <div className="flex items-center gap-3">
+          {pending > 0 && (
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              {pending} en attente
+            </span>
+          )}
+          <span className="text-sm text-gray-400">{reservations.length} total</span>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -38,18 +48,19 @@ export default async function ReservationsPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="text-left px-6 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Nom</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Contact</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Expérience</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Date souhaitée</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Statut</th>
-                <th className="text-left px-6 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Reçu le</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Expérience</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Date souhaitée</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Reçu le</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {reservations.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-gray-400">
+                  <td colSpan={7} className="text-center py-12 text-gray-400">
                     Aucune réservation pour le moment.
                   </td>
                 </tr>
@@ -63,14 +74,27 @@ export default async function ReservationsPage() {
                   </td>
                   <td className="px-6 py-4 text-gray-600">
                     {EXPERIENCE_LABELS[res.experience] ?? res.experience}
+                    {res.message && (
+                      <p className="text-xs text-gray-400 mt-0.5 max-w-[180px] truncate" title={res.message}>
+                        {res.message}
+                      </p>
+                    )}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">{formatDate(res.date)}</td>
+                  <td className="px-6 py-4 text-gray-700 font-medium">{formatDate(res.date)}</td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[res.status]}`}>
                       {STATUS_LABELS[res.status]}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-gray-400 text-xs">{formatDate(res.createdAt)}</td>
+                  <td className="px-6 py-4">
+                    <ReservationStatusButton
+                      reservationId={res.id}
+                      currentStatus={res.status as "PENDING" | "CONFIRMED" | "CANCELLED"}
+                    />
+                  </td>
+                  <td className="px-6 py-4 text-gray-400 text-xs whitespace-nowrap">
+                    {formatDate(res.createdAt)}
+                  </td>
                 </tr>
               ))}
             </tbody>

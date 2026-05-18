@@ -13,6 +13,7 @@ import {
   Calendar,
   Mail,
   LogOut,
+  Sparkles,
   Store,
 } from "lucide-react";
 
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/dashboard/products", label: "Produits", icon: Package },
   { href: "/dashboard/orders", label: "Commandes", icon: ShoppingBag },
   { href: "/dashboard/posts", label: "Journal", icon: FileText },
+  { href: "/dashboard/experiences", label: "Expériences", icon:Sparkles},
   { href: "/dashboard/reservations", label: "Réservations", icon: Calendar },
   { href: "/dashboard/newsletter", label: "Newsletter", icon: Mail },
 ];

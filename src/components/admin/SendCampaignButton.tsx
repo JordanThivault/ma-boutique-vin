@@ -1,11 +1,11 @@
-// src/components/admin/DeletePostButton.tsx
 "use client";
 
 import { useState } from "react";
-import { deletePost } from "@/app/actions/posts";
+import { useRouter } from "next/navigation";
+import { sendCampaign } from "@/app/actions/newsletter-reservations";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -16,36 +16,34 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Trash2, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { Send, Loader2 } from "lucide-react";
 
-export default function DeletePostButton({ postId }: { postId: string }) {
+export default function SendCampaignButton({
+  campaignId,
+  subscriberCount,
+}: {
+  campaignId: string;
+  subscriberCount: number;
+}) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function handleDelete() {
+  async function handleSend() {
     setLoading(true);
 
-    try {
-      const result = await deletePost(postId);
+    const result = await sendCampaign(campaignId);
 
-      if (result?.error) {
-        toast.error(result.error);
-        setLoading(false);
-        return;
-      }
-
-      toast.success("Article supprimé");
-
-      setOpen(false);
-
-      // refresh propre comme products
-      window.location.reload();
-    } catch {
-      toast.error("Erreur lors de la suppression");
-    } finally {
+    if (result?.error) {
+      toast.error(result.error);
       setLoading(false);
+      return;
     }
+
+    toast.success("📩 Campagne envoyée avec succès");
+
+    setOpen(false);
+    router.refresh();
   }
 
   return (
@@ -54,18 +52,25 @@ export default function DeletePostButton({ postId }: { postId: string }) {
         <Button
           variant="ghost"
           size="icon"
-          className="text-neutral-400 hover:text-red-500"
+          className="text-amber-700 hover:text-amber-900"
+          disabled={subscriberCount === 0}
+          title={
+            subscriberCount === 0
+              ? "Aucun abonné"
+              : "Envoyer la campagne"
+          }
         >
-          <Trash2 className="h-4 w-4" />
+          <Send className="h-4 w-4" />
         </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Supprimer l’article</DialogTitle>
+          <DialogTitle>Envoyer la campagne</DialogTitle>
 
           <DialogDescription>
-            Êtes-vous sûr de vouloir supprimer cet article ?
+            Envoyer cette campagne à{" "}
+            <strong>{subscriberCount}</strong> abonné(s) ?
             <br />
             Cette action est irréversible.
           </DialogDescription>
@@ -81,14 +86,13 @@ export default function DeletePostButton({ postId }: { postId: string }) {
           </Button>
 
           <Button
-            variant="destructive"
-            onClick={handleDelete}
-            disabled={loading}
+            onClick={handleSend}
+            disabled={loading || subscriberCount === 0}
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              "Supprimer"
+              "Envoyer"
             )}
           </Button>
         </DialogFooter>

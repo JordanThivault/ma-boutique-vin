@@ -45,8 +45,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   ]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-16 lg:pt-20">
-      <div className="mb-8">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
+      <div className="mb-8 ">
         <h1 className="text-3xl font-bold text-neutral-900">
           {params.q
             ? `Résultats pour "${params.q}"`

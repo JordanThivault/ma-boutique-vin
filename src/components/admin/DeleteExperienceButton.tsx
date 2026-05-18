@@ -1,8 +1,8 @@
-// src/components/admin/DeletePostButton.tsx
+// src/components/admin/DeleteExperienceButton.tsx
 "use client";
 
 import { useState } from "react";
-import { deletePost } from "@/app/actions/posts";
+import { deleteExperience } from "@/app/actions/newsletter-reservations";
 
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +19,11 @@ import {
 import { Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-export default function DeletePostButton({ postId }: { postId: string }) {
+export default function DeleteExperienceButton({
+  experienceId,
+}: {
+  experienceId: string;
+}) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +31,7 @@ export default function DeletePostButton({ postId }: { postId: string }) {
     setLoading(true);
 
     try {
-      const result = await deletePost(postId);
+      const result = await deleteExperience(experienceId);
 
       if (result?.error) {
         toast.error(result.error);
@@ -35,11 +39,11 @@ export default function DeletePostButton({ postId }: { postId: string }) {
         return;
       }
 
-      toast.success("Article supprimé");
+      toast.success("Expérience supprimée");
 
       setOpen(false);
 
-      // refresh propre comme products
+      // refresh UI
       window.location.reload();
     } catch {
       toast.error("Erreur lors de la suppression");
@@ -62,10 +66,10 @@ export default function DeletePostButton({ postId }: { postId: string }) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Supprimer l’article</DialogTitle>
+          <DialogTitle>Supprimer l’expérience</DialogTitle>
 
           <DialogDescription>
-            Êtes-vous sûr de vouloir supprimer cet article ?
+            Êtes-vous sûr de vouloir supprimer cette expérience ?
             <br />
             Cette action est irréversible.
           </DialogDescription>

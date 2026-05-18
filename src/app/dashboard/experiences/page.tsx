@@ -1,18 +1,17 @@
-// src/app/dashboard/posts/page.tsx
+// src/app/dashboard/experiences/page.tsx
 
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { formatDate } from "@/lib/utils";
-import DeletePostButton from "@/components/admin/DeletePostButton";
+import DeleteExperienceButton from "@/components/admin/DeleteExperienceButton";
 
 import { Button } from "@/components/ui/button";
-import { Pencil, Plus } from "lucide-react";
+import { Eye, Pencil, Plus } from "lucide-react";
 
-export const metadata = { title: "Journal — Dashboard Admin" };
+export const metadata = { title: "Expériences — Dashboard" };
 
-export default async function AdminPostsPage() {
-  const posts = await db.post.findMany({
-    orderBy: { createdAt: "desc" },
+export default async function AdminExperiencesPage() {
+  const experiences = await db.experience.findMany({
+    orderBy: { order: "asc" },
   });
 
   return (
@@ -21,19 +20,18 @@ export default async function AdminPostsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-900">
-            Journal du domaine
+            Expériences
           </h1>
-
           <p className="mt-1 text-neutral-500">
-            {posts.length} article
-            {posts.length !== 1 ? "s" : ""}
+            {experiences.length} expérience
+            {experiences.length !== 1 ? "s" : ""}
           </p>
         </div>
 
         <Button asChild>
-          <Link href="/dashboard/posts/new">
+          <Link href="/dashboard/experiences/new">
             <Plus className="mr-2 h-4 w-4" />
-            Nouvel article
+            Nouvelle expérience
           </Link>
         </Button>
       </div>
@@ -43,7 +41,7 @@ export default async function AdminPostsPage() {
         <table className="w-full text-sm">
           <thead className="bg-neutral-50 border-b">
             <tr>
-              {["Titre", "Catégorie", "Statut", "Date", "Actions"].map(
+              {["Ordre", "Titre", "Type", "Prix", "Statut", "Actions"].map(
                 (h) => (
                   <th
                     key={h}
@@ -57,64 +55,83 @@ export default async function AdminPostsPage() {
           </thead>
 
           <tbody className="divide-y">
-            {posts.map((post) => (
-              <tr key={post.id} className="hover:bg-neutral-50">
-                {/* Titre */}
-                <td className="px-4 py-3">
-                  <p className="font-medium text-neutral-900">
-                    {post.title}
-                  </p>
+            {experiences.map((exp) => (
+              <tr key={exp.id} className="hover:bg-neutral-50">
+                {/* Ordre */}
+                <td className="px-4 py-3 text-neutral-400">
+                  {exp.order}
                 </td>
 
-                {/* Catégorie */}
+                {/* Titre */}
+                <td className="px-4 py-3">
+                  <div>
+                    <p className="font-medium text-neutral-900">
+                      {exp.title}
+                    </p>
+                    <p className="text-xs text-neutral-400">
+                      {exp.duration}
+                    </p>
+                  </div>
+                </td>
+
+                {/* Type */}
                 <td className="px-4 py-3 text-neutral-500">
-                  {post.category}
+                  {exp.type}
+                </td>
+
+                {/* Prix */}
+                <td className="px-4 py-3 font-medium text-neutral-900">
+                  {exp.price}
                 </td>
 
                 {/* Statut */}
                 <td className="px-4 py-3">
                   <span
                     className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                      post.published
+                      exp.active
                         ? "bg-emerald-100 text-emerald-700"
                         : "bg-neutral-100 text-neutral-600"
                     }`}
                   >
-                    {post.published ? "Publié" : "Brouillon"}
+                    {exp.active ? "Visible" : "Masquée"}
                   </span>
-                </td>
-
-                {/* Date */}
-                <td className="px-4 py-3 text-neutral-500">
-                  {post.publishedAt
-                    ? formatDate(post.publishedAt)
-                    : "—"}
                 </td>
 
                 {/* Actions */}
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
+                    {/* Voir */}
+                    <Button variant="ghost" size="icon" asChild>
+                      <Link href="/experiences" target="_blank">
+                        <Eye className="h-4 w-4" />
+                      </Link>
+                    </Button>
+
                     {/* Modifier */}
                     <Button variant="ghost" size="icon" asChild>
-                      <Link href={`/dashboard/posts/${post.id}/edit`}>
+                      <Link
+                        href={`/dashboard/experiences/${exp.id}/edit`}
+                      >
                         <Pencil className="h-4 w-4" />
                       </Link>
                     </Button>
 
                     {/* Supprimer */}
-                    <DeletePostButton postId={post.id} />
+                    <DeleteExperienceButton
+                      experienceId={exp.id}
+                    />
                   </div>
                 </td>
               </tr>
             ))}
 
-            {posts.length === 0 && (
+            {experiences.length === 0 && (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-4 py-12 text-center text-neutral-400"
                 >
-                  Aucun article pour l’instant.
+                  Aucune expérience — créez-en une !
                 </td>
               </tr>
             )}

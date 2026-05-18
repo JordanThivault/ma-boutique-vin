@@ -3,13 +3,17 @@
 import { useState } from "react";
 import { submitReservation } from "@/app/actions/newsletter-reservations";
 
-const EXPERIENCES = [
-  { value: "degustation", label: "L'essentiel du Chinon — Dégustation (1h30)" },
-  { value: "visite", label: "Dans les rangs et la cave (2h)" },
-  { value: "evenement", label: "Privatisation / Événement sur mesure" },
-];
+interface Experience {
+  id: string;
+  title: string;
+  type: string;
+}
 
-export default function ReservationForm() {
+interface ReservationFormProps {
+  experiences?: Experience[];
+}
+
+export default function ReservationForm({ experiences = [] }: ReservationFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -122,11 +126,19 @@ export default function ReservationForm() {
           className="w-full border border-stone-300 px-4 py-3 text-sm font-sans text-stone-800 focus:outline-none focus:border-stone-500 bg-white transition-colors appearance-none"
         >
           <option value="">Choisir une expérience</option>
-          {EXPERIENCES.map((exp) => (
-            <option key={exp.value} value={exp.value}>
-              {exp.label}
-            </option>
-          ))}
+          {experiences.length > 0 ? (
+            experiences.map((exp) => (
+              <option key={exp.id} value={exp.title}>
+                {exp.title}
+              </option>
+            ))
+          ) : (
+            <>
+              <option value="Dégustation">Dégustation guidée</option>
+              <option value="Visite">Visite du domaine</option>
+              <option value="Événement">Événement / Privatisation</option>
+            </>
+          )}
         </select>
       </div>
 
