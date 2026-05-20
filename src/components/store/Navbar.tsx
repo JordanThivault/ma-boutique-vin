@@ -31,12 +31,17 @@ export default function Navbar() {
 
   const router = useRouter();
   const { data: session } = useSession();
-  const { openCart, totalItems } = useCart();
+  const { openCart, totalItems, hasHydrated  } = useCart();
+
   const cartCount = totalItems();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -115,7 +120,9 @@ export default function Navbar() {
               <DropdownMenuContent align="end">
                 <div className="px-3 py-2 text-sm">
                   <p className="font-medium">{session.user.name}</p>
-                  <p className="text-neutral-400 text-xs">{session.user.email}</p>
+                  <p className="text-neutral-400 text-xs">
+                    {session.user.email}
+                  </p>
                 </div>
 
                 <DropdownMenuSeparator />
@@ -139,7 +146,9 @@ export default function Navbar() {
                 <DropdownMenuItem
                   onClick={() =>
                     signOut({
-                      fetchOptions: { onSuccess: () => router.refresh() },
+                      fetchOptions: {
+                        onSuccess: () => router.refresh(),
+                      },
                     })
                   }
                   className="text-red-500"
@@ -172,7 +181,7 @@ export default function Navbar() {
           >
             <ShoppingBag className="h-5 w-5" />
 
-            {cartCount > 0 && (
+            {hasHydrated && cartCount > 0 && (
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-stone-900 text-[10px] font-bold text-white">
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
@@ -188,7 +197,11 @@ export default function Navbar() {
             }`}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </div>
       </div>
