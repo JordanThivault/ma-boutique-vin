@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useCart } from "@/hooks/useCart";
+import { useAuthModal } from "@/hooks/useAuthModal";
 import { ShoppingBag, User, Menu, X } from "lucide-react";
 import type { SessionUser } from "@/lib/auth-client";
 import {
@@ -31,17 +32,14 @@ export default function Navbar() {
 
   const router = useRouter();
   const { data: session } = useSession();
-  const { openCart, totalItems, hasHydrated  } = useCart();
+  const { openCart, totalItems, hasHydrated } = useCart();
+  const { open: openAuthModal } = useAuthModal();
 
   const cartCount = totalItems();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -57,27 +55,13 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="flex flex-col leading-none">
-          <span
-            className={`text-[9px] tracking-[0.25em] uppercase transition-colors ${
-              isTop ? "text-white/70" : "text-stone-400"
-            }`}
-          >
+          <span className={`text-[9px] tracking-[0.25em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}>
             Domaine
           </span>
-
-          <span
-            className={`font-serif text-lg transition-colors ${
-              isTop ? "text-white" : "text-stone-900"
-            }`}
-          >
+          <span className={`font-serif text-lg transition-colors ${isTop ? "text-white" : "text-stone-900"}`}>
             Test
           </span>
-
-          <span
-            className={`text-[9px] tracking-[0.3em] uppercase transition-colors ${
-              isTop ? "text-white/70" : "text-stone-400"
-            }`}
-          >
+          <span className={`text-[9px] tracking-[0.3em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}>
             Chinon
           </span>
         </Link>
@@ -89,9 +73,7 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
-                isTop
-                  ? "text-white/80 hover:text-white"
-                  : "text-stone-700 hover:text-stone-900"
+                isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
               }`}
             >
               {item.label}
@@ -106,51 +88,30 @@ export default function Navbar() {
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button
-                  className={`p-1 cursor-pointer transition-colors ${
-                    isTop
-                      ? "text-white/80 hover:text-white"
-                      : "text-stone-700 hover:text-stone-900"
-                  }`}
-                >
+                <button className={`p-1 cursor-pointer transition-colors ${isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"}`}>
                   <User className="h-5 w-5" />
                 </button>
               </DropdownMenuTrigger>
-
               <DropdownMenuContent align="end">
                 <div className="px-3 py-2 text-sm">
                   <p className="font-medium">{session.user.name}</p>
-                  <p className="text-neutral-400 text-xs">
-                    {session.user.email}
-                  </p>
+                  <p className="text-neutral-400 text-xs">{session.user.email}</p>
                 </div>
-
                 <DropdownMenuSeparator />
-
                 <DropdownMenuItem asChild>
                   <Link href="/account/profile">Mon profil</Link>
                 </DropdownMenuItem>
-
                 <DropdownMenuItem asChild>
                   <Link href="/account/orders">Mes commandes</Link>
                 </DropdownMenuItem>
-
                 {(session.user as SessionUser).role === "ADMIN" && (
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">Dashboard admin</Link>
                   </DropdownMenuItem>
                 )}
-
                 <DropdownMenuSeparator />
-
                 <DropdownMenuItem
-                  onClick={() =>
-                    signOut({
-                      fetchOptions: {
-                        onSuccess: () => router.refresh(),
-                      },
-                    })
-                  }
+                  onClick={() => signOut({ fetchOptions: { onSuccess: () => router.refresh() } })}
                   className="text-red-500"
                 >
                   Se déconnecter
@@ -158,29 +119,24 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link
-              href="/login"
-              className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
-                isTop
-                  ? "text-white/80 hover:text-white"
-                  : "text-stone-700 hover:text-stone-900"
+            <button
+              onClick={() => openAuthModal("login")}
+              className={`text-[11px] uppercase tracking-[0.2em] transition-colors cursor-pointer ${
+                isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
               }`}
             >
               Connexion
-            </Link>
+            </button>
           )}
 
           {/* Cart */}
           <button
             onClick={openCart}
             className={`relative p-1 cursor-pointer transition-colors ${
-              isTop
-                ? "text-white/80 hover:text-white"
-                : "text-stone-700 hover:text-stone-900"
+              isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
             }`}
           >
             <ShoppingBag className="h-5 w-5" />
-
             {hasHydrated && cartCount > 0 && (
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-stone-900 text-[10px] font-bold text-white">
                 {cartCount > 9 ? "9+" : cartCount}
@@ -191,17 +147,11 @@ export default function Navbar() {
           {/* Burger */}
           <button
             className={`lg:hidden p-1 cursor-pointer transition-colors ${
-              isTop
-                ? "text-white/80 hover:text-white"
-                : "text-stone-700 hover:text-stone-900"
+              isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
             }`}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
@@ -219,6 +169,14 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+          {!session && (
+            <button
+              onClick={() => { setMobileOpen(false); openAuthModal("login"); }}
+              className="block text-sm uppercase tracking-[0.15em] text-amber-700 hover:text-amber-800 font-medium"
+            >
+              Connexion / Inscription
+            </button>
+          )}
         </div>
       )}
     </header>

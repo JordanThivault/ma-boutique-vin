@@ -9,17 +9,13 @@ Stack complète pour une boutique de produits physiques.
 - **Prisma** ORM → PostgreSQL (Neon/Supabase)
 - **Better Auth** — auth email/password + OAuth (Google)
 - **Stripe** — Checkout Session + Webhooks
-
----
-Next.js 15 (App Router + Server Actions)
-Prisma 6 + PostgreSQL (Neon)
-Better Auth (email/password + Google OAuth partiel)
-Stripe (Checkout Session + Webhooks)
-shadcn/ui + Tailwind CSS v3
 Zustand (cart persistant localStorage)
 Uploadthing (upload images produits)
 Resend (emails transactionnels)
 Vercel (déploiement prod)
+
+---
+
 ## Structure du projet
 
 ```
