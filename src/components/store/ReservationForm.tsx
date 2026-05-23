@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { submitReservation } from "@/app/actions/newsletter-reservations";
+import { submitReservation } from "@/app/actions/reservations";
 
 interface Experience {
   id: string;

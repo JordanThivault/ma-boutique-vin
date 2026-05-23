@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { deleteCampaign } from "@/app/actions/newsletter-reservations";
+import { deleteCampaign } from "@/app/actions/newsletter";
 
 import { Button } from "@/components/ui/button";
 

@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateReservationStatus } from "@/app/actions/newsletter-reservations";
+import { updateReservationStatus } from "@/app/actions/reservations";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 

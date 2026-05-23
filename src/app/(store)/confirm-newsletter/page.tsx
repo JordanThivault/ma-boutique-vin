@@ -1,8 +1,8 @@
-import { confirmNewsletterSubscription } from "@/app/actions/newsletter-reservations";
+import { confirmNewsletterSubscription } from "@/app/actions/newsletter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Confirmation newsletter — Domaine de la Rochette",
+  title: "Confirmation newsletter — Domaine test",
   robots: { index: false },
 };
 

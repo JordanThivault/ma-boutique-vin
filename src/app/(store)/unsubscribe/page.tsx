@@ -1,4 +1,4 @@
-import { unsubscribeNewsletter } from "@/app/actions/newsletter-reservations";
+import { unsubscribeNewsletter } from "@/app/actions/newsletter";
 import Link from "next/link";
 
 export const metadata = {

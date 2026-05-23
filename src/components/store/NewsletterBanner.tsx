@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { subscribeToNewsletter } from "@/app/actions/newsletter-reservations";
+import { subscribeToNewsletter } from "@/app/actions/newsletter";
 
 export default function NewsletterBanner() {
   const [email, setEmail] = useState("");

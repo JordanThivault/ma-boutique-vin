@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { deleteExperience } from "@/app/actions/newsletter-reservations";
+import { deleteExperience } from "@/app/actions/experiences";
 
 import { Button } from "@/components/ui/button";
 

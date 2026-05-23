@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  createExperience,
-  updateExperience,
-} from "@/app/actions/newsletter-reservations";
+import { createExperience, updateExperience } from "@/app/actions/experiences";
 
 import Image from "next/image";
 import { UploadButton } from "@/lib/uploadthing";
