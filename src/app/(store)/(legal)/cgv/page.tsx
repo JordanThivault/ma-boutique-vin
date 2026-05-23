@@ -1,110 +1,123 @@
-// src/app/(store)/(legal)/confidentialite/page.tsx
+// src/app/(store)/(legal)/cgv/page.tsx
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialité",
+  title: "Conditions générales de vente",
 };
 
-export default function ConfidentialitePage() {
+export default function CGVPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold text-neutral-900 mb-10 pb-6 border-b border-neutral-100">
-        Politique de confidentialité
+        Conditions générales de vente
       </h1>
 
       <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600">
 
         <section>
           <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            1. Responsable du traitement
+            1. Objet
           </h2>
           <p>
-            Ma Boutique est responsable du traitement de vos données personnelles
-            conformément au Règlement Général sur la Protection des Données (RGPD).
+            Les présentes conditions générales de vente régissent les relations
+            contractuelles entre Ma Boutique (ci-après le Vendeur) et tout
+            acheteur (ci-après le Client) effectuant un achat sur le site
+            maboutique.fr.
           </p>
         </section>
 
         <section>
           <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            2. Données collectées
+            2. Produits et prix
           </h2>
-          <p>Nous collectons uniquement les données nécessaires :</p>
-          <ul className="mt-2 list-disc list-inside space-y-1">
-            <li>Nom et prénom</li>
-            <li>Adresse email</li>
-            <li>Adresse de livraison (uniquement lors d&apos;une commande)</li>
-            <li>Historique de commandes</li>
-          </ul>
+          <p>
+            Les produits proposés sont des boissons alcoolisées. Conformément
+            à la législation française, la vente d&apos;alcool est strictement
+            interdite aux mineurs de moins de 18 ans.
+          </p>
           <p className="mt-2">
-            Nous ne collectons pas de données bancaires — celles-ci sont
-            traitées directement par Stripe.
+            Les prix sont indiqués en euros toutes taxes comprises (TTC).
+            Le Vendeur se réserve le droit de modifier ses prix à tout moment,
+            étant entendu que le prix applicable est celui en vigueur au moment
+            de la commande.
           </p>
         </section>
 
         <section>
           <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            3. Utilisation des données
-          </h2>
-          <p>Vos données sont utilisées pour :</p>
-          <ul className="mt-2 list-disc list-inside space-y-1">
-            <li>Traiter et livrer vos commandes</li>
-            <li>Vous envoyer les confirmations de commande</li>
-            <li>Gérer votre compte client</li>
-            <li>Respecter nos obligations légales</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            4. Conservation des données
+            3. Commandes
           </h2>
           <p>
-            Vos données sont conservées pendant la durée nécessaire à
-            l&apos;exécution du contrat, augmentée des délais légaux de conservation
-            (10 ans pour les données comptables).
+            Toute commande implique l&apos;acceptation des présentes CGV. Le Client
+            reconnaît avoir la capacité légale de contracter et être âgé de
+            18 ans ou plus.
           </p>
-        </section>
-
-        <section>
-          <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            5. Vos droits
-          </h2>
-          <p>Conformément au RGPD, vous disposez des droits suivants :</p>
-          <ul className="mt-2 list-disc list-inside space-y-1">
-            <li>Droit d&apos;accès à vos données</li>
-            <li>Droit de rectification</li>
-            <li>Droit à l&apos;effacement (droit à l&apos;oubli)</li>
-            <li>Droit à la portabilité</li>
-            <li>Droit d&apos;opposition</li>
-          </ul>
           <p className="mt-2">
-            Pour exercer ces droits, contactez-nous à :{" "}
-            <a href="mailto:contact@maboutique.fr" className="text-amber-600 hover:text-amber-500">
-              contact@maboutique.fr
-            </a>
+            La confirmation de commande est envoyée par email après validation
+            du paiement. Le contrat est formé à réception de cette confirmation.
           </p>
         </section>
 
         <section>
           <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            6. Cookies
+            4. Paiement
           </h2>
           <p>
-            Nous utilisons uniquement des cookies techniques nécessaires au
-            fonctionnement du site (session, panier). Aucun cookie publicitaire
-            ou de tracking n&apos;est utilisé.
+            Le paiement s&apos;effectue en ligne par carte bancaire via Stripe,
+            prestataire de paiement sécurisé. Les données bancaires ne sont
+            jamais transmises au Vendeur.
           </p>
         </section>
 
         <section>
           <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
-            7. Contact
+            5. Livraison
           </h2>
           <p>
-            Pour toute question relative à vos données personnelles :{" "}
-            <a href="mailto:contact@maboutique.fr" className="text-amber-600 hover:text-amber-500">
-              contact@maboutique.fr
-            </a>
+            Les livraisons sont effectuées en France métropolitaine uniquement.
+            Les délais de livraison sont donnés à titre indicatif. En cas de
+            retard, le Client sera informé par email.
+          </p>
+          <p className="mt-2">
+            La livraison est offerte à partir de 120&nbsp;€ d&apos;achat. En dessous de
+            ce montant, des frais de livraison s&apos;appliquent selon le mode choisi.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
+            6. Droit de rétractation
+          </h2>
+          <p>
+            Conformément à l&apos;article L221-18 du Code de la consommation, le
+            Client dispose d&apos;un délai de 14 jours à compter de la réception
+            de sa commande pour exercer son droit de rétractation, sans avoir
+            à justifier sa décision.
+          </p>
+          <p className="mt-2">
+            Les produits doivent être retournés dans leur état d&apos;origine,
+            non ouverts et non consommés.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
+            7. Responsabilité
+          </h2>
+          <p>
+            Le Vendeur ne pourra être tenu responsable des dommages de toute
+            nature résultant d&apos;une mauvaise utilisation des produits ou d&apos;une
+            consommation excessive d&apos;alcool.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-base font-semibold text-neutral-900 mb-3 uppercase tracking-[0.1em]">
+            8. Droit applicable
+          </h2>
+          <p>
+            Les présentes CGV sont soumises au droit français. En cas de
+            litige, les tribunaux français seront seuls compétents.
           </p>
         </section>
 
