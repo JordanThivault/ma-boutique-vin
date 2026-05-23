@@ -25,9 +25,10 @@ async function getPosts(category?: string) {
 export default async function JournalPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: Promise<{ category?: string }>;
 }) {
-  const activeCategory = searchParams.category || "Tous";
+  const { category } = await searchParams;
+  const activeCategory = category || "Tous";
   const posts = await getPosts(activeCategory);
 
   return (

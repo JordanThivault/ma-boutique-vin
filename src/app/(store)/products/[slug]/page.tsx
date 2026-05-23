@@ -1,11 +1,14 @@
 // src/app/(store)/products/[slug]/page.tsx
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/utils";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
+import { RelatedProducts } from "@/components/store/RelatedProducts";
+import { RelatedProductsSkeleton } from "@/components/store/RelatedProductsSkeleton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ShieldCheck, Truck, RefreshCcw, Package } from "lucide-react";
+import { ShieldCheck, Truck, RefreshCcw, Package, Leaf } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 
@@ -42,6 +45,7 @@ export default async function ProductPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+
         {/* Images */}
         <div className="space-y-4">
           <div className="relative aspect-square overflow-hidden rounded-2xl bg-neutral-100">
@@ -63,16 +67,8 @@ export default async function ProductPage({ params }: Props) {
           {product.images.length > 1 && (
             <div className="grid grid-cols-4 gap-2">
               {product.images.slice(1, 5).map((img, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
-                >
-                  <Image
-                    src={img}
-                    alt={`${product.name} ${i + 2}`}
-                    fill
-                    className="object-cover"
-                  />
+                <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
+                  <Image src={img} alt={`${product.name} ${i + 2}`} fill className="object-cover" />
                 </div>
               ))}
             </div>
@@ -81,11 +77,20 @@ export default async function ProductPage({ params }: Props) {
 
         {/* Infos */}
         <div className="flex flex-col">
-          {product.category && (
-            <span className="text-sm font-medium text-amber-600">
-              {product.category.name}
-            </span>
-          )}
+          <div className="flex items-center gap-2 flex-wrap">
+            {product.category && (
+              <span className="text-sm font-medium text-amber-600">
+                {product.category.name}
+              </span>
+            )}
+            {!product.hasAlcohol && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+                <Leaf className="h-3 w-3" />
+                Sans alcool
+              </span>
+            )}
+          </div>
+
           <h1 className="mt-2 text-4xl font-bold text-neutral-900">
             {product.name}
           </h1>
@@ -101,12 +106,7 @@ export default async function ProductPage({ params }: Props) {
                   {formatPrice(product.comparePrice)}
                 </span>
                 <Badge className="bg-red-500 text-white">
-                  -{Math.round(
-                    ((product.comparePrice - product.price) /
-                      product.comparePrice) *
-                      100
-                  )}
-                  %
+                  -{Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}%
                 </Badge>
               </>
             )}
@@ -117,10 +117,7 @@ export default async function ProductPage({ params }: Props) {
             {inStock ? (
               <div className="flex items-center gap-2 text-sm text-emerald-600">
                 <Package className="h-4 w-4" />
-                <span>
-                  En stock ({product.stock} disponible
-                  {product.stock > 1 ? "s" : ""})
-                </span>
+                <span>En stock ({product.stock} disponible{product.stock > 1 ? "s" : ""})</span>
               </div>
             ) : (
               <div className="flex items-center gap-2 text-sm text-red-500">
@@ -132,12 +129,17 @@ export default async function ProductPage({ params }: Props) {
 
           <Separator className="my-6" />
 
-          {/* Description */}
           <p className="text-neutral-600 leading-relaxed">{product.description}</p>
+
+          {/* Mention alcool conditionnelle */}
+          {product.hasAlcohol && (
+            <p className="mt-4 text-xs text-neutral-400">
+              L'abus d'alcool est dangereux pour la santé. À consommer avec modération.
+            </p>
+          )}
 
           <Separator className="my-6" />
 
-          {/* Add to cart */}
           <AddToCartButton product={product} />
 
           {/* Garanties */}
@@ -147,19 +149,19 @@ export default async function ProductPage({ params }: Props) {
               { icon: ShieldCheck, label: "Paiement\nsécurisé" },
               { icon: RefreshCcw, label: "Retours\ngratuits" },
             ].map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex flex-col items-center gap-2 rounded-xl bg-neutral-50 p-4 text-center"
-              >
+              <div key={label} className="flex flex-col items-center gap-2 rounded-xl bg-neutral-50 p-4 text-center">
                 <Icon className="h-5 w-5 text-neutral-600" />
-                <span className="text-xs text-neutral-500 whitespace-pre-line">
-                  {label}
-                </span>
+                <span className="text-xs text-neutral-500 whitespace-pre-line">{label}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Produits similaires */}
+      <Suspense fallback={<RelatedProductsSkeleton />}>
+        <RelatedProducts productId={product.id} />
+      </Suspense>
     </div>
   );
 }

@@ -19,6 +19,7 @@ const ProductSchema = z.object({
   categoryId: z.string().optional(),
   featured: z.boolean().default(false),
   published: z.boolean().default(true),
+  hasAlcohol: z.boolean().default(true),
   sku: z.string().optional(),
   weight: z.coerce.number().optional(),
 });
@@ -44,13 +45,13 @@ export async function createProduct(formData: FormData) {
     categoryId: formData.get("categoryId") || undefined,
     featured: formData.get("featured") === "true",
     published: formData.get("published") === "true",
+    hasAlcohol: formData.get("hasAlcohol") === "true",
     sku: formData.get("sku") || undefined,
     weight: formData.get("weight") || undefined,
   };
 
   const parsed = ProductSchema.safeParse(raw);
   if (!parsed.success) {
-    // ✅ Fix — utilise .issues au lieu de .errors
     return { error: parsed.error.issues[0].message };
   }
 
@@ -58,7 +59,6 @@ export async function createProduct(formData: FormData) {
   const images = JSON.parse(rest.images) as string[];
 
   try {
-    // ✅ Fix — supprime la variable product inutilisée
     await db.product.create({
       data: {
         name,
@@ -71,6 +71,7 @@ export async function createProduct(formData: FormData) {
         categoryId: rest.categoryId || null,
         featured: rest.featured,
         published: rest.published,
+        hasAlcohol: rest.hasAlcohol,
         sku: rest.sku || null,
         weight: rest.weight,
       },
@@ -85,7 +86,6 @@ export async function createProduct(formData: FormData) {
     return { error: "Erreur lors de la création du produit" };
   }
 
-  // ✅ Fix — redirect en dehors du try/catch
   redirect("/dashboard/products");
 }
 
@@ -102,13 +102,13 @@ export async function updateProduct(id: string, formData: FormData) {
     categoryId: formData.get("categoryId") || undefined,
     featured: formData.get("featured") === "true",
     published: formData.get("published") === "true",
+    hasAlcohol: formData.get("hasAlcohol") === "true",
     sku: formData.get("sku") || undefined,
     weight: formData.get("weight") || undefined,
   };
 
   const parsed = ProductSchema.safeParse(raw);
   if (!parsed.success) {
-    // ✅ Fix — utilise .issues au lieu de .errors
     return { error: parsed.error.issues[0].message };
   }
 
@@ -129,6 +129,7 @@ export async function updateProduct(id: string, formData: FormData) {
         categoryId: rest.categoryId || null,
         featured: rest.featured,
         published: rest.published,
+        hasAlcohol: rest.hasAlcohol,
         sku: rest.sku || null,
         weight: rest.weight,
       },
@@ -143,7 +144,6 @@ export async function updateProduct(id: string, formData: FormData) {
     return { error: "Erreur lors de la mise à jour du produit" };
   }
 
-  // ✅ Fix — redirect en dehors du try/catch
   redirect("/dashboard/products");
 }
 
@@ -151,20 +151,14 @@ export async function deleteProduct(id: string) {
   await requireAdmin();
 
   try {
-    await db.product.delete({
-      where: { id },
-    });
-
+    await db.product.delete({ where: { id } });
     revalidatePath("/dashboard/products");
     revalidatePath("/products");
-
     return { success: true };
   } catch (error) {
     console.log(error);
-
     return {
-      error:
-        "Impossible de supprimer ce produit. Il est probablement lié à une commande existante.",
+      error: "Impossible de supprimer ce produit. Il est probablement lié à une commande existante.",
     };
   }
 }

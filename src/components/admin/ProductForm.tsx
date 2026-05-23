@@ -1,4 +1,3 @@
-// src/components/admin/ProductForm.tsx
 "use client";
 
 import { useState } from "react";
@@ -16,8 +15,6 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Loader2, Plus, X } from "lucide-react";
-
-// ✅ UploadThing
 import { UploadButton } from "@/lib/uploadthing";
 
 interface Category {
@@ -36,6 +33,7 @@ interface Product {
   categoryId?: string | null;
   featured: boolean;
   published: boolean;
+  hasAlcohol: boolean;
   sku?: string | null;
   weight?: number | null;
 }
@@ -110,10 +108,8 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             <SelectTrigger className="mt-1">
               <SelectValue placeholder="Sélectionner une catégorie" />
             </SelectTrigger>
-
             <SelectContent>
               <SelectItem value="none">Aucune catégorie</SelectItem>
-
               {categories.map((cat) => (
                 <SelectItem key={cat.id} value={cat.id}>
                   {cat.name}
@@ -139,18 +135,13 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               defaultValue={product ? (product.price / 100).toFixed(2) : ""}
             />
           </div>
-
           <div>
             <Label>Prix barré</Label>
             <Input
               name="comparePrice"
               type="number"
               step="0.01"
-              defaultValue={
-                product?.comparePrice
-                  ? (product.comparePrice / 100).toFixed(2)
-                  : ""
-              }
+              defaultValue={product?.comparePrice ? (product.comparePrice / 100).toFixed(2) : ""}
             />
           </div>
         </div>
@@ -160,7 +151,6 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             <Label>Stock *</Label>
             <Input name="stock" type="number" required defaultValue={product?.stock ?? 0} />
           </div>
-
           <div>
             <Label>SKU</Label>
             <Input name="sku" defaultValue={product?.sku ?? ""} />
@@ -173,11 +163,10 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         </div>
       </div>
 
-      {/* ===================== IMAGES (UPLOADTHING) ===================== */}
+      {/* ===================== IMAGES ===================== */}
       <div className="rounded-2xl border bg-white p-6 space-y-4">
         <h2 className="font-semibold text-neutral-900">Images</h2>
 
-        {/* UploadThing */}
         <UploadButton
           endpoint="productImage"
           appearance={{
@@ -189,39 +178,26 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             setImages((prev) => [...prev, ...urls]);
             toast.success(`${res.length} image(s) ajoutée(s)`);
           }}
-          onUploadError={(error) => {
-            toast.error(error.message);
-          }}
+          onUploadError={(error) => { toast.error(error.message); }}
         />
 
-        {/* URL manuelle */}
         <div className="flex gap-2 mt-3">
           <Input
             value={newImageUrl}
             onChange={(e) => setNewImageUrl(e.target.value)}
             placeholder="Coller une URL image"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                addImage();
-              }
-            }}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }}
           />
           <Button type="button" variant="outline" onClick={addImage}>
             <Plus className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* Preview */}
         {images.length > 0 && (
           <div className="grid grid-cols-3 gap-3 mt-3">
             {images.map((url) => (
-              <div
-                key={url}
-                className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
-              >
+              <div key={url} className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
                 <Image src={url} alt="Image produit" fill className="h-full w-full object-cover" />
-
                 <button
                   type="button"
                   onClick={() => removeImage(url)}
@@ -235,29 +211,47 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         )}
       </div>
 
-      {/* ===================== VISIBILITE ===================== */}
+      {/* ===================== VISIBILITÉ & OPTIONS ===================== */}
       <div className="rounded-2xl border bg-white p-6 space-y-4">
-        <h2 className="font-semibold">Visibilité</h2>
+        <h2 className="font-semibold">Visibilité & options</h2>
 
-        <label className="flex gap-2">
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             name="published"
             value="true"
             defaultChecked={product?.published ?? true}
           />
-          Publié
+          <span className="text-sm">Publié</span>
         </label>
 
-        <label className="flex gap-2">
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             name="featured"
             value="true"
             defaultChecked={product?.featured ?? false}
           />
-          Produit vedette
+          <span className="text-sm">Produit vedette</span>
         </label>
+
+        <div className="border-t pt-4">
+          <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-3">
+            Alcool
+          </p>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="hasAlcohol"
+              value="true"
+              defaultChecked={product?.hasAlcohol ?? true}
+            />
+            <span className="text-sm">Contient de l'alcool</span>
+          </label>
+          <p className="text-xs text-neutral-400 mt-1 ml-5">
+            Décochez pour les vins sans alcool, jus de raisin, condiments sans alcool…
+          </p>
+        </div>
       </div>
 
       {/* ===================== ACTIONS ===================== */}
@@ -265,18 +259,13 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         <Button type="button" variant="outline" onClick={() => history.back()}>
           Annuler
         </Button>
-
         <Button disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Sauvegarde...
             </>
-          ) : product ? (
-            "Mettre à jour"
-          ) : (
-            "Créer"
-          )}
+          ) : product ? "Mettre à jour" : "Créer"}
         </Button>
       </div>
     </form>

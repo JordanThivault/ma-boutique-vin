@@ -23,18 +23,42 @@ async function requireAdmin() {
 }
 
 // ============================================================
-// NEWSLETTER — INSCRIPTION
+// HELPER — Échappement HTML (protection XSS)
+// ============================================================
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// ============================================================
+// NEWSLETTER — INSCRIPTION (avec double opt-in)
 // ============================================================
 
 export async function subscribeToNewsletter(
-  email: string
+  email: string,
+  consentGiven: boolean
 ): Promise<{ success: boolean; error?: string }> {
   if (!email || !email.includes("@")) {
     return { success: false, error: "Email invalide." };
   }
 
+  if (!consentGiven) {
+    return { success: false, error: "Vous devez accepter de recevoir la newsletter." };
+  }
+
   try {
     const normalizedEmail = email.toLowerCase().trim();
+    const headersList = await headers();
+
+    const ip =
+      headersList.get("x-forwarded-for")?.split(",")[0].trim() ??
+      headersList.get("x-real-ip") ??
+      "unknown";
 
     const existing = await db.newsletterSubscriber.findUnique({
       where: { email: normalizedEmail },
@@ -42,22 +66,154 @@ export async function subscribeToNewsletter(
 
     if (existing) {
       if (existing.active) return { success: true };
+
+      // Déjà inscrit mais pas confirmé (ou désinscrit) — on renvoie l'email de confirmation
       await db.newsletterSubscriber.update({
         where: { email: normalizedEmail },
-        data: { active: true },
+        data: { consentAt: new Date(), consentIp: ip, active: false, confirmedAt: null },
       });
+
+      await sendConfirmationEmail(normalizedEmail, existing.unsubscribeToken);
       return { success: true };
     }
 
-    await db.newsletterSubscriber.create({
-      data: { email: normalizedEmail },
+    const subscriber = await db.newsletterSubscriber.create({
+      data: {
+        email: normalizedEmail,
+        active: false, // reste false jusqu'à confirmation
+        consentAt: new Date(),
+        consentIp: ip,
+      },
     });
+
+    await sendConfirmationEmail(normalizedEmail, subscriber.unsubscribeToken);
 
     return { success: true };
   } catch (err) {
     console.error("Newsletter subscribe error:", err);
     return { success: false, error: "Une erreur est survenue." };
   }
+}
+
+// ============================================================
+// NEWSLETTER — CONFIRMATION double opt-in
+// ============================================================
+
+export async function confirmNewsletterSubscription(
+  token: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!token) return { success: false, error: "Token manquant." };
+
+  try {
+    const subscriber = await db.newsletterSubscriber.findUnique({
+      where: { unsubscribeToken: token },
+    });
+
+    if (!subscriber) {
+      return { success: false, error: "Lien invalide." };
+    }
+
+    if (subscriber.active) {
+      // Déjà confirmé
+      return { success: true };
+    }
+
+    await db.newsletterSubscriber.update({
+      where: { unsubscribeToken: token },
+      data: { active: true, confirmedAt: new Date() },
+    });
+
+    return { success: true };
+  } catch (err) {
+    console.error("Confirm newsletter error:", err);
+    return { success: false, error: "Une erreur est survenue." };
+  }
+}
+
+// ============================================================
+// NEWSLETTER — DÉSINSCRIPTION
+// ============================================================
+
+export async function unsubscribeNewsletter(
+  token: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!token) return { success: false, error: "Token manquant." };
+
+  try {
+    const subscriber = await db.newsletterSubscriber.findUnique({
+      where: { unsubscribeToken: token },
+    });
+
+    if (!subscriber) {
+      return { success: false, error: "Lien invalide ou déjà utilisé." };
+    }
+
+    if (!subscriber.active) {
+      return { success: true };
+    }
+
+    await db.newsletterSubscriber.update({
+      where: { unsubscribeToken: token },
+      data: { active: false },
+    });
+
+    return { success: true };
+  } catch (err) {
+    console.error("Unsubscribe error:", err);
+    return { success: false, error: "Une erreur est survenue." };
+  }
+}
+
+// ============================================================
+// HELPER — Email de confirmation d'inscription
+// ============================================================
+
+async function sendConfirmationEmail(email: string, token: string) {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://votredomaine.fr";
+  const confirmUrl = `${appUrl}/confirm-newsletter?token=${token}`;
+
+  await resend.emails.send({
+    from: "Domaine de la Rochette <newsletter@votredomaine.fr>",
+    to: email,
+    subject: "Confirmez votre inscription à la newsletter",
+    html: `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"/><title>Confirmation newsletter</title></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Georgia,serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
+  <tr><td align="center">
+    <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;max-width:600px;width:100%;">
+      <tr>
+        <td style="background:#1c1917;padding:32px 40px;text-align:center;">
+          <p style="margin:0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Domaine</p>
+          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">de la Rochette</p>
+          <p style="margin:2px 0 0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Chinon</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:40px;color:#292524;line-height:1.7;font-size:16px;">
+          <p style="margin:0 0 16px;">Bonjour,</p>
+          <p style="margin:0 0 24px;">Merci de votre intérêt pour la newsletter du Domaine de la Rochette. Cliquez sur le bouton ci-dessous pour confirmer votre inscription.</p>
+          <p style="text-align:center;margin:32px 0;">
+            <a href="${confirmUrl}"
+               style="background:#92400e;color:#fff;padding:14px 32px;text-decoration:none;font-family:sans-serif;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;display:inline-block;">
+              Confirmer mon inscription
+            </a>
+          </p>
+          <p style="margin:24px 0 0;font-family:sans-serif;font-size:12px;color:#a8a29e;">
+            Si vous n'avez pas demandé cette inscription, ignorez simplement cet email.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid #e7e5e4;padding:24px 40px;text-align:center;">
+          <p style="margin:0;font-family:sans-serif;font-size:11px;color:#a8a29e;">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+</table>
+</body></html>`,
+  });
 }
 
 // ============================================================
@@ -81,145 +237,20 @@ export async function submitReservation(
   }
 
   try {
-    const reservationDate = new Date(`${data.date}T00:00:00`);
-
     await db.reservation.create({
       data: {
         nom: data.nom,
-        email: data.email,
-        telephone: data.telephone || null,
+        email: data.email.toLowerCase().trim(),
+        telephone: data.telephone,
         experience: data.experience,
-        date: reservationDate,
-        message: data.message || null,
+        date: new Date(data.date),
+        message: data.message,
       },
     });
-
-    await resend.emails.send({
-      from: "Domaine test <onboarding@resend.dev>",
-      to: data.email,
-      subject: "Votre demande de réservation — Domaine test",
-      html: `
-        <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #292524; line-height: 1.6;">
-          <h1>Demande reçue</h1>
-          <p>Bonjour ${data.nom},</p>
-          <p>Nous avons bien reçu votre demande de réservation pour <strong>${data.experience}</strong>.</p>
-          <p>Date souhaitée : <strong>${data.date}</strong></p>
-          ${data.message ? `<p><strong>Message :</strong> ${data.message}</p>` : ""}
-          <p>Notre équipe vous répondra rapidement.</p>
-        </div>
-      `,
-    });
-
-    const adminEmail = process.env.ADMIN_EMAIL;
-    if (adminEmail) {
-      await resend.emails.send({
-        from: "Notifications <onboarding@resend.dev>",
-        to: adminEmail,
-        subject: `Nouvelle réservation — ${data.nom}`,
-        html: `
-          <p><strong>Nom :</strong> ${data.nom}</p>
-          <p><strong>Email :</strong> ${data.email}</p>
-          <p><strong>Téléphone :</strong> ${data.telephone || "—"}</p>
-          <p><strong>Expérience :</strong> ${data.experience}</p>
-          <p><strong>Date :</strong> ${data.date}</p>
-          <p><strong>Message :</strong> ${data.message || "—"}</p>
-        `,
-      });
-    }
 
     return { success: true };
   } catch (err) {
     console.error("Reservation error:", err);
-    return { success: false, error: "Une erreur est survenue." };
-  }
-}
-
-// ============================================================
-// EXPERIENCES
-// ============================================================
-
-export interface ExperiencePayload {
-  title: string;
-  type: string;
-  duration: string;
-  price: string;
-  description: string;
-  includes: string;
-  image?: string;
-  order?: number;
-  active?: boolean;
-}
-
-function parseIncludes(raw: string): string[] {
-  return raw.split("\n").map((line) => line.trim()).filter(Boolean);
-}
-
-export async function createExperience(data: ExperiencePayload) {
-  try {
-    await requireAdmin();
-
-    await db.experience.create({
-      data: {
-        title: data.title,
-        type: data.type,
-        duration: data.duration,
-        price: data.price,
-        description: data.description,
-        includes: parseIncludes(data.includes),
-        image: data.image || null,
-        order: Number(data.order ?? 0),
-        active: data.active ?? true,
-      },
-    });
-
-    revalidatePath("/experiences");
-    revalidatePath("/dashboard/experiences");
-    return { success: true };
-  } catch (err) {
-    console.error("Create experience error:", err);
-    return { success: false, error: "Une erreur est survenue." };
-  }
-}
-
-export async function updateExperience(id: string, data: ExperiencePayload) {
-  try {
-    await requireAdmin();
-
-    await db.experience.update({
-      where: { id },
-      data: {
-        title: data.title,
-        type: data.type,
-        duration: data.duration,
-        price: data.price,
-        description: data.description,
-        includes: parseIncludes(data.includes),
-        image: data.image || null,
-        order: Number(data.order ?? 0),
-        active: data.active ?? true,
-      },
-    });
-
-    revalidatePath("/experiences");
-    revalidatePath("/dashboard/experiences");
-    return { success: true };
-  } catch (err) {
-    console.error("Update experience error:", err);
-    return { success: false, error: "Une erreur est survenue." };
-  }
-}
-
-export async function deleteExperience(id: string) {
-  try {
-    await requireAdmin();
-
-    await db.experience.delete({ where: { id } });
-
-    revalidatePath("/experiences");
-    revalidatePath("/dashboard/experiences");
-    return { success: true };
-  } catch (err) {
-    console.error("Delete experience error:", err);
     return { success: false, error: "Une erreur est survenue." };
   }
 }
@@ -234,9 +265,7 @@ export async function updateReservationStatus(
 ) {
   try {
     await requireAdmin();
-
     await db.reservation.update({ where: { id }, data: { status } });
-
     revalidatePath("/dashboard/reservations");
     return { success: true };
   } catch (err) {
@@ -257,11 +286,9 @@ export interface CampaignPayload {
 export async function createCampaign(data: CampaignPayload) {
   try {
     await requireAdmin();
-
     const campaign = await db.newsletterCampaign.create({
       data: { subject: data.subject, content: data.content },
     });
-
     revalidatePath("/dashboard/newsletter");
     return { success: true, id: campaign.id };
   } catch (err) {
@@ -273,17 +300,14 @@ export async function createCampaign(data: CampaignPayload) {
 export async function updateCampaign(id: string, data: CampaignPayload) {
   try {
     await requireAdmin();
-
     const campaign = await db.newsletterCampaign.findUnique({ where: { id } });
     if (campaign?.status === "SENT") {
       return { success: false, error: "Impossible de modifier une campagne déjà envoyée." };
     }
-
     await db.newsletterCampaign.update({
       where: { id },
       data: { subject: data.subject, content: data.content },
     });
-
     revalidatePath("/dashboard/newsletter");
     return { success: true };
   } catch (err) {
@@ -295,9 +319,7 @@ export async function updateCampaign(id: string, data: CampaignPayload) {
 export async function deleteCampaign(id: string) {
   try {
     await requireAdmin();
-
     await db.newsletterCampaign.delete({ where: { id } });
-
     revalidatePath("/dashboard/newsletter");
     return { success: true };
   } catch (err) {
@@ -319,26 +341,24 @@ export async function sendCampaign(
     if (!campaign) return { success: false, error: "Campagne introuvable." };
     if (campaign.status === "SENT") return { success: false, error: "Cette campagne a déjà été envoyée." };
 
+    // Uniquement les abonnés actifs ET confirmés (double opt-in)
     const subscribers = await db.newsletterSubscriber.findMany({
-      where: { active: true },
+      where: { active: true, confirmedAt: { not: null } },
     });
 
     if (subscribers.length === 0) {
-      return { success: false, error: "Aucun abonné actif." };
+      return { success: false, error: "Aucun abonné confirmé." };
     }
 
-    const html = buildNewsletterHtml(campaign.subject, campaign.content);
-
-    // Envoi par batch de 100 (limite Resend)
     const BATCH_SIZE = 100;
     for (let i = 0; i < subscribers.length; i += BATCH_SIZE) {
       const chunk = subscribers.slice(i, i + BATCH_SIZE);
       await resend.batch.send(
         chunk.map((sub) => ({
-          from: "Domaine test <onboarding@resend.dev>",
+          from: "Domaine de la Rochette <newsletter@votredomaine.fr>",
           to: sub.email,
           subject: campaign.subject,
-          html,
+          html: buildNewsletterHtml(campaign.subject, campaign.content, sub.unsubscribeToken),
         }))
       );
     }
@@ -361,12 +381,20 @@ export async function sendCampaign(
 }
 
 // ============================================================
-// HELPER — Template HTML email newsletter
+// HELPER — Template HTML email newsletter (XSS-safe)
 // ============================================================
 
-function buildNewsletterHtml(subject: string, body: string): string {
+function buildNewsletterHtml(
+  subject: string,
+  body: string,
+  unsubscribeToken: string
+): string {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://votredomaine.fr";
+  const unsubscribeUrl = `${appUrl}/unsubscribe?token=${unsubscribeToken}`;
+  const safeSubject = escapeHtml(subject);
+
   return `<!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"/><title>${subject}</title></head>
+<html lang="fr"><head><meta charset="UTF-8"/><title>${safeSubject}</title></head>
 <body style="margin:0;padding:0;background:#f5f5f0;font-family:Georgia,serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
   <tr><td align="center">
@@ -374,7 +402,7 @@ function buildNewsletterHtml(subject: string, body: string): string {
       <tr>
         <td style="background:#1c1917;padding:32px 40px;text-align:center;">
           <p style="margin:0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Domaine</p>
-          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">test</p>
+          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">de la Rochette</p>
           <p style="margin:2px 0 0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Chinon</p>
         </td>
       </tr>
@@ -387,6 +415,9 @@ function buildNewsletterHtml(subject: string, body: string): string {
         <td style="border-top:1px solid #e7e5e4;padding:24px 40px;text-align:center;">
           <p style="margin:0;font-family:sans-serif;font-size:11px;color:#a8a29e;">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
           <p style="margin:8px 0 0;font-family:sans-serif;font-size:11px;color:#a8a29e;">Vous recevez cet email car vous êtes inscrit(e) à la newsletter du Domaine de la Rochette.</p>
+          <p style="margin:8px 0 0;">
+            <a href="${unsubscribeUrl}" style="font-family:sans-serif;font-size:11px;color:#a8a29e;text-decoration:underline;">Se désinscrire</a>
+          </p>
         </td>
       </tr>
     </table>

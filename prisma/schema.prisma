@@ -121,6 +121,7 @@ model Product {
   weight       Float? // en grammes
   featured     Boolean  @default(false)
   published    Boolean  @default(true)
+  hasAlcohol   Boolean  @default(true) 
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
@@ -222,7 +223,12 @@ model Post {
 model NewsletterSubscriber {
   id     String  @id @default(cuid())
   email  String  @unique
-  active Boolean @default(true)
+  active Boolean @default(false) // false jusqu'à confirmation double opt-in
+
+  unsubscribeToken String    @unique @default(uuid())
+  consentAt        DateTime?
+  consentIp        String?
+  confirmedAt      DateTime? // null = en attente de confirmation email
 
   createdAt DateTime @default(now())
 
