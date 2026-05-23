@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createCampaign, updateCampaign } from "@/app/actions/newsletter-reservations";
+import { createCampaign, updateCampaign } from "@/app/actions/newsletter";
 
 interface CampaignFormProps {
   campaign?: { id: string; subject: string; content: string };
