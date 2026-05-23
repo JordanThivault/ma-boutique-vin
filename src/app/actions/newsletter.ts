@@ -210,7 +210,7 @@ export async function sendCampaign(
       const chunk = subscribers.slice(i, i + BATCH_SIZE);
       await resend.batch.send(
         chunk.map((sub) => ({
-          from: "Domaine de la Rochette <newsletter@votredomaine.fr>",
+          from: "Domaine test <onboarding@resend.dev>",
           to: sub.email,
           subject: campaign.subject,
           html: buildNewsletterHtml(campaign.subject, campaign.content, sub.unsubscribeToken),
@@ -240,7 +240,7 @@ async function sendConfirmationEmail(email: string, token: string) {
   const confirmUrl = `${appUrl}/confirm-newsletter?token=${token}`;
 
   await resend.emails.send({
-    from: "Domaine de la Rochette <newsletter@votredomaine.fr>",
+    from: "Domaine test <onboarding@resend.dev>",
     to: email,
     subject: "Confirmez votre inscription à la newsletter",
     html: `<!DOCTYPE html>

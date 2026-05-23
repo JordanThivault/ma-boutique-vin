@@ -55,9 +55,9 @@ export async function submitReservation(
     });
 
     await resend.emails.send({
-      from: "Domaine de la Rochette <contact@votredomaine.fr>",
+      from: "Domaine test <onboarding@resend.dev>",
       to: data.email,
-      subject: "Votre demande de réservation — Domaine de la Rochette",
+      subject: "Votre demande de réservation — Domaine test",
       html: `
         <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;color:#292524;line-height:1.6;">
           <h1 style="font-weight:300;">Demande reçue</h1>
@@ -74,7 +74,7 @@ export async function submitReservation(
     const adminEmail = process.env.ADMIN_EMAIL;
     if (adminEmail) {
       await resend.emails.send({
-        from: "Notifications <contact@votredomaine.fr>",
+        from: "Notifications <onboarding@resend.dev>",
         to: adminEmail,
         subject: `Nouvelle réservation — ${data.nom}`,
         html: `
