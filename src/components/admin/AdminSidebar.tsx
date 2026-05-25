@@ -22,7 +22,7 @@ const navItems = [
   { href: "/dashboard/products", label: "Produits", icon: Package },
   { href: "/dashboard/orders", label: "Commandes", icon: ShoppingBag },
   { href: "/dashboard/posts", label: "Journal", icon: FileText },
-  { href: "/dashboard/experiences", label: "Expériences", icon:Sparkles},
+  { href: "/dashboard/experiences", label: "Expériences", icon: Sparkles },
   { href: "/dashboard/reservations", label: "Réservations", icon: Calendar },
   { href: "/dashboard/newsletter", label: "Newsletter", icon: Mail },
 ];
@@ -43,10 +43,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   }
 
   return (
-    <aside className="flex w-64 flex-col border-r bg-white">
-      
+    // sticky + h-screen so the sidebar never scrolls with the page
+    <aside className="sticky top-0 flex h-screen w-64 flex-col border-r bg-white overflow-hidden">
+
       {/* Header */}
-      <div className="border-b px-6 py-5">
+      <div className="flex-shrink-0 border-b px-6 py-5">
         <Link
           href="/"
           className="flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-900"
@@ -54,14 +55,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
           <Store className="h-4 w-4" />
           Retour boutique
         </Link>
-
-        <p className="mt-1 text-lg font-bold text-neutral-900">
-          Administration
-        </p>
+        <p className="mt-1 text-lg font-bold text-neutral-900">Administration</p>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      {/* Navigation — scrollable if many items */}
+      <nav className="flex-1 overflow-y-auto space-y-1 px-3 py-4">
         {navItems.map(({ href, label, icon: Icon, exact }) => (
           <Link
             key={href}
@@ -79,15 +77,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
         ))}
       </nav>
 
-      {/* User panel */}
-      <div className="border-t px-3 py-4">
+      {/* User + Logout — always visible at the bottom */}
+      <div className="flex-shrink-0 border-t px-3 py-4">
         <div className="mb-3 rounded-xl bg-neutral-50 px-3 py-2">
-          <p className="truncate text-sm font-medium text-neutral-900">
-            {user.name}
-          </p>
-          <p className="truncate text-xs text-neutral-500">
-            {user.email}
-          </p>
+          <p className="truncate text-sm font-medium text-neutral-900">{user.name}</p>
+          <p className="truncate text-xs text-neutral-500">{user.email}</p>
         </div>
 
         <button

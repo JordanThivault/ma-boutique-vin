@@ -4,8 +4,8 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -50,9 +50,7 @@ function ConfirmContent() {
     <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4">
       <div className="w-full max-w-md">
         <div className="rounded-2xl border bg-white p-8 shadow-sm">
-          <h1 className="text-xl font-semibold text-neutral-900">
-            Nouveau mot de passe
-          </h1>
+          <h1 className="text-xl font-semibold text-neutral-900">Nouveau mot de passe</h1>
           <p className="mt-2 text-sm text-neutral-500">
             Choisissez un nouveau mot de passe sécurisé.
           </p>
@@ -60,10 +58,9 @@ function ConfirmContent() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <Label htmlFor="password">Nouveau mot de passe</Label>
-              <Input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 placeholder="Minimum 8 caractères"
                 minLength={8}
                 required
@@ -72,10 +69,9 @@ function ConfirmContent() {
             </div>
             <div>
               <Label htmlFor="confirm">Confirmer le mot de passe</Label>
-              <Input
+              <PasswordInput
                 id="confirm"
                 name="confirm"
-                type="password"
                 placeholder="Répétez le mot de passe"
                 minLength={8}
                 required
@@ -84,13 +80,8 @@ function ConfirmContent() {
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Mise à jour...
-                </>
-              ) : (
-                "Mettre à jour"
-              )}
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Mise à jour...</>
+              ) : "Mettre à jour le mot de passe"}
             </Button>
           </form>
         </div>
@@ -99,7 +90,7 @@ function ConfirmContent() {
   );
 }
 
-export default function ConfirmResetPage() {
+export default function ConfirmResetPasswordPage() {
   return (
     <Suspense>
       <ConfirmContent />

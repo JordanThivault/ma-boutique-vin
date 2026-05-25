@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { authClient, signUp } from "@/lib/auth-client";
 import { useAuthModal } from "@/hooks/useAuthModal";
 import { toast } from "sonner";
-import { Loader2, X, Wine } from "lucide-react";
+import { Loader2, X, Wine, Eye, EyeOff } from "lucide-react";
 
 export function AuthModal() {
   const { isOpen, view, close, setView } = useAuthModal();
@@ -17,7 +17,6 @@ export function AuthModal() {
 
   if (!isOpen) return null;
 
-  // ─── LOGIN ───────────────────────────────────────────────
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -37,7 +36,6 @@ export function AuthModal() {
     setLoading(false);
   }
 
-  // ─── REGISTER ────────────────────────────────────────────
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -58,7 +56,6 @@ export function AuthModal() {
     setLoading(false);
   }
 
-  // ─── RESET PASSWORD ──────────────────────────────────────
   async function handleReset(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -71,7 +68,6 @@ export function AuthModal() {
     setLoading(false);
   }
 
-  // ─── GOOGLE ──────────────────────────────────────────────
   async function handleGoogle() {
     try {
       setGoogleLoading(true);
@@ -92,13 +88,8 @@ export function AuthModal() {
 
   return (
     <>
-      {/* Overlay */}
-      <div
-        className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm"
-        onClick={close}
-      />
+      <div className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm" onClick={close} />
 
-      {/* Modal */}
       <div className="fixed inset-0 z-[201] flex items-center justify-center px-4">
         <div
           className="relative w-full max-w-md overflow-hidden rounded-2xl bg-stone-50 shadow-2xl"
@@ -106,38 +97,23 @@ export function AuthModal() {
         >
           {/* Header décoratif */}
           <div className="bg-stone-900 px-8 pt-8 pb-6 relative overflow-hidden">
-            {/* Motif décoratif */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute top-0 right-0 w-64 h-64 rounded-full border border-white translate-x-20 -translate-y-20" />
               <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full border border-white -translate-x-10 translate-y-10" />
             </div>
 
-            {/* Logo */}
             <div className="flex flex-col leading-none mb-6">
-              <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-stone-400">
-                Domaine
-              </span>
+              <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-stone-400">Domaine</span>
               <span className="font-serif text-xl text-white">Test</span>
-              <span className="font-sans text-[9px] tracking-[0.35em] uppercase text-stone-400">
-                Chinon
-              </span>
+              <span className="font-sans text-[9px] tracking-[0.35em] uppercase text-stone-400">Chinon</span>
             </div>
 
-            {/* Titre */}
             <div>
-              <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-amber-500 mb-1">
-                {sub}
-              </p>
-              <h2 className="font-serif text-3xl font-light text-white">
-                {heading}
-              </h2>
+              <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-amber-500 mb-1">{sub}</p>
+              <h2 className="font-serif text-3xl font-light text-white">{heading}</h2>
             </div>
 
-            {/* Bouton fermer */}
-            <button
-              onClick={close}
-              className="absolute top-4 right-4 text-stone-400 hover:text-white transition-colors p-1"
-            >
+            <button onClick={close} className="absolute top-4 right-4 text-stone-400 hover:text-white transition-colors p-1">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -145,7 +121,6 @@ export function AuthModal() {
           {/* Corps */}
           <div className="px-8 py-7">
 
-            {/* ── LOGIN ── */}
             {view === "login" && (
               <form onSubmit={handleLogin} className="space-y-4">
                 <Field label="Email" name="email" type="email" placeholder="vous@exemple.fr" />
@@ -162,24 +137,18 @@ export function AuthModal() {
                 </div>
 
                 <SubmitButton loading={loading}>Se connecter</SubmitButton>
-
                 <Divider />
                 <GoogleButton loading={googleLoading} onClick={handleGoogle} />
 
                 <p className="text-center text-xs text-stone-400 font-sans pt-1">
                   Pas encore de compte ?{" "}
-                  <button
-                    type="button"
-                    onClick={() => setView("register")}
-                    className="text-amber-700 hover:text-amber-800 font-medium transition-colors"
-                  >
+                  <button type="button" onClick={() => setView("register")} className="text-amber-700 hover:text-amber-800 font-medium transition-colors">
                     Créer un compte
                   </button>
                 </p>
               </form>
             )}
 
-            {/* ── REGISTER ── */}
             {view === "register" && (
               <form onSubmit={handleRegister} className="space-y-4">
                 <Field label="Prénom et nom" name="name" type="text" placeholder="Jean Dupont" />
@@ -187,24 +156,18 @@ export function AuthModal() {
                 <Field label="Mot de passe" name="password" type="password" placeholder="Minimum 8 caractères" minLength={8} />
 
                 <SubmitButton loading={loading}>Créer mon compte</SubmitButton>
-
                 <Divider />
                 <GoogleButton loading={googleLoading} onClick={handleGoogle} />
 
                 <p className="text-center text-xs text-stone-400 font-sans pt-1">
                   Déjà un compte ?{" "}
-                  <button
-                    type="button"
-                    onClick={() => setView("login")}
-                    className="text-amber-700 hover:text-amber-800 font-medium transition-colors"
-                  >
+                  <button type="button" onClick={() => setView("login")} className="text-amber-700 hover:text-amber-800 font-medium transition-colors">
                     Se connecter
                   </button>
                 </p>
               </form>
             )}
 
-            {/* ── RESET PASSWORD ── */}
             {view === "reset-password" && (
               <>
                 {resetSent ? (
@@ -213,9 +176,7 @@ export function AuthModal() {
                       <Wine className="h-5 w-5 text-amber-700" />
                     </div>
                     <p className="font-serif text-lg text-stone-900">Email envoyé</p>
-                    <p className="text-sm text-stone-500 font-sans">
-                      Vérifiez votre boîte mail et cliquez sur le lien reçu.
-                    </p>
+                    <p className="text-sm text-stone-500 font-sans">Vérifiez votre boîte mail et cliquez sur le lien reçu.</p>
                     <button
                       onClick={() => { setResetSent(false); setView("login"); }}
                       className="text-xs text-amber-700 hover:text-amber-800 font-sans font-medium transition-colors"
@@ -225,18 +186,11 @@ export function AuthModal() {
                   </div>
                 ) : (
                   <form onSubmit={handleReset} className="space-y-4">
-                    <p className="text-sm text-stone-500 font-sans">
-                      Entrez votre email, nous vous enverrons un lien de réinitialisation.
-                    </p>
+                    <p className="text-sm text-stone-500 font-sans">Entrez votre email, nous vous enverrons un lien de réinitialisation.</p>
                     <Field label="Email" name="email" type="email" placeholder="vous@exemple.fr" />
                     <SubmitButton loading={loading}>Envoyer le lien</SubmitButton>
-
                     <p className="text-center text-xs text-stone-400 font-sans">
-                      <button
-                        type="button"
-                        onClick={() => setView("login")}
-                        className="text-amber-700 hover:text-amber-800 font-medium transition-colors"
-                      >
+                      <button type="button" onClick={() => setView("login")} className="text-amber-700 hover:text-amber-800 font-medium transition-colors">
                         ← Retour à la connexion
                       </button>
                     </p>
@@ -246,10 +200,9 @@ export function AuthModal() {
             )}
           </div>
 
-          {/* Pied décoratif */}
           <div className="px-8 pb-5">
             <p className="text-center text-[10px] text-stone-300 font-sans">
-              L abus d alcool est dangereux pour la santé. À consommer avec modération.
+              L&apos;abus d&apos;alcool est dangereux pour la santé. À consommer avec modération.
             </p>
           </div>
         </div>
@@ -258,7 +211,7 @@ export function AuthModal() {
   );
 }
 
-// ─── Sous-composants ──────────────────────────────────────
+// ─── Sous-composants ─────────────────────────────────────
 
 function Field({
   label,
@@ -273,19 +226,35 @@ function Field({
   placeholder: string;
   minLength?: number;
 }) {
+  const [show, setShow] = useState(false);
+  const isPassword = type === "password";
+
   return (
     <div>
       <label className="block text-[10px] tracking-[0.2em] uppercase text-stone-500 font-sans mb-1.5">
         {label}
       </label>
-      <input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        required
-        minLength={minLength}
-        className="w-full border border-stone-200 bg-white px-4 py-2.5 text-sm font-sans text-stone-800 placeholder-stone-300 focus:outline-none focus:border-stone-400 rounded-lg transition-colors"
-      />
+      <div className="relative">
+        <input
+          name={name}
+          type={isPassword ? (show ? "text" : "password") : type}
+          placeholder={placeholder}
+          required
+          minLength={minLength}
+          className="w-full border border-stone-200 bg-white px-4 py-2.5 text-sm font-sans text-stone-800 placeholder-stone-300 focus:outline-none focus:border-stone-400 rounded-lg transition-colors pr-10"
+        />
+        {isPassword && (
+          <button
+            type="button"
+            tabIndex={-1}
+            onClick={() => setShow((v) => !v)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-300 hover:text-stone-500 transition-colors"
+            aria-label={show ? "Masquer" : "Afficher"}
+          >
+            {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -309,9 +278,7 @@ function Divider() {
         <div className="w-full border-t border-stone-200" />
       </div>
       <div className="relative flex justify-center">
-        <span className="bg-stone-50 px-3 text-[10px] text-stone-300 uppercase tracking-widest font-sans">
-          ou
-        </span>
+        <span className="bg-stone-50 px-3 text-[10px] text-stone-300 uppercase tracking-widest font-sans">ou</span>
       </div>
     </div>
   );

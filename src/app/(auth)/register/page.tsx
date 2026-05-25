@@ -8,6 +8,7 @@ import { signUp } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -45,12 +46,8 @@ export default function RegisterPage() {
             <Link href="/" className="text-2xl font-bold text-neutral-900">
               Ma Boutique
             </Link>
-            <h1 className="mt-2 text-xl font-semibold text-neutral-700">
-              Créer un compte
-            </h1>
-            <p className="mt-1 text-sm text-neutral-500">
-              Rejoignez-nous gratuitement
-            </p>
+            <h1 className="mt-2 text-xl font-semibold text-neutral-700">Créer un compte</h1>
+            <p className="mt-1 text-sm text-neutral-500">Rejoignez-nous gratuitement</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,25 +75,20 @@ export default function RegisterPage() {
             </div>
             <div>
               <Label htmlFor="password">Mot de passe</Label>
-              <Input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 placeholder="Minimum 8 caractères"
                 minLength={8}
                 required
                 className="mt-1"
               />
             </div>
+
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Création du compte...
-                </>
-              ) : (
-                "Créer mon compte"
-              )}
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Création du compte...</>
+              ) : "Créer mon compte"}
             </Button>
           </form>
 

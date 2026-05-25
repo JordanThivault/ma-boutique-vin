@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { headers } from "next/headers";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import { Package, ChevronRight } from "lucide-react";
+import { Package } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -40,7 +40,7 @@ export default async function AccountOrdersPage() {
   const orders = await getOrders(session.user.id);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-neutral-900">
           Mes commandes

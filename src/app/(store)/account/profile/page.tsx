@@ -6,6 +6,7 @@ import { useSession, authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { toast } from "sonner";
 import { Loader2, User, Mail, Lock } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -68,12 +69,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-neutral-900">Mon profil</h1>
-        <p className="mt-1 text-neutral-500">
-          Gérez vos informations personnelles
-        </p>
+        <p className="mt-1 text-neutral-500">Gérez vos informations personnelles</p>
       </div>
 
       <div className="space-y-6">
@@ -85,16 +84,11 @@ export default function ProfilePage() {
               <User className="h-5 w-5 text-neutral-600" />
             </div>
             <div>
-              <p className="font-medium text-neutral-900">
-                {session.user.name}
-              </p>
-              <p className="text-sm text-neutral-400">
-                {session.user.email}
-              </p>
+              <p className="font-medium text-neutral-900">{session.user.name}</p>
+              <p className="text-sm text-neutral-400">{session.user.email}</p>
             </div>
           </div>
 
-          {/* Modifier nom */}
           <form onSubmit={handleUpdateName} className="space-y-4">
             <h2 className="font-semibold text-neutral-900 flex items-center gap-2">
               <User className="h-4 w-4" />
@@ -112,13 +106,8 @@ export default function ProfilePage() {
             </div>
             <Button type="submit" disabled={loadingName}>
               {loadingName ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Mise à jour...
-                </>
-              ) : (
-                "Mettre à jour"
-              )}
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Mise à jour...</>
+              ) : "Mettre à jour"}
             </Button>
           </form>
         </div>
@@ -137,7 +126,7 @@ export default function ProfilePage() {
               className="mt-1 bg-neutral-50 text-neutral-400"
             />
             <p className="mt-2 text-xs text-neutral-400">
-              L email ne peut pas être modifié.
+              L&apos;email ne peut pas être modifié.
             </p>
           </div>
         </div>
@@ -151,20 +140,18 @@ export default function ProfilePage() {
           <form onSubmit={handleUpdatePassword} className="space-y-4">
             <div>
               <Label htmlFor="currentPassword">Mot de passe actuel</Label>
-              <Input
+              <PasswordInput
                 id="currentPassword"
                 name="currentPassword"
-                type="password"
                 required
                 className="mt-1"
               />
             </div>
             <div>
               <Label htmlFor="newPassword">Nouveau mot de passe</Label>
-              <Input
+              <PasswordInput
                 id="newPassword"
                 name="newPassword"
-                type="password"
                 minLength={8}
                 required
                 className="mt-1"
@@ -172,10 +159,9 @@ export default function ProfilePage() {
             </div>
             <div>
               <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
-              <Input
+              <PasswordInput
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
                 minLength={8}
                 required
                 className="mt-1"
@@ -183,22 +169,15 @@ export default function ProfilePage() {
             </div>
             <Button type="submit" disabled={loadingPassword}>
               {loadingPassword ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Mise à jour...
-                </>
-              ) : (
-                "Changer le mot de passe"
-              )}
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Mise à jour...</>
+              ) : "Changer le mot de passe"}
             </Button>
           </form>
         </div>
 
         {/* Supprimer compte */}
         <div className="rounded-2xl border border-red-100 bg-white p-6">
-          <h2 className="font-semibold text-red-600 mb-2">
-            Zone de danger
-          </h2>
+          <h2 className="font-semibold text-red-600 mb-2">Zone de danger</h2>
           <p className="text-sm text-neutral-500 mb-4">
             La suppression de votre compte est définitive et irréversible.
             Toutes vos données seront effacées.

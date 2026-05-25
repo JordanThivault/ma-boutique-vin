@@ -1,14 +1,14 @@
 // src/hooks/useAuthModal.ts
 import { create } from "zustand";
 
-export type AuthView = "login" | "register" | "reset-password";
+type View = "login" | "register" | "reset-password";
 
 interface AuthModalStore {
   isOpen: boolean;
-  view: AuthView;
-  open: (view?: AuthView) => void;
+  view: View;
+  open: (view?: View) => void;
   close: () => void;
-  setView: (view: AuthView) => void;
+  setView: (view: View) => void;
 }
 
 export const useAuthModal = create<AuthModalStore>((set) => ({
