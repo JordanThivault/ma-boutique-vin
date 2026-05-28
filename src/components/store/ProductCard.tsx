@@ -7,18 +7,8 @@ import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Eye } from "lucide-react";
 import { toast } from "sonner";
+import type { Product } from "@/types/product";
 
-interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  comparePrice?: number | null;
-  images: string[];
-  stock: number;
-  featured: boolean;
-  category?: { name: string } | null;
-}
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem, openCart } = useCart();
@@ -41,7 +31,6 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border bg-white transition-shadow hover:shadow-md">
-      
       {/* Toute la card est un seul Link */}
       <Link
         href={`/products/${product.slug}`}
@@ -65,14 +54,14 @@ export function ProductCard({ product }: { product: Product }) {
 
         {/* Badge vedette */}
         {product.featured && inStock && (
-          <span className="absolute left-2 top-2 rounded-full bg-amber-500 px-2.5 py-0.5 text-xs font-medium text-white">
+          <span className="absolute top-2 left-2 rounded-full bg-amber-500 px-2.5 py-0.5 text-xs font-medium text-white">
             Vedette
           </span>
         )}
 
         {/* Badge promo */}
         {product.comparePrice && product.comparePrice > product.price && (
-          <span className="absolute right-2 top-2 rounded-full bg-red-500 px-2.5 py-0.5 text-xs font-medium text-white">
+          <span className="absolute top-2 right-2 rounded-full bg-red-500 px-2.5 py-0.5 text-xs font-medium text-white">
             -{Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}%
           </span>
         )}
@@ -82,7 +71,7 @@ export function ProductCard({ product }: { product: Product }) {
           <Button
             size="sm"
             className="w-full"
-            onClick={handleAddToCart}  // ← e.preventDefault() dedans
+            onClick={handleAddToCart} // ← e.preventDefault() dedans
             disabled={!inStock}
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
@@ -100,20 +89,16 @@ export function ProductCard({ product }: { product: Product }) {
       {/* Infos produit */}
       <div className="flex flex-1 flex-col p-4">
         {product.category && (
-          <span className="text-xs font-medium text-amber-600">
-            {product.category.name}
-          </span>
+          <span className="text-xs font-medium text-amber-600">{product.category.name}</span>
         )}
         <Link
           href={`/products/${product.slug}`}
-          className="mt-1 font-medium text-neutral-900 hover:text-neutral-600 line-clamp-2"
+          className="mt-1 line-clamp-2 font-medium text-neutral-900 hover:text-neutral-600"
         >
           {product.name}
         </Link>
         <div className="mt-3 flex items-center gap-2">
-          <span className="text-lg font-bold text-neutral-900">
-            {formatPrice(product.price)}
-          </span>
+          <span className="text-lg font-bold text-neutral-900">{formatPrice(product.price)}</span>
           {product.comparePrice && product.comparePrice > product.price && (
             <span className="text-sm text-neutral-400 line-through">
               {formatPrice(product.comparePrice)}

@@ -12,8 +12,7 @@ import { db } from "@/lib/db";
 
 export const metadata = {
   title: "Domaine test — Chinon",
-  description:
-    "Vins de caractère issus du terroir de Chinon. Cabernet Franc élevé avec soin.",
+  description: "Vins de caractère issus du terroir de Chinon. Cabernet Franc élevé avec soin.",
 };
 
 // ─── Composants async séparés ────────────────────────────
@@ -55,25 +54,30 @@ export default function HomePage() {
 
       <ExperiencesSection />
 
-      <Suspense fallback={
-        <section className="bg-stone-50 py-24 lg:py-32 px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col items-center mb-16 gap-3">
-              <div className="h-3 w-24 rounded bg-stone-200 animate-pulse" />
-              <div className="h-8 w-64 rounded bg-stone-200 animate-pulse" />
+      <Suspense
+        fallback={
+          <section className="bg-stone-50 px-6 py-24 lg:py-32">
+            <div className="mx-auto max-w-6xl">
+              <div className="mb-16 flex flex-col items-center gap-3">
+                <div className="h-3 w-24 animate-pulse rounded bg-stone-200" />
+                <div className="h-8 w-64 animate-pulse rounded bg-stone-200" />
+              </div>
+              <div className="grid gap-10 md:grid-cols-3">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="flex flex-col gap-3">
+                    <div
+                      className="w-full animate-pulse rounded bg-stone-200"
+                      style={{ paddingBottom: "65%" }}
+                    />
+                    <div className="h-4 w-3/4 animate-pulse rounded bg-stone-200" />
+                    <div className="h-3 w-1/3 animate-pulse rounded bg-stone-200" />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="grid md:grid-cols-3 gap-10">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="flex flex-col gap-3">
-                  <div className="w-full rounded bg-stone-200 animate-pulse" style={{ paddingBottom: "65%" }} />
-                  <div className="h-4 w-3/4 rounded bg-stone-200 animate-pulse" />
-                  <div className="h-3 w-1/3 rounded bg-stone-200 animate-pulse" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      }>
+          </section>
+        }
+      >
         <JournalSectionWrapper />
       </Suspense>
 

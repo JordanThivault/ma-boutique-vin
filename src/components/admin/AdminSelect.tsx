@@ -12,8 +12,8 @@ export function AdminSelect({ children, className, ...props }: AdminSelectProps)
     <div className="relative">
       <select
         className={cn(
-          "appearance-none rounded-xl border bg-white pl-3 pr-8 py-2 text-sm text-neutral-700",
-          "focus:outline-none focus:ring-2 focus:ring-neutral-900",
+          "appearance-none rounded-xl border bg-white py-2 pr-8 pl-3 text-sm text-neutral-700",
+          "focus:ring-2 focus:ring-neutral-900 focus:outline-none",
           "cursor-pointer",
           className
         )}
@@ -21,7 +21,7 @@ export function AdminSelect({ children, className, ...props }: AdminSelectProps)
       >
         {children}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+      <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
     </div>
   );
 }

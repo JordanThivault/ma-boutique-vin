@@ -9,23 +9,18 @@ const LEGAL_LINKS = [
   { href: "/cgv", label: "CGV" },
 ];
 
-export default function LegalLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LegalLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* Header sobre — fond stone-950 cohérent avec Navbar/Footer */}
-      <div className="bg-stone-950 pt-32 pb-12 px-6">
-        <div className="max-w-3xl mx-auto">
-
+      <div className="bg-stone-950 px-6 pt-32 pb-12">
+        <div className="mx-auto max-w-3xl">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-stone-500 mb-8">
-            <Link href="/" className="hover:text-stone-300 transition-colors">
+          <nav className="mb-8 flex items-center gap-1.5 text-[11px] tracking-[0.2em] text-stone-500 uppercase">
+            <Link href="/" className="transition-colors hover:text-stone-300">
               Accueil
             </Link>
-            <ChevronRight className="h-3 w-3 text-stone-700 flex-shrink-0" />
+            <ChevronRight className="h-3 w-3 flex-shrink-0 text-stone-700" />
             <span className="text-stone-400">Informations légales</span>
           </nav>
 
@@ -41,9 +36,7 @@ export default function LegalLayout({
       </div>
 
       {/* Contenu page */}
-      <div className="bg-white min-h-screen">
-        {children}
-      </div>
+      <div className="min-h-screen bg-white">{children}</div>
     </>
   );
 }

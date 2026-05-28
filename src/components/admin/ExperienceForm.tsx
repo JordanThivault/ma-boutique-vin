@@ -74,10 +74,9 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
-
+    <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
       {/* ================= INFO ================= */}
-      <div className="border rounded-2xl p-6 space-y-4">
+      <div className="space-y-4 rounded-2xl border p-6">
         <h2 className="font-semibold">Informations</h2>
 
         <input
@@ -85,7 +84,7 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
           required
           defaultValue={experience?.title}
           placeholder="Titre"
-          className="w-full border p-3 rounded"
+          className="w-full rounded border p-3"
         />
 
         <input
@@ -93,7 +92,7 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
           required
           defaultValue={experience?.type}
           placeholder="Type (Dégustation / Visite / Événement)"
-          className="w-full border p-3 rounded"
+          className="w-full rounded border p-3"
         />
 
         <div className="grid grid-cols-2 gap-3">
@@ -102,7 +101,7 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
             required
             defaultValue={experience?.duration}
             placeholder="Durée"
-            className="border p-3 rounded"
+            className="rounded border p-3"
           />
 
           <input
@@ -110,7 +109,7 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
             required
             defaultValue={experience?.price}
             placeholder="Prix"
-            className="border p-3 rounded"
+            className="rounded border p-3"
           />
         </div>
 
@@ -118,13 +117,13 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
           name="order"
           type="number"
           defaultValue={experience?.order ?? 0}
-          className="border p-3 rounded w-full"
+          className="w-full rounded border p-3"
           placeholder="Ordre"
         />
       </div>
 
       {/* ================= IMAGE UPLOADTHING ================= */}
-      <div className="border rounded-2xl p-6 space-y-4">
+      <div className="space-y-4 rounded-2xl border p-6">
         <h2 className="font-semibold">Image</h2>
 
         <UploadButton
@@ -150,31 +149,22 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
             value={newImageUrl}
             onChange={(e) => setNewImageUrl(e.target.value)}
             placeholder="Ou coller une URL image"
-            className="border p-3 rounded w-full"
+            className="w-full rounded border p-3"
           />
-          <button
-            type="button"
-            onClick={addImageFromUrl}
-            className="px-3 border rounded"
-          >
+          <button type="button" onClick={addImageFromUrl} className="rounded border px-3">
             <Plus size={16} />
           </button>
         </div>
 
         {/* preview */}
         {image && (
-          <div className="relative w-full h-60 rounded overflow-hidden">
-            <Image
-              src={image}
-              alt="preview"
-              fill
-              className="object-cover"
-            />
+          <div className="relative h-60 w-full overflow-hidden rounded">
+            <Image src={image} alt="preview" fill className="object-cover" />
 
             <button
               type="button"
               onClick={() => setImage("")}
-              className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded"
+              className="absolute top-2 right-2 rounded bg-red-500 p-2 text-white"
             >
               <X size={14} />
             </button>
@@ -189,7 +179,7 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
         defaultValue={experience?.description}
         rows={4}
         placeholder="Description"
-        className="w-full border p-3 rounded"
+        className="w-full rounded border p-3"
       />
 
       {/* ================= INCLUDES ================= */}
@@ -198,41 +188,25 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
         defaultValue={experience?.includes.join("\n")}
         rows={4}
         placeholder={"1 élément par ligne\nDégustation\nVisite cave"}
-        className="w-full border p-3 rounded font-mono"
+        className="w-full rounded border p-3 font-mono"
       />
 
       {/* ================= ACTIVE ================= */}
       <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="active"
-          defaultChecked={experience?.active ?? true}
-        />
+        <input type="checkbox" name="active" defaultChecked={experience?.active ?? true} />
         Visible sur le site
       </label>
 
       {/* ================= ERROR ================= */}
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
 
       {/* ================= ACTIONS ================= */}
       <div className="flex gap-3">
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-black text-white px-6 py-3 rounded"
-        >
-          {loading
-            ? "Sauvegarde..."
-            : isEditing
-            ? "Mettre à jour"
-            : "Créer"}
+        <button type="submit" disabled={loading} className="rounded bg-black px-6 py-3 text-white">
+          {loading ? "Sauvegarde..." : isEditing ? "Mettre à jour" : "Créer"}
         </button>
 
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="border px-6 py-3 rounded"
-        >
+        <button type="button" onClick={() => router.back()} className="rounded border px-6 py-3">
           Annuler
         </button>
       </div>

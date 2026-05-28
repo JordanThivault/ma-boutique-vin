@@ -6,15 +6,8 @@ import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
+import type { Product } from "@/types/product";
 
-interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  images: string[];
-  stock: number;
-}
 
 export function AddToCartButton({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);

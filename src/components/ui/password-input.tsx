@@ -13,15 +13,11 @@ export function PasswordInput({ className, ...props }: PasswordInputProps) {
 
   return (
     <div className="relative">
-      <Input
-        type={show ? "text" : "password"}
-        className={cn("pr-10", className)}
-        {...props}
-      />
+      <Input type={show ? "text" : "password"} className={cn("pr-10", className)} {...props} />
       <button
         type="button"
         onClick={() => setShow((v) => !v)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors"
+        className="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 transition-colors hover:text-neutral-600"
         tabIndex={-1}
         aria-label={show ? "Masquer le mot de passe" : "Afficher le mot de passe"}
       >

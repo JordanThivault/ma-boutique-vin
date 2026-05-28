@@ -20,13 +20,7 @@ import { Trash2, Loader2 } from "lucide-react";
 
 import { toast } from "sonner";
 
-export function DeleteProductButton({
-  id,
-  name,
-}: {
-  id: string;
-  name: string;
-}) {
+export function DeleteProductButton({ id, name }: { id: string; name: string }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -52,48 +46,29 @@ export function DeleteProductButton({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-neutral-400 hover:text-red-500"
-        >
+        <Button variant="ghost" size="icon" className="text-neutral-400 hover:text-red-500">
           <Trash2 className="h-4 w-4" />
         </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Supprimer le produit
-          </DialogTitle>
+          <DialogTitle>Supprimer le produit</DialogTitle>
 
           <DialogDescription>
-            Êtes-vous sûr de vouloir supprimer{" "}
-            <strong>{name}</strong> ?
+            Êtes-vous sûr de vouloir supprimer <strong>{name}</strong> ?
             <br />
             Cette action est irréversible.
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-            disabled={loading}
-          >
+          <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
             Annuler
           </Button>
 
-          <Button
-            variant="destructive"
-            onClick={handleDelete}
-            disabled={loading}
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Supprimer"
-            )}
+          <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Supprimer"}
           </Button>
         </DialogFooter>
       </DialogContent>

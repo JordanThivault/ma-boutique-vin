@@ -41,7 +41,7 @@ export default function CampaignForm({ campaign }: CampaignFormProps) {
   const [subject, setSubject] = useState(campaign?.subject ?? "");
   const isEditing = !!campaign;
 
-  function applyTemplate(tpl: typeof TEMPLATES[0]) {
+  function applyTemplate(tpl: (typeof TEMPLATES)[0]) {
     if (content && !confirm("Remplacer le contenu actuel par ce modèle ?")) return;
     setContent(tpl.content);
   }
@@ -52,8 +52,8 @@ export default function CampaignForm({ campaign }: CampaignFormProps) {
     setError("");
 
     const result = isEditing
-    ? await updateCampaign(campaign.id, { subject, content })
-    : await createCampaign({ subject, content });
+      ? await updateCampaign(campaign.id, { subject, content })
+      : await createCampaign({ subject, content });
 
     if (result.success) {
       router.push("/dashboard/newsletter");
@@ -65,17 +65,17 @@ export default function CampaignForm({ campaign }: CampaignFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
+    <form onSubmit={handleSubmit} className="max-w-3xl space-y-6">
       {/* Modèles rapides */}
       <div>
-        <p className="text-sm font-medium text-gray-700 mb-2">Modèles rapides</p>
+        <p className="mb-2 text-sm font-medium text-gray-700">Modèles rapides</p>
         <div className="flex flex-wrap gap-2">
           {TEMPLATES.map((tpl) => (
             <button
               key={tpl.label}
               type="button"
               onClick={() => applyTemplate(tpl)}
-              className="px-3 py-1.5 text-xs border border-gray-300 rounded text-gray-600 hover:bg-gray-50 transition-colors"
+              className="rounded border border-gray-300 px-3 py-1.5 text-xs text-gray-600 transition-colors hover:bg-gray-50"
             >
               {tpl.label}
             </button>
@@ -84,55 +84,69 @@ export default function CampaignForm({ campaign }: CampaignFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Sujet de l email *</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700">Sujet de l email *</label>
         <input
-          type="text" required value={subject} onChange={(e) => setSubject(e.target.value)}
+          type="text"
+          required
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
           placeholder="Nouvelles du domaine — Automne 2025"
-          className="w-full border border-gray-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-gray-500"
+          className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm focus:border-gray-500 focus:outline-none"
         />
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-1">
+        <div className="mb-1 flex items-center justify-between">
           <label className="block text-sm font-medium text-gray-700">
             Contenu *{" "}
-            <span className="text-gray-400 font-normal">(HTML — le header et footer domaine sont ajoutés automatiquement)</span>
+            <span className="font-normal text-gray-400">
+              (HTML — le header et footer domaine sont ajoutés automatiquement)
+            </span>
           </label>
         </div>
         <textarea
-          required value={content} onChange={(e) => setContent(e.target.value)}
+          required
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           rows={18}
           placeholder="<p>Bonjour,</p><p>Voici les nouvelles du domaine...</p>"
-          className="w-full border border-gray-300 rounded px-4 py-3 text-sm font-mono focus:outline-none focus:border-gray-500 resize-y"
+          className="w-full resize-y rounded border border-gray-300 px-4 py-3 font-mono text-sm focus:border-gray-500 focus:outline-none"
         />
-        <p className="text-xs text-gray-400 mt-1">
-          Utilisez du HTML simple : &lt;p&gt;, &lt;h2&gt;, &lt;strong&gt;, &lt;a href=...&gt;, &lt;img&gt;
+        <p className="mt-1 text-xs text-gray-400">
+          Utilisez du HTML simple : &lt;p&gt;, &lt;h2&gt;, &lt;strong&gt;, &lt;a href=...&gt;,
+          &lt;img&gt;
         </p>
       </div>
 
       {/* Aperçu */}
       {content && (
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">Aperçu du corps</p>
+          <p className="mb-2 text-sm font-medium text-gray-700">Aperçu du corps</p>
           <div
-            className="border border-gray-200 rounded p-6 bg-white prose prose-sm max-w-none"
+            className="prose prose-sm max-w-none rounded border border-gray-200 bg-white p-6"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>
       )}
 
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
 
       <div className="flex gap-4 pt-2">
         <button
-          type="submit" disabled={loading}
-          className="px-8 py-2.5 bg-stone-900 text-white text-sm rounded hover:bg-stone-700 transition-colors disabled:opacity-50"
+          type="submit"
+          disabled={loading}
+          className="rounded bg-stone-900 px-8 py-2.5 text-sm text-white transition-colors hover:bg-stone-700 disabled:opacity-50"
         >
-          {loading ? "Enregistrement..." : isEditing ? "Mettre à jour le brouillon" : "Créer le brouillon"}
+          {loading
+            ? "Enregistrement..."
+            : isEditing
+              ? "Mettre à jour le brouillon"
+              : "Créer le brouillon"}
         </button>
         <button
-          type="button" onClick={() => router.back()}
-          className="px-6 py-2.5 border border-gray-300 text-gray-600 text-sm rounded hover:bg-gray-50 transition-colors"
+          type="button"
+          onClick={() => router.back()}
+          className="rounded border border-gray-300 px-6 py-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50"
         >
           Annuler
         </button>

@@ -11,9 +11,7 @@ type PageProps = {
   }>;
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
   const post = await db.post.findUnique({
@@ -52,49 +50,45 @@ export default async function PostPage({ params }: PageProps) {
             src={post.coverImage}
             alt={post.title}
             fill
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-stone-200" />
+          <div className="h-full w-full bg-stone-200" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 px-6 pb-12 text-white max-w-4xl mx-auto">
-          <span className="text-[10px] tracking-[0.25em] uppercase font-sans bg-stone-900/80 text-white px-3 py-1 mb-5 inline-block">
+        <div className="absolute right-0 bottom-0 left-0 mx-auto max-w-4xl px-6 pb-12 text-white">
+          <span className="mb-5 inline-block bg-stone-900/80 px-3 py-1 font-sans text-[10px] tracking-[0.25em] text-white uppercase">
             {post.category}
           </span>
-          <h1 className="font-serif text-4xl lg:text-6xl font-light leading-tight mt-3">
+          <h1 className="mt-3 font-serif text-4xl leading-tight font-light lg:text-6xl">
             {post.title}
           </h1>
-          <p className="text-stone-300 font-sans text-sm mt-3 tracking-wide">
+          <p className="mt-3 font-sans text-sm tracking-wide text-stone-300">
             {post.publishedAt ? formatDate(post.publishedAt) : ""}
           </p>
         </div>
       </section>
 
       {/* Article content */}
-      <article className="max-w-3xl mx-auto px-6 py-16">
+      <article className="mx-auto max-w-3xl px-6 py-16">
         {post.excerpt && (
-          <p className="font-serif text-xl text-stone-600 leading-relaxed border-l-2 border-amber-600 pl-6 mb-12">
+          <p className="mb-12 border-l-2 border-amber-600 pl-6 font-serif text-xl leading-relaxed text-stone-600">
             {post.excerpt}
           </p>
         )}
 
         {/* Content rendered as prose */}
         <div
-          className="prose prose-stone prose-lg max-w-none
-            prose-headings:font-serif prose-headings:font-light
-            prose-p:font-sans prose-p:text-stone-600 prose-p:leading-relaxed
-            prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline
-            prose-img:w-full prose-img:object-cover"
+          className="prose prose-stone prose-lg prose-headings:font-serif prose-headings:font-light prose-p:font-sans prose-p:text-stone-600 prose-p:leading-relaxed prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline prose-img:w-full prose-img:object-cover max-w-none"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </article>
 
       {/* Back link */}
-      <div className="max-w-3xl mx-auto px-6 pb-16">
+      <div className="mx-auto max-w-3xl px-6 pb-16">
         <Link
           href="/journal"
-          className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase font-sans text-amber-700 hover:gap-4 transition-all duration-300"
+          className="inline-flex items-center gap-2 font-sans text-sm tracking-[0.15em] text-amber-700 uppercase transition-all duration-300 hover:gap-4"
         >
           <span>←</span>
           Retour au journal

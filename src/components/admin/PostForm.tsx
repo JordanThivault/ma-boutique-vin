@@ -58,9 +58,7 @@ export default function PostForm({ post }: PostFormProps) {
       published: fd.get("published") === "on",
     };
 
-    const result = isEditing
-      ? await updatePost(post.id, data)
-      : await createPost(data);
+    const result = isEditing ? await updatePost(post.id, data) : await createPost(data);
 
     if (result?.error) {
       setError(result.error);
@@ -69,11 +67,10 @@ export default function PostForm({ post }: PostFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
-
+    <form onSubmit={handleSubmit} className="max-w-3xl space-y-6">
       {/* TITRE */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Titre *</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700">Titre *</label>
         <input
           name="title"
           type="text"
@@ -83,43 +80,45 @@ export default function PostForm({ post }: PostFormProps) {
             setTitle(e.target.value);
             if (!isEditing) setSlug(generateSlug(e.target.value));
           }}
-          className="w-full border border-gray-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-gray-500"
+          className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm focus:border-gray-500 focus:outline-none"
         />
       </div>
 
       {/* SLUG */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Slug (URL) *</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700">Slug (URL) *</label>
         <input
           name="slug"
           type="text"
           required
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
-          className="w-full border border-gray-300 rounded px-4 py-2.5 text-sm font-mono focus:outline-none focus:border-gray-500"
+          className="w-full rounded border border-gray-300 px-4 py-2.5 font-mono text-sm focus:border-gray-500 focus:outline-none"
         />
-        <p className="text-xs text-gray-400 mt-1">ex: vendanges-2024</p>
+        <p className="mt-1 text-xs text-gray-400">ex: vendanges-2024</p>
       </div>
 
       {/* CATÉGORIE + IMAGE */}
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie *</label>
+          <label className="mb-1 block text-sm font-medium text-gray-700">Catégorie *</label>
           <select
             name="category"
             required
             defaultValue={post?.category || "Actualité"}
-            className="w-full border border-gray-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-gray-500"
+            className="w-full rounded border border-gray-300 px-4 py-2.5 text-sm focus:border-gray-500 focus:outline-none"
           >
             {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
 
         {/* IMAGE DE COUVERTURE */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="mb-1 block text-sm font-medium text-gray-700">
             Image de couverture
           </label>
           {coverImage ? (
@@ -129,12 +128,12 @@ export default function PostForm({ post }: PostFormProps) {
                 alt="Couverture"
                 width={400}
                 height={200}
-                className="w-full h-32 object-cover rounded border border-gray-200"
+                className="h-32 w-full rounded border border-gray-200 object-cover"
               />
               <button
                 type="button"
                 onClick={() => setCoverImage("")}
-                className="absolute top-1 right-1 bg-white text-gray-600 text-xs px-2 py-1 rounded shadow hover:bg-red-50 hover:text-red-600"
+                className="absolute top-1 right-1 rounded bg-white px-2 py-1 text-xs text-gray-600 shadow hover:bg-red-50 hover:text-red-600"
               >
                 Supprimer
               </button>
@@ -157,20 +156,20 @@ export default function PostForm({ post }: PostFormProps) {
 
       {/* EXTRAIT */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Extrait (chapeau)</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700">Extrait (chapeau)</label>
         <textarea
           name="excerpt"
           rows={2}
           defaultValue={post?.excerpt ?? ""}
           placeholder="Résumé affiché dans les listes..."
-          className="w-full border border-gray-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-gray-500 resize-none"
+          className="w-full resize-none rounded border border-gray-300 px-4 py-2.5 text-sm focus:border-gray-500 focus:outline-none"
         />
       </div>
 
       {/* CONTENU */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Contenu * <span className="text-gray-400 font-normal">(HTML accepté)</span>
+        <label className="mb-1 block text-sm font-medium text-gray-700">
+          Contenu * <span className="font-normal text-gray-400">(HTML accepté)</span>
         </label>
         <textarea
           name="content"
@@ -178,7 +177,7 @@ export default function PostForm({ post }: PostFormProps) {
           required
           defaultValue={post?.content}
           placeholder="<p>Contenu de l'article...</p>"
-          className="w-full border border-gray-300 rounded px-4 py-2.5 text-sm font-mono focus:outline-none focus:border-gray-500 resize-y"
+          className="w-full resize-y rounded border border-gray-300 px-4 py-2.5 font-mono text-sm focus:border-gray-500 focus:outline-none"
         />
       </div>
 
@@ -196,20 +195,20 @@ export default function PostForm({ post }: PostFormProps) {
         </label>
       </div>
 
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
 
       <div className="flex gap-4 pt-2">
         <button
           type="submit"
           disabled={loading}
-          className="px-8 py-2.5 bg-stone-900 text-white text-sm rounded hover:bg-stone-700 transition-colors disabled:opacity-50"
+          className="rounded bg-stone-900 px-8 py-2.5 text-sm text-white transition-colors hover:bg-stone-700 disabled:opacity-50"
         >
           {loading ? "Enregistrement..." : isEditing ? "Mettre à jour" : "Créer l'article"}
         </button>
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-6 py-2.5 border border-gray-300 text-gray-600 text-sm rounded hover:bg-gray-50 transition-colors"
+          className="rounded border border-gray-300 px-6 py-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50"
         >
           Annuler
         </button>

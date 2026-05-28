@@ -3,67 +3,31 @@
 
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/utils";
+import { FREE_SHIPPING_THRESHOLD, calculateShipping } from "@/lib/shipping";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCheckout } from "@/hooks/useCheckout";
+
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { items, removeItem, updateQuantity, totalPrice } = useCart();
+  const { checkout, loading } = useCheckout();
 
   const subtotal = totalPrice();
-  const shipping = subtotal >= 6000 ? 0 : 490; // Livraison offerte dès 60€
+  const shipping = calculateShipping(subtotal);
   const total = subtotal + shipping;
 
-  async function handleCheckout() {
-    if (items.length === 0) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((i) => ({
-            productId: i.product.id,
-            quantity: i.quantity,
-          })),
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error(data.error ?? "Erreur lors du paiement");
-        return;
-      }
-
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch {
-      toast.error("Erreur réseau, veuillez réessayer");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center gap-6 text-center">
           <ShoppingBag className="h-20 w-20 text-neutral-300" />
-          <h1 className="text-2xl font-bold text-neutral-900">
-            Votre panier est vide
-          </h1>
-          <p className="text-neutral-500">
-            Ajoutez des produits pour commencer vos achats.
-          </p>
+          <h1 className="text-2xl font-bold text-neutral-900">Votre panier est vide</h1>
+          <p className="text-neutral-500">Ajoutez des produits pour commencer vos achats.</p>
           <Button asChild>
             <Link href="/products">Découvrir nos produits</Link>
           </Button>
@@ -73,7 +37,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
+    <div className="mx-auto max-w-7xl px-4 py-12 pt-20 sm:px-6 lg:px-8 lg:pt-26">
       <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="sm" asChild>
           <Link href="/products">
@@ -88,12 +52,9 @@ export default function CartPage() {
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
         {/* Items */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="space-y-4 lg:col-span-2">
           {items.map(({ product, quantity }) => (
-            <div
-              key={product.id}
-              className="flex gap-4 rounded-2xl border bg-white p-4"
-            >
+            <div key={product.id} className="flex gap-4 rounded-2xl border bg-white p-4">
               <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100">
                 <Image
                   src={product.image || "/placeholder-product.jpg"}
@@ -136,9 +97,7 @@ export default function CartPage() {
                     >
                       <Minus className="h-3 w-3" />
                     </Button>
-                    <span className="w-6 text-center text-sm font-medium">
-                      {quantity}
-                    </span>
+                    <span className="w-6 text-center text-sm font-medium">{quantity}</span>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -161,9 +120,7 @@ export default function CartPage() {
         {/* Summary */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 rounded-2xl border bg-white p-6">
-            <h2 className="text-lg font-semibold text-neutral-900">
-              Récapitulatif
-            </h2>
+            <h2 className="text-lg font-semibold text-neutral-900">Récapitulatif</h2>
 
             <div className="mt-6 space-y-3">
               <div className="flex justify-between text-sm">
@@ -174,15 +131,15 @@ export default function CartPage() {
                 <span className="text-neutral-500">Livraison</span>
                 <span>
                   {shipping === 0 ? (
-                    <span className="text-emerald-600 font-medium">Offerte</span>
+                    <span className="font-medium text-emerald-600">Offerte</span>
                   ) : (
                     formatPrice(shipping)
                   )}
                 </span>
               </div>
               {subtotal < 6000 && (
-                <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
-                  Plus que {formatPrice(6000 - subtotal)} pour la livraison offerte !
+                <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-600">
+                  Plus que {formatPrice(FREE_SHIPPING_THRESHOLD - subtotal)} pour la livraison offerte !
                 </p>
               )}
             </div>
@@ -194,12 +151,7 @@ export default function CartPage() {
               <span className="text-lg">{formatPrice(total)}</span>
             </div>
 
-            <Button
-              className="mt-6 w-full"
-              size="lg"
-              onClick={handleCheckout}
-              disabled={loading}
-            >
+            <Button className="mt-6 w-full" size="lg" onClick={checkout} disabled={loading}>
               {loading ? "Redirection..." : "Payer maintenant"}
             </Button>
 

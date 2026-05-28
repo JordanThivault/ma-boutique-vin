@@ -4,64 +4,31 @@
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
+import { useCheckout } from "@/hooks/useCheckout";
+
 
 export function CartSidebar() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice } = useCart();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
+  
   const subtotal = totalPrice();
+  const { checkout, loading } = useCheckout();
 
-  async function handleCheckout() {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((i) => ({
-            productId: i.product.id,
-            quantity: i.quantity,
-          })),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error ?? "Erreur");
-        return;
-      }
-      if (data.url) window.location.href = data.url;
-    } catch {
-      toast.error("Erreur réseau");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   if (!isOpen) return null;
 
   return (
     <>
       {/* Overlay */}
-      <div
-        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
-        onClick={closeCart}
-      />
+      <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" onClick={closeCart} />
 
       {/* Sidebar */}
-      <div className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl">
+      <div className="fixed top-0 right-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b px-6 py-4">
-          <h2 className="text-lg font-semibold">
-            Mon panier ({items.length})
-          </h2>
+          <h2 className="text-lg font-semibold">Mon panier ({items.length})</h2>
           <Button variant="ghost" size="icon" onClick={closeCart}>
             <X className="h-5 w-5" />
           </Button>
@@ -93,7 +60,7 @@ export function CartSidebar() {
                     <div className="flex items-start justify-between gap-2">
                       <Link
                         href={`/products/${product.slug}`}
-                        className="text-sm font-medium hover:underline line-clamp-2"
+                        className="line-clamp-2 text-sm font-medium hover:underline"
                         onClick={closeCart}
                       >
                         {product.name}
@@ -141,15 +108,13 @@ export function CartSidebar() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t px-6 py-4 space-y-3">
+          <div className="space-y-3 border-t px-6 py-4">
             <div className="flex justify-between text-sm">
               <span className="text-neutral-500">Sous-total</span>
               <span className="font-semibold">{formatPrice(subtotal)}</span>
             </div>
-            <p className="text-xs text-neutral-400">
-              Livraison calculée au moment du paiement
-            </p>
-            <Button className="w-full" onClick={handleCheckout} disabled={loading}>
+            <p className="text-xs text-neutral-400">Livraison calculée au moment du paiement</p>
+            <Button className="w-full" onClick={checkout} disabled={loading}>
               {loading ? "Chargement..." : "Payer maintenant"}
             </Button>
             <Button variant="outline" className="w-full" asChild>

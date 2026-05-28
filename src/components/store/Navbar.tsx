@@ -45,34 +45,39 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-sm"
+          ? "bg-white/95 shadow-sm backdrop-blur-sm"
           : "bg-gradient-to-b from-black/40 to-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 lg:h-20">
-
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:h-20">
         {/* Logo */}
         <Link href="/" className="flex flex-col leading-none">
-          <span className={`text-[9px] tracking-[0.25em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}>
+          <span
+            className={`text-[9px] tracking-[0.25em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}
+          >
             Domaine
           </span>
-          <span className={`font-serif text-lg transition-colors ${isTop ? "text-white" : "text-stone-900"}`}>
+          <span
+            className={`font-serif text-lg transition-colors ${isTop ? "text-white" : "text-stone-900"}`}
+          >
             Test
           </span>
-          <span className={`text-[9px] tracking-[0.3em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}>
+          <span
+            className={`text-[9px] tracking-[0.3em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}
+          >
             Chinon
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden items-center gap-8 lg:flex">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
+              className={`text-[11px] tracking-[0.2em] uppercase transition-colors ${
                 isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
               }`}
             >
@@ -83,19 +88,20 @@ export default function Navbar() {
 
         {/* Right */}
         <div className="flex items-center gap-3">
-
           {/* User */}
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className={`p-1 cursor-pointer transition-colors ${isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"}`}>
+                <button
+                  className={`cursor-pointer p-1 transition-colors ${isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"}`}
+                >
                   <User className="h-5 w-5" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <div className="px-3 py-2 text-sm">
                   <p className="font-medium">{session.user.name}</p>
-                  <p className="text-neutral-400 text-xs">{session.user.email}</p>
+                  <p className="text-xs text-neutral-400">{session.user.email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -121,7 +127,7 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => openAuthModal("login")}
-              className={`text-[11px] uppercase tracking-[0.2em] transition-colors cursor-pointer ${
+              className={`cursor-pointer text-[11px] tracking-[0.2em] uppercase transition-colors ${
                 isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
               }`}
             >
@@ -132,7 +138,7 @@ export default function Navbar() {
           {/* Cart */}
           <button
             onClick={openCart}
-            className={`relative p-1 cursor-pointer transition-colors ${
+            className={`relative cursor-pointer p-1 transition-colors ${
               isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
             }`}
           >
@@ -146,7 +152,7 @@ export default function Navbar() {
 
           {/* Burger */}
           <button
-            className={`lg:hidden p-1 cursor-pointer transition-colors ${
+            className={`cursor-pointer p-1 transition-colors lg:hidden ${
               isTop ? "text-white/80 hover:text-white" : "text-stone-700 hover:text-stone-900"
             }`}
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -158,21 +164,24 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t px-6 py-6 space-y-5">
+        <div className="space-y-5 border-t bg-white px-6 py-6 lg:hidden">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm uppercase tracking-[0.15em] text-stone-700 hover:text-stone-900"
+              className="block text-sm tracking-[0.15em] text-stone-700 uppercase hover:text-stone-900"
             >
               {item.label}
             </Link>
           ))}
           {!session && (
             <button
-              onClick={() => { setMobileOpen(false); openAuthModal("login"); }}
-              className="block text-sm uppercase tracking-[0.15em] text-amber-700 hover:text-amber-800 font-medium"
+              onClick={() => {
+                setMobileOpen(false);
+                openAuthModal("login");
+              }}
+              className="block text-sm font-medium tracking-[0.15em] text-amber-700 uppercase hover:text-amber-800"
             >
               Connexion / Inscription
             </button>

@@ -198,7 +198,8 @@ export async function sendCampaign(
 
     const campaign = await db.newsletterCampaign.findUnique({ where: { id: campaignId } });
     if (!campaign) return { success: false, error: "Campagne introuvable." };
-    if (campaign.status === "SENT") return { success: false, error: "Cette campagne a déjà été envoyée." };
+    if (campaign.status === "SENT")
+      return { success: false, error: "Cette campagne a déjà été envoyée." };
 
     const subscribers = await db.newsletterSubscriber.findMany({
       where: { active: true, confirmedAt: { not: null } },

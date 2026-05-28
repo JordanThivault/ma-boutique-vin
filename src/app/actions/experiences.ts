@@ -36,7 +36,10 @@ export interface ExperiencePayload {
 }
 
 function parseIncludes(raw: string): string[] {
-  return raw.split("\n").map((line) => line.trim()).filter(Boolean);
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 export async function createExperience(data: ExperiencePayload) {

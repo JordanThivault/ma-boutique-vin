@@ -37,12 +37,12 @@ export default async function AdminPostsPage({ searchParams }: PageProps) {
     ...(statusFilter === "published"
       ? { published: true }
       : statusFilter === "draft"
-      ? { published: false }
-      : {}),
+        ? { published: false }
+        : {}),
     ...(search
       ? {
           OR: [
-            { title:    { contains: search, mode: "insensitive" as const } },
+            { title: { contains: search, mode: "insensitive" as const } },
             { category: { contains: search, mode: "insensitive" as const } },
           ],
         }
@@ -83,14 +83,14 @@ export default async function AdminPostsPage({ searchParams }: PageProps) {
       {/* Filters */}
       <form method="GET" className="mt-6 flex flex-wrap items-center gap-3">
         {/* Search */}
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+        <div className="relative min-w-[200px] flex-1">
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
           <input
             type="text"
             name="q"
             defaultValue={search}
             placeholder="Rechercher un article…"
-            className="w-full rounded-xl border bg-white pl-9 pr-4 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900"
+            className="w-full rounded-xl border bg-white py-2 pr-4 pl-9 text-sm text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:ring-neutral-900 focus:outline-none"
           />
         </div>
 
@@ -99,7 +99,9 @@ export default async function AdminPostsPage({ searchParams }: PageProps) {
           <AdminSelect name="category" defaultValue={categoryFilter}>
             <option value="">Toutes les catégories</option>
             {categoryOptions.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </AdminSelect>
         )}
@@ -115,7 +117,7 @@ export default async function AdminPostsPage({ searchParams }: PageProps) {
 
         <button
           type="submit"
-          className="rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700 transition-colors"
+          className="rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
         >
           Filtrer
         </button>
@@ -123,7 +125,7 @@ export default async function AdminPostsPage({ searchParams }: PageProps) {
         {(search || categoryFilter || statusFilter) && (
           <a
             href="/dashboard/posts"
-            className="rounded-xl border px-4 py-2 text-sm text-neutral-500 hover:bg-neutral-50 transition-colors"
+            className="rounded-xl border px-4 py-2 text-sm text-neutral-500 transition-colors hover:bg-neutral-50"
           >
             Réinitialiser
           </a>
@@ -131,9 +133,9 @@ export default async function AdminPostsPage({ searchParams }: PageProps) {
       </form>
 
       {/* Table */}
-      <div className="mt-6 rounded-2xl border bg-white overflow-hidden">
+      <div className="mt-6 overflow-hidden rounded-2xl border bg-white">
         <table className="w-full text-sm">
-          <thead className="bg-neutral-50 border-b">
+          <thead className="border-b bg-neutral-50">
             <tr>
               {["Titre", "Catégorie", "Statut", "Date", "Actions"].map((h) => (
                 <th key={h} className="px-4 py-3 text-left font-medium text-neutral-500">

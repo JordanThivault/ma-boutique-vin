@@ -28,33 +28,29 @@ export default async function ExperiencesPage() {
           alt="Dégustation au domaine"
           fill
           priority
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
         />
 
         <div className="absolute inset-0 bg-black/50" />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-6">
-          <p className="text-xs tracking-[0.35em] uppercase text-stone-300 font-sans mb-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
+          <p className="mb-4 font-sans text-xs tracking-[0.35em] text-stone-300 uppercase">
             Expériences
           </p>
 
-          <h1 className="font-serif text-5xl lg:text-7xl font-light mb-4">
-            Vivre le domaine
-          </h1>
+          <h1 className="mb-4 font-serif text-5xl font-light lg:text-7xl">Vivre le domaine</h1>
 
-          <p className="text-stone-300 font-sans text-base tracking-wide">
+          <p className="font-sans text-base tracking-wide text-stone-300">
             Déguster, visiter, comprendre.
           </p>
         </div>
       </section>
 
       {/* Experiences */}
-      <section className="max-w-6xl mx-auto px-6 py-24">
+      <section className="mx-auto max-w-6xl px-6 py-24">
         {experiences.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="text-stone-400 font-sans">
-              Aucune expérience disponible pour le moment.
-            </p>
+          <div className="py-24 text-center">
+            <p className="font-sans text-stone-400">Aucune expérience disponible pour le moment.</p>
           </div>
         ) : (
           <div className="space-y-24">
@@ -62,62 +58,45 @@ export default async function ExperiencesPage() {
               <div
                 key={exp.id}
                 id={exp.type.toLowerCase().replace(/\s+/g, "-")}
-                className="grid lg:grid-cols-2 gap-12 items-center"
+                className="grid items-center gap-12 lg:grid-cols-2"
               >
                 {/* Image */}
-                <div
-                  className={`relative overflow-hidden ${
-                    i % 2 !== 0 ? "lg:order-2" : ""
-                  }`}
-                >
+                <div className={`relative overflow-hidden ${i % 2 !== 0 ? "lg:order-2" : ""}`}>
                   {exp.image ? (
                     <div className="relative h-[420px] w-full overflow-hidden">
-                      <Image
-                        src={exp.image}
-                        alt={exp.title}
-                        fill
-                        className="object-cover"
-                      />
+                      <Image src={exp.image} alt={exp.title} fill className="object-cover" />
                     </div>
                   ) : (
-                    <div className="h-[420px] w-full bg-stone-100 flex items-center justify-center">
-                      <span className="text-stone-300 text-sm font-sans">
-                        Aucune image
-                      </span>
+                    <div className="flex h-[420px] w-full items-center justify-center bg-stone-100">
+                      <span className="font-sans text-sm text-stone-300">Aucune image</span>
                     </div>
                   )}
                 </div>
 
                 {/* Content */}
                 <div className={i % 2 !== 0 ? "lg:order-1" : ""}>
-                  <p className="text-xs tracking-[0.35em] uppercase text-amber-700 font-sans mb-3">
+                  <p className="mb-3 font-sans text-xs tracking-[0.35em] text-amber-700 uppercase">
                     {exp.type}
                   </p>
 
-                  <h2 className="font-serif text-3xl lg:text-4xl font-light text-stone-900 mb-2">
+                  <h2 className="mb-2 font-serif text-3xl font-light text-stone-900 lg:text-4xl">
                     {exp.title}
                   </h2>
 
-                  <div className="flex gap-6 mb-5">
-                    <span className="text-sm text-stone-400 font-sans">
-                      ⏱ {exp.duration}
-                    </span>
+                  <div className="mb-5 flex gap-6">
+                    <span className="font-sans text-sm text-stone-400">⏱ {exp.duration}</span>
 
-                    <span className="text-sm text-stone-400 font-sans">
-                      💰 {exp.price}
-                    </span>
+                    <span className="font-sans text-sm text-stone-400">💰 {exp.price}</span>
                   </div>
 
-                  <p className="text-stone-500 font-sans leading-relaxed mb-6">
-                    {exp.description}
-                  </p>
+                  <p className="mb-6 font-sans leading-relaxed text-stone-500">{exp.description}</p>
 
                   {exp.includes.length > 0 && (
-                    <ul className="space-y-2 mb-8">
+                    <ul className="mb-8 space-y-2">
                       {exp.includes.map((item) => (
                         <li
                           key={item}
-                          className="flex items-center gap-2 text-sm text-stone-600 font-sans"
+                          className="flex items-center gap-2 font-sans text-sm text-stone-600"
                         >
                           <span className="text-amber-600">✓</span>
                           {item}
@@ -133,20 +112,20 @@ export default async function ExperiencesPage() {
       </section>
 
       {/* Reservation form */}
-      <section className="bg-stone-50 py-24 px-6">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-xs tracking-[0.35em] uppercase text-amber-700 font-sans mb-4">
+      <section className="bg-stone-50 px-6 py-24">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-12 text-center">
+            <p className="mb-4 font-sans text-xs tracking-[0.35em] text-amber-700 uppercase">
               Réservation
             </p>
 
-            <h2 className="font-serif text-4xl font-light text-stone-900 mb-3">
+            <h2 className="mb-3 font-serif text-4xl font-light text-stone-900">
               Réserver votre expérience
             </h2>
 
-            <p className="text-stone-500 font-sans text-sm">
-              Complétez ce formulaire et nous vous répondrons dans les 24h
-              pour confirmer votre réservation.
+            <p className="font-sans text-sm text-stone-500">
+              Complétez ce formulaire et nous vous répondrons dans les 24h pour confirmer votre
+              réservation.
             </p>
           </div>
 

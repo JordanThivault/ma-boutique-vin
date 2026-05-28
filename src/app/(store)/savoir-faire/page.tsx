@@ -20,14 +20,16 @@ const STEPS = [
     title: "Tri et pressurage",
     description:
       "Chaque récolte passe sur table de tri. Les raisins sont ensuite foulés doucement ou pressés selon les cuvées. Nous privilégions des pressions lentes, respectueuses du raisin, pour extraire le meilleur du fruit sans amertume.",
-    image: "https://images.unsplash.com/photo-1605673349582-03eb37bc7bb5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByZXNzYWdlJTIwdmlufGVufDB8fDB8fHwy",
+    image:
+      "https://images.unsplash.com/photo-1605673349582-03eb37bc7bb5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByZXNzYWdlJTIwdmlufGVufDB8fDB8fHwy",
   },
   {
     number: "03",
     title: "Vinification en cuves",
     description:
       "Les fermentations se déroulent en cuves béton thermorégulées, à des températures maîtrisées. Nous pratiquons des remontages doux et des délestages ponctuels pour structurer les tanins sans les durcir.",
-    image: "https://images.unsplash.com/photo-1605673393348-ea896a63541f?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1605673393348-ea896a63541f?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     number: "04",
@@ -47,27 +49,25 @@ export default function SavoirFairePage() {
           src="https://images.unsplash.com/photo-1504279577054-acfeccf8fc52?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Cave à vins"
           fill
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-black/55" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-6">
-          <p className="text-xs tracking-[0.35em] uppercase text-stone-300 font-sans mb-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
+          <p className="mb-4 font-sans text-xs tracking-[0.35em] text-stone-300 uppercase">
             Savoir-faire
           </p>
-          <h1 className="font-serif text-5xl lg:text-7xl font-light">
+          <h1 className="font-serif text-5xl font-light lg:text-7xl">
             De la vigne
-            <br />
-            à la bouteille
+            <br />à la bouteille
           </h1>
         </div>
       </section>
 
       {/* Intro */}
-      <section className="max-w-3xl mx-auto px-6 py-20 text-center">
-        <p className="font-serif text-xl lg:text-2xl font-light text-stone-600 leading-relaxed">
-          Ici, rien n est laissé au hasard. Chaque geste, de la taille des
-          vignes à la mise en bouteille, est pensé pour révéler ce que le
-          terroir a de plus précieux à offrir.
+      <section className="mx-auto max-w-3xl px-6 py-20 text-center">
+        <p className="font-serif text-xl leading-relaxed font-light text-stone-600 lg:text-2xl">
+          Ici, rien n est laissé au hasard. Chaque geste, de la taille des vignes à la mise en
+          bouteille, est pensé pour révéler ce que le terroir a de plus précieux à offrir.
         </p>
       </section>
 
@@ -75,20 +75,13 @@ export default function SavoirFairePage() {
       {STEPS.map((step, i) => (
         <section
           key={step.number}
-          className={`grid lg:grid-cols-2 min-h-[480px] ${i % 2 === 0 ? "" : ""}`}
+          className={`grid min-h-[480px] lg:grid-cols-2 ${i % 2 === 0 ? "" : ""}`}
         >
           {/* Image */}
           <div
-            className={`relative overflow-hidden min-h-[320px] ${
-              i % 2 !== 0 ? "lg:order-2" : ""
-            }`}
+            className={`relative min-h-[320px] overflow-hidden ${i % 2 !== 0 ? "lg:order-2" : ""}`}
           >
-            <Image
-              src={step.image}
-              alt={step.title}
-              fill
-              className="w-full h-full object-cover"
-            />
+            <Image src={step.image} alt={step.title} fill className="h-full w-full object-cover" />
           </div>
 
           {/* Text */}
@@ -99,14 +92,14 @@ export default function SavoirFairePage() {
           >
             <div className="max-w-md">
               <span
-                className={`font-serif text-6xl font-light mb-4 block ${
+                className={`mb-4 block font-serif text-6xl font-light ${
                   i % 2 === 0 ? "text-stone-200" : "text-stone-700"
                 }`}
               >
                 {step.number}
               </span>
               <h2
-                className={`font-serif text-3xl lg:text-4xl font-light mb-6 ${
+                className={`mb-6 font-serif text-3xl font-light lg:text-4xl ${
                   i % 2 === 0 ? "text-stone-900" : "text-white"
                 }`}
               >
@@ -126,13 +119,12 @@ export default function SavoirFairePage() {
 
       {/* Philosophy quote */}
       <section className="bg-amber-50 px-6 py-20 text-center">
-        <blockquote className="max-w-2xl mx-auto">
-          <p className="font-serif text-2xl lg:text-3xl font-light text-stone-800 italic leading-relaxed mb-6">
-            Un vin ne s invente pas. Il se révèle, année après année,
-            millésime après millésime, au fil des saisons et du soin apporté
-            à chaque vigne.
+        <blockquote className="mx-auto max-w-2xl">
+          <p className="mb-6 font-serif text-2xl leading-relaxed font-light text-stone-800 italic lg:text-3xl">
+            Un vin ne s invente pas. Il se révèle, année après année, millésime après millésime, au
+            fil des saisons et du soin apporté à chaque vigne.
           </p>
-          <cite className="text-sm tracking-[0.2em] uppercase text-amber-700 font-sans not-italic">
+          <cite className="font-sans text-sm tracking-[0.2em] text-amber-700 uppercase not-italic">
             Marie Mercier, vigneronne
           </cite>
         </blockquote>

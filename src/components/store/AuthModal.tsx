@@ -96,41 +96,54 @@ export function AuthModal() {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header décoratif */}
-          <div className="bg-stone-900 px-8 pt-8 pb-6 relative overflow-hidden">
+          <div className="relative overflow-hidden bg-stone-900 px-8 pt-8 pb-6">
             <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-0 right-0 w-64 h-64 rounded-full border border-white translate-x-20 -translate-y-20" />
-              <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full border border-white -translate-x-10 translate-y-10" />
+              <div className="absolute top-0 right-0 h-64 w-64 translate-x-20 -translate-y-20 rounded-full border border-white" />
+              <div className="absolute bottom-0 left-0 h-40 w-40 -translate-x-10 translate-y-10 rounded-full border border-white" />
             </div>
 
-            <div className="flex flex-col leading-none mb-6">
-              <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-stone-400">Domaine</span>
+            <div className="mb-6 flex flex-col leading-none">
+              <span className="font-sans text-[9px] tracking-[0.3em] text-stone-400 uppercase">
+                Domaine
+              </span>
               <span className="font-serif text-xl text-white">Test</span>
-              <span className="font-sans text-[9px] tracking-[0.35em] uppercase text-stone-400">Chinon</span>
+              <span className="font-sans text-[9px] tracking-[0.35em] text-stone-400 uppercase">
+                Chinon
+              </span>
             </div>
 
             <div>
-              <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-amber-500 mb-1">{sub}</p>
+              <p className="mb-1 font-sans text-[10px] tracking-[0.3em] text-amber-500 uppercase">
+                {sub}
+              </p>
               <h2 className="font-serif text-3xl font-light text-white">{heading}</h2>
             </div>
 
-            <button onClick={close} className="absolute top-4 right-4 text-stone-400 hover:text-white transition-colors p-1">
+            <button
+              onClick={close}
+              className="absolute top-4 right-4 p-1 text-stone-400 transition-colors hover:text-white"
+            >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* Corps */}
           <div className="px-8 py-7">
-
             {view === "login" && (
               <form onSubmit={handleLogin} className="space-y-4">
                 <Field label="Email" name="email" type="email" placeholder="vous@exemple.fr" />
-                <Field label="Mot de passe" name="password" type="password" placeholder="••••••••" />
+                <Field
+                  label="Mot de passe"
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                />
 
                 <div className="flex justify-end">
                   <button
                     type="button"
                     onClick={() => setView("reset-password")}
-                    className="text-xs text-stone-400 hover:text-amber-700 transition-colors font-sans"
+                    className="font-sans text-xs text-stone-400 transition-colors hover:text-amber-700"
                   >
                     Mot de passe oublié ?
                   </button>
@@ -140,9 +153,13 @@ export function AuthModal() {
                 <Divider />
                 <GoogleButton loading={googleLoading} onClick={handleGoogle} />
 
-                <p className="text-center text-xs text-stone-400 font-sans pt-1">
+                <p className="pt-1 text-center font-sans text-xs text-stone-400">
                   Pas encore de compte ?{" "}
-                  <button type="button" onClick={() => setView("register")} className="text-amber-700 hover:text-amber-800 font-medium transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => setView("register")}
+                    className="font-medium text-amber-700 transition-colors hover:text-amber-800"
+                  >
                     Créer un compte
                   </button>
                 </p>
@@ -153,15 +170,25 @@ export function AuthModal() {
               <form onSubmit={handleRegister} className="space-y-4">
                 <Field label="Prénom et nom" name="name" type="text" placeholder="Jean Dupont" />
                 <Field label="Email" name="email" type="email" placeholder="vous@exemple.fr" />
-                <Field label="Mot de passe" name="password" type="password" placeholder="Minimum 8 caractères" minLength={8} />
+                <Field
+                  label="Mot de passe"
+                  name="password"
+                  type="password"
+                  placeholder="Minimum 8 caractères"
+                  minLength={8}
+                />
 
                 <SubmitButton loading={loading}>Créer mon compte</SubmitButton>
                 <Divider />
                 <GoogleButton loading={googleLoading} onClick={handleGoogle} />
 
-                <p className="text-center text-xs text-stone-400 font-sans pt-1">
+                <p className="pt-1 text-center font-sans text-xs text-stone-400">
                   Déjà un compte ?{" "}
-                  <button type="button" onClick={() => setView("login")} className="text-amber-700 hover:text-amber-800 font-medium transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => setView("login")}
+                    className="font-medium text-amber-700 transition-colors hover:text-amber-800"
+                  >
                     Se connecter
                   </button>
                 </p>
@@ -171,26 +198,37 @@ export function AuthModal() {
             {view === "reset-password" && (
               <>
                 {resetSent ? (
-                  <div className="text-center py-4 space-y-3">
-                    <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
+                  <div className="space-y-3 py-4 text-center">
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
                       <Wine className="h-5 w-5 text-amber-700" />
                     </div>
                     <p className="font-serif text-lg text-stone-900">Email envoyé</p>
-                    <p className="text-sm text-stone-500 font-sans">Vérifiez votre boîte mail et cliquez sur le lien reçu.</p>
+                    <p className="font-sans text-sm text-stone-500">
+                      Vérifiez votre boîte mail et cliquez sur le lien reçu.
+                    </p>
                     <button
-                      onClick={() => { setResetSent(false); setView("login"); }}
-                      className="text-xs text-amber-700 hover:text-amber-800 font-sans font-medium transition-colors"
+                      onClick={() => {
+                        setResetSent(false);
+                        setView("login");
+                      }}
+                      className="font-sans text-xs font-medium text-amber-700 transition-colors hover:text-amber-800"
                     >
                       ← Retour à la connexion
                     </button>
                   </div>
                 ) : (
                   <form onSubmit={handleReset} className="space-y-4">
-                    <p className="text-sm text-stone-500 font-sans">Entrez votre email, nous vous enverrons un lien de réinitialisation.</p>
+                    <p className="font-sans text-sm text-stone-500">
+                      Entrez votre email, nous vous enverrons un lien de réinitialisation.
+                    </p>
                     <Field label="Email" name="email" type="email" placeholder="vous@exemple.fr" />
                     <SubmitButton loading={loading}>Envoyer le lien</SubmitButton>
-                    <p className="text-center text-xs text-stone-400 font-sans">
-                      <button type="button" onClick={() => setView("login")} className="text-amber-700 hover:text-amber-800 font-medium transition-colors">
+                    <p className="text-center font-sans text-xs text-stone-400">
+                      <button
+                        type="button"
+                        onClick={() => setView("login")}
+                        className="font-medium text-amber-700 transition-colors hover:text-amber-800"
+                      >
                         ← Retour à la connexion
                       </button>
                     </p>
@@ -201,7 +239,7 @@ export function AuthModal() {
           </div>
 
           <div className="px-8 pb-5">
-            <p className="text-center text-[10px] text-stone-300 font-sans">
+            <p className="text-center font-sans text-[10px] text-stone-300">
               L&apos;abus d&apos;alcool est dangereux pour la santé. À consommer avec modération.
             </p>
           </div>
@@ -231,7 +269,7 @@ function Field({
 
   return (
     <div>
-      <label className="block text-[10px] tracking-[0.2em] uppercase text-stone-500 font-sans mb-1.5">
+      <label className="mb-1.5 block font-sans text-[10px] tracking-[0.2em] text-stone-500 uppercase">
         {label}
       </label>
       <div className="relative">
@@ -241,14 +279,14 @@ function Field({
           placeholder={placeholder}
           required
           minLength={minLength}
-          className="w-full border border-stone-200 bg-white px-4 py-2.5 text-sm font-sans text-stone-800 placeholder-stone-300 focus:outline-none focus:border-stone-400 rounded-lg transition-colors pr-10"
+          className="w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 pr-10 font-sans text-sm text-stone-800 placeholder-stone-300 transition-colors focus:border-stone-400 focus:outline-none"
         />
         {isPassword && (
           <button
             type="button"
             tabIndex={-1}
             onClick={() => setShow((v) => !v)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-300 hover:text-stone-500 transition-colors"
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-stone-300 transition-colors hover:text-stone-500"
             aria-label={show ? "Masquer" : "Afficher"}
           >
             {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -264,7 +302,7 @@ function SubmitButton({ loading, children }: { loading: boolean; children: React
     <button
       type="submit"
       disabled={loading}
-      className="w-full bg-stone-900 text-white py-3 text-[11px] tracking-[0.25em] uppercase font-sans hover:bg-stone-700 transition-colors disabled:opacity-50 rounded-lg flex items-center justify-center gap-2 mt-2"
+      className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-stone-900 py-3 font-sans text-[11px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-stone-700 disabled:opacity-50"
     >
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : children}
     </button>
@@ -278,7 +316,9 @@ function Divider() {
         <div className="w-full border-t border-stone-200" />
       </div>
       <div className="relative flex justify-center">
-        <span className="bg-stone-50 px-3 text-[10px] text-stone-300 uppercase tracking-widest font-sans">ou</span>
+        <span className="bg-stone-50 px-3 font-sans text-[10px] tracking-widest text-stone-300 uppercase">
+          ou
+        </span>
       </div>
     </div>
   );
@@ -290,16 +330,28 @@ function GoogleButton({ loading, onClick }: { loading: boolean; onClick: () => v
       type="button"
       onClick={onClick}
       disabled={loading}
-      className="w-full border border-stone-200 bg-white text-stone-700 py-2.5 text-sm font-sans hover:bg-stone-50 transition-colors disabled:opacity-50 rounded-lg flex items-center justify-center gap-3"
+      className="flex w-full items-center justify-center gap-3 rounded-lg border border-stone-200 bg-white py-2.5 font-sans text-sm text-stone-700 transition-colors hover:bg-stone-50 disabled:opacity-50"
     >
       {loading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
         <svg className="h-4 w-4" viewBox="0 0 24 24">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+          <path
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            fill="#4285F4"
+          />
+          <path
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            fill="#34A853"
+          />
+          <path
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            fill="#FBBC05"
+          />
+          <path
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            fill="#EA4335"
+          />
         </svg>
       )}
       Continuer avec Google

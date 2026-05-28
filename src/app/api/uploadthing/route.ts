@@ -1,6 +1,6 @@
 // src/app/api/uploadthing/route.ts
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { createRouteHandler } from "uploadthing/next"; 
+import { createRouteHandler } from "uploadthing/next";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 

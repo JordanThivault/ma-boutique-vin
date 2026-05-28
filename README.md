@@ -6,17 +6,17 @@ Boutique en ligne pour un domaine viticole (Chinon). Vente de vins et produits a
 
 ## Stack
 
-| Couche | Technologie |
-|---|---|
-| Framework | Next.js 15 (App Router + Server Actions) |
-| UI | shadcn/ui + Tailwind CSS v4 |
-| ORM | Prisma 6 → PostgreSQL (Neon) |
-| Auth | Better Auth — email/password + Google OAuth |
-| Paiement | Stripe Checkout Session + Webhooks |
-| Panier | Zustand (persistant localStorage) |
-| Upload | UploadThing |
-| Emails | Resend |
-| Déploiement | Vercel |
+| Couche      | Technologie                                 |
+| ----------- | ------------------------------------------- |
+| Framework   | Next.js 15 (App Router + Server Actions)    |
+| UI          | shadcn/ui + Tailwind CSS v4                 |
+| ORM         | Prisma 6 → PostgreSQL (Neon)                |
+| Auth        | Better Auth — email/password + Google OAuth |
+| Paiement    | Stripe Checkout Session + Webhooks          |
+| Panier      | Zustand (persistant localStorage)           |
+| Upload      | UploadThing                                 |
+| Emails      | Resend                                      |
+| Déploiement | Vercel                                      |
 
 ---
 
@@ -139,6 +139,7 @@ Reservation · Experience                  ← Expériences domaine
 ## Fonctionnalités
 
 ### Boutique publique
+
 - Page d'accueil avec hero, produits vedettes et sections éditoriales
 - Catalogue produits avec filtres catégories et recherche
 - Fiche produit avec galerie et gestion du stock
@@ -147,12 +148,14 @@ Reservation · Experience                  ← Expériences domaine
 - Modal de vérification d'âge (alcool)
 
 ### Pages éditoriales
+
 - `/domaine` — histoire, terroir, engagements environnementaux
 - `/savoir-faire` — étapes de vinification (vendanges → mise en bouteille)
 - `/experiences` — visites, dégustations, événements + formulaire de réservation
 - `/journal` — blog avec articles par catégories
 
 ### Auth
+
 - Inscription / Connexion email + mot de passe
 - OAuth Google
 - Sessions sécurisées (Better Auth)
@@ -160,6 +163,7 @@ Reservation · Experience                  ← Expériences domaine
 - Espace client : historique commandes + profil
 
 ### Dashboard Admin
+
 - Vue d'ensemble avec stats et dernières commandes
 - CRUD produits (images via UploadThing, catégories, stock, prix barré)
 - Gestion commandes avec changement de statut
@@ -169,6 +173,7 @@ Reservation · Experience                  ← Expériences domaine
 - Newsletter : abonnés actifs + campagnes (DRAFT → SENT via Resend)
 
 ### Paiement & Emails
+
 - Stripe Checkout Session (mode hosted)
 - Webhooks pour validation automatique des commandes
 - Emails transactionnels via Resend (confirmation commande, réservation, newsletter)

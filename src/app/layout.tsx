@@ -24,8 +24,7 @@ export const metadata: Metadata = {
     default: "Domaine Test — Chinon, Val de Loire",
     template: "%s — Domaine Test",
   },
-  description:
-    "Vins de caractère issus du terroir de Chinon.",
+  description: "Vins de caractère issus du terroir de Chinon.",
 };
 
 export default function RootLayout({
@@ -34,19 +33,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="fr"
-      className={`${cormorant.variable} ${jost.variable}`}
-    >
-      <body className="font-sans antialiased bg-white text-stone-900 ">
+    <html lang="fr" className={`${cormorant.variable} ${jost.variable}`}>
+      <body className="bg-white font-sans text-stone-900 antialiased">
         {children}
 
-        <Toaster
-          position="top-right"
-          richColors
-          closeButton
-          duration={3000}
-        />
+        <Toaster position="top-right" richColors closeButton duration={3000} />
       </body>
     </html>
   );

@@ -31,11 +31,11 @@ export default async function ReservationsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Réservations</h1>
         <div className="flex items-center gap-3">
           {pending > 0 && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+            <span className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
               {pending} en attente
             </span>
           )}
@@ -43,24 +43,38 @@ export default async function ReservationsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Expérience</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Date souhaitée</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Reçu le</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Nom
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Contact
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Expérience
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Date souhaitée
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Statut
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Actions
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  Reçu le
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {reservations.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-gray-400">
+                  <td colSpan={7} className="py-12 text-center text-gray-400">
                     Aucune réservation pour le moment.
                   </td>
                 </tr>
@@ -70,19 +84,24 @@ export default async function ReservationsPage() {
                   <td className="px-6 py-4 font-medium text-gray-900">{res.nom}</td>
                   <td className="px-6 py-4">
                     <div className="text-gray-600">{res.email}</div>
-                    {res.telephone && <div className="text-gray-400 text-xs">{res.telephone}</div>}
+                    {res.telephone && <div className="text-xs text-gray-400">{res.telephone}</div>}
                   </td>
                   <td className="px-6 py-4 text-gray-600">
                     {EXPERIENCE_LABELS[res.experience] ?? res.experience}
                     {res.message && (
-                      <p className="text-xs text-gray-400 mt-0.5 max-w-[180px] truncate" title={res.message}>
+                      <p
+                        className="mt-0.5 max-w-[180px] truncate text-xs text-gray-400"
+                        title={res.message}
+                      >
                         {res.message}
                       </p>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-gray-700 font-medium">{formatDate(res.date)}</td>
+                  <td className="px-6 py-4 font-medium text-gray-700">{formatDate(res.date)}</td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[res.status]}`}>
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[res.status]}`}
+                    >
                       {STATUS_LABELS[res.status]}
                     </span>
                   </td>
@@ -92,7 +111,7 @@ export default async function ReservationsPage() {
                       currentStatus={res.status as "PENDING" | "CONFIRMED" | "CANCELLED"}
                     />
                   </td>
-                  <td className="px-6 py-4 text-gray-400 text-xs whitespace-nowrap">
+                  <td className="px-6 py-4 text-xs whitespace-nowrap text-gray-400">
                     {formatDate(res.createdAt)}
                   </td>
                 </tr>

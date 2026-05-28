@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**.supabase.co" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "picsum.photos" },
-      { protocol: "https", hostname: "utfs.io" },        // ✅ Uploadthing
-      { protocol: "https", hostname: "**.ufs.sh" },      // ✅ Uploadthing
+      { protocol: "https", hostname: "utfs.io" }, // ✅ Uploadthing
+      { protocol: "https", hostname: "**.ufs.sh" }, // ✅ Uploadthing
     ],
   },
 };

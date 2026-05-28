@@ -18,40 +18,37 @@ const ITEMS = [
 
 export default function SavoirFaireSection() {
   return (
-    <section className="grid lg:grid-cols-2 min-h-[600px]">
+    <section className="grid min-h-[600px] lg:grid-cols-2">
       {/* Text — dark */}
-      <div className="flex items-center bg-stone-900 px-12 py-20 lg:px-20 order-2 lg:order-1">
+      <div className="order-2 flex items-center bg-stone-900 px-12 py-20 lg:order-1 lg:px-20">
         <div className="max-w-md">
-          <p className="text-xs tracking-[0.35em] uppercase text-amber-500 font-sans mb-5">
+          <p className="mb-5 font-sans text-xs tracking-[0.35em] text-amber-500 uppercase">
             Savoir-faire
           </p>
-          <h2 className="font-serif text-4xl lg:text-5xl font-light text-white leading-tight mb-6">
+          <h2 className="mb-6 font-serif text-4xl leading-tight font-light text-white lg:text-5xl">
             Le savoir-faire
             <br />
             du domaine
           </h2>
-          <p className="text-stone-400 font-sans leading-relaxed text-base mb-10">
-            De la vigne à la bouteille, chaque étape est guidée par une exigence
-            de précision et de respect du fruit. Nos méthodes ancestrales,
-            transmises de génération en génération, donnent naissance à des
-            vins qui reflètent fidèlement notre terroir.
+          <p className="mb-10 font-sans text-base leading-relaxed text-stone-400">
+            De la vigne à la bouteille, chaque étape est guidée par une exigence de précision et de
+            respect du fruit. Nos méthodes ancestrales, transmises de génération en génération,
+            donnent naissance à des vins qui reflètent fidèlement notre terroir.
           </p>
 
           {/* Features */}
-          <ul className="space-y-4 mb-10">
+          <ul className="mb-10 space-y-4">
             {ITEMS.map((item) => (
               <li key={item.label} className="flex items-center gap-3">
                 <span className="text-base">{item.icon}</span>
-                <span className="text-sm font-sans text-stone-300 tracking-wide">
-                  {item.label}
-                </span>
+                <span className="font-sans text-sm tracking-wide text-stone-300">{item.label}</span>
               </li>
             ))}
           </ul>
 
           <Link
             href="/savoir-faire"
-            className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase font-sans text-amber-500 hover:gap-4 transition-all duration-300"
+            className="inline-flex items-center gap-2 font-sans text-sm tracking-[0.15em] text-amber-500 uppercase transition-all duration-300 hover:gap-4"
           >
             Notre philosophie
             <span className="text-base">→</span>
@@ -60,12 +57,12 @@ export default function SavoirFaireSection() {
       </div>
 
       {/* Image */}
-      <div className="relative overflow-hidden min-h-[400px] lg:min-h-0 order-1 lg:order-2">
+      <div className="relative order-1 min-h-[400px] overflow-hidden lg:order-2 lg:min-h-0">
         <Image
           src="https://images.unsplash.com/photo-1566467021572-37fbefe8fcb2?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Cave à vins du domaine"
           fill
-          className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+          className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
         />
       </div>
     </section>

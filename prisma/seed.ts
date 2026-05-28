@@ -56,8 +56,7 @@ async function main() {
       name: "Vins",
       slug: "vins",
       description: "Sélection de vins de Chinon",
-      image:
-        "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
+      image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
     },
   });
 
@@ -66,8 +65,7 @@ async function main() {
       name: "Condiments",
       slug: "condiments",
       description: "Produits artisanaux à base de vin",
-      image:
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
     },
   });
 
@@ -79,17 +77,14 @@ async function main() {
     data: {
       name: "Chinon Rouge 2020",
       slug: "chinon-rouge-2020",
-      description:
-        "Vin rouge élégant aux notes de fruits noirs et d'épices.",
+      description: "Vin rouge élégant aux notes de fruits noirs et d'épices.",
       price: 1890,
       comparePrice: 2290,
       stock: 24,
       sku: "VIN-CHINON-2020",
       weight: 1200,
       featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea",
-      ],
+      images: ["https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea"],
       categoryId: vins.id,
     },
   });
@@ -98,16 +93,13 @@ async function main() {
     data: {
       name: "Chinon Vieilles Vignes 2018",
       slug: "chinon-vieilles-vignes-2018",
-      description:
-        "Vieilles vignes de Chinon avec une belle structure tannique.",
+      description: "Vieilles vignes de Chinon avec une belle structure tannique.",
       price: 2990,
       stock: 12,
       sku: "VIN-VV-2018",
       weight: 1200,
       featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1569919659476-f0852f6834b7",
-      ],
+      images: ["https://images.unsplash.com/photo-1569919659476-f0852f6834b7"],
       categoryId: vins.id,
     },
   });
@@ -116,15 +108,12 @@ async function main() {
     data: {
       name: "Rosé de Chinon 2022",
       slug: "rose-chinon-2022",
-      description:
-        "Rosé frais et fruité idéal pour les repas estivaux.",
+      description: "Rosé frais et fruité idéal pour les repas estivaux.",
       price: 1490,
       stock: 30,
       sku: "ROSE-2022",
       weight: 1200,
-      images: [
-        "https://images.unsplash.com/photo-1558001373-7b93ee48ffa0",
-      ],
+      images: ["https://images.unsplash.com/photo-1558001373-7b93ee48ffa0"],
       categoryId: vins.id,
     },
   });
@@ -133,17 +122,14 @@ async function main() {
     data: {
       name: "Coffret Découverte Chinon",
       slug: "coffret-decouverte-chinon",
-      description:
-        "Coffret de 3 bouteilles emblématiques du domaine.",
+      description: "Coffret de 3 bouteilles emblématiques du domaine.",
       price: 5490,
       comparePrice: 6290,
       stock: 8,
       sku: "COFFRET-001",
       weight: 4200,
       featured: true,
-      images: [
-        "https://images.unsplash.com/photo-1609951651556-5334e2706168",
-      ],
+      images: ["https://images.unsplash.com/photo-1609951651556-5334e2706168"],
       categoryId: vins.id,
     },
   });
@@ -152,15 +138,12 @@ async function main() {
     data: {
       name: "Sel au Vin Rouge",
       slug: "sel-vin-rouge",
-      description:
-        "Sel artisanal infusé au vin rouge de Chinon.",
+      description: "Sel artisanal infusé au vin rouge de Chinon.",
       price: 690,
       stock: 40,
       sku: "SEL-001",
       weight: 200,
-      images: [
-        "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f",
-      ],
+      images: ["https://images.unsplash.com/photo-1515003197210-e0cd71810b5f"],
       categoryId: condiments.id,
     },
   });
@@ -169,15 +152,12 @@ async function main() {
     data: {
       name: "Confiture de Vin",
       slug: "confiture-vin",
-      description:
-        "Confiture artisanale au vin rouge parfaite avec le fromage.",
+      description: "Confiture artisanale au vin rouge parfaite avec le fromage.",
       price: 890,
       stock: 18,
       sku: "CONF-001",
       weight: 250,
-      images: [
-        "https://images.unsplash.com/photo-1571115764595-644a1f56a55c",
-      ],
+      images: ["https://images.unsplash.com/photo-1571115764595-644a1f56a55c"],
       categoryId: condiments.id,
     },
   });

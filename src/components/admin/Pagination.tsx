@@ -69,7 +69,10 @@ export function Pagination({ totalPages, currentPage }: PaginationProps) {
         {/* Pages */}
         {pages.map((p, i) =>
           p === "…" ? (
-            <span key={`ellipsis-${i}`} className="flex h-8 w-8 items-center justify-center text-sm text-neutral-400">
+            <span
+              key={`ellipsis-${i}`}
+              className="flex h-8 w-8 items-center justify-center text-sm text-neutral-400"
+            >
               …
             </span>
           ) : (

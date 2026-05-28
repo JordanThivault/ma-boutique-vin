@@ -18,7 +18,6 @@ import {
 
 import { Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 export default function DeleteCampaignButton({
   campaignId,
@@ -29,7 +28,6 @@ export default function DeleteCampaignButton({
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   async function handleDelete() {
     if (isSent) {
@@ -87,24 +85,12 @@ export default function DeleteCampaignButton({
         </DialogHeader>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-            disabled={loading}
-          >
+          <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
             Annuler
           </Button>
 
-          <Button
-            variant="destructive"
-            onClick={handleDelete}
-            disabled={loading || isSent}
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Supprimer"
-            )}
+          <Button variant="destructive" onClick={handleDelete} disabled={loading || isSent}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Supprimer"}
           </Button>
         </DialogFooter>
       </DialogContent>

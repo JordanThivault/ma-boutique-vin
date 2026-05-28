@@ -28,12 +28,10 @@ function SuccessContent() {
         </div>
       </div>
 
-      <h1 className="mt-8 text-3xl font-bold text-neutral-900">
-        Commande confirmée !
-      </h1>
+      <h1 className="mt-8 text-3xl font-bold text-neutral-900">Commande confirmée !</h1>
       <p className="mt-4 text-lg text-neutral-500">
-        Merci pour votre achat. Vous recevrez un email de confirmation avec les
-        détails de votre commande.
+        Merci pour votre achat. Vous recevrez un email de confirmation avec les détails de votre
+        commande.
       </p>
 
       <div className="mt-8 rounded-2xl border bg-neutral-50 p-6">
@@ -43,9 +41,7 @@ function SuccessContent() {
             <p className="font-medium text-neutral-900">
               Votre commande est en cours de traitement
             </p>
-            <p className="text-sm text-neutral-500">
-              Vous recevrez un email dès l'expédition.
-            </p>
+            <p className="text-sm text-neutral-500">Vous recevrez un email dès l'expédition.</p>
           </div>
         </div>
       </div>

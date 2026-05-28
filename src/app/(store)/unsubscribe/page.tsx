@@ -31,53 +31,61 @@ export default async function UnsubscribePage({
   );
 }
 
-function UnsubscribeResult({
-  success,
-  message,
-}: {
-  success: boolean;
-  message: string;
-}) {
+function UnsubscribeResult({ success, message }: { success: boolean; message: string }) {
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 bg-stone-50">
-      <div className="max-w-md w-full text-center py-24">
-        <p className="text-xs tracking-[0.35em] uppercase text-stone-400 font-sans mb-6">
+    <main className="flex min-h-screen items-center justify-center bg-stone-50 px-6">
+      <div className="w-full max-w-md py-24 text-center">
+        <p className="mb-6 font-sans text-xs tracking-[0.35em] text-stone-400 uppercase">
           Newsletter
         </p>
 
         {success ? (
           <>
-            <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-6 h-6 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
+            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
+              <svg
+                className="h-6 w-6 text-amber-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
-            <h1 className="font-serif text-2xl font-light text-stone-900 mb-3">
+            <h1 className="mb-3 font-serif text-2xl font-light text-stone-900">
               Désinscription confirmée
             </h1>
-            <p className="text-stone-500 font-sans text-sm leading-relaxed mb-8">
-              {message}
-            </p>
+            <p className="mb-8 font-sans text-sm leading-relaxed text-stone-500">{message}</p>
           </>
         ) : (
           <>
-            <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-6 h-6 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-stone-100">
+              <svg
+                className="h-6 w-6 text-stone-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </div>
-            <h1 className="font-serif text-2xl font-light text-stone-900 mb-3">
-              Lien invalide
-            </h1>
-            <p className="text-stone-500 font-sans text-sm leading-relaxed mb-8">
-              {message}
-            </p>
+            <h1 className="mb-3 font-serif text-2xl font-light text-stone-900">Lien invalide</h1>
+            <p className="mb-8 font-sans text-sm leading-relaxed text-stone-500">{message}</p>
           </>
         )}
 
         <Link
           href="/"
-          className="text-xs tracking-[0.2em] uppercase text-amber-700 hover:text-amber-600 font-sans transition-colors"
+          className="font-sans text-xs tracking-[0.2em] text-amber-700 uppercase transition-colors hover:text-amber-600"
         >
           ← Retour au site
         </Link>

@@ -49,10 +49,7 @@ export default function UpdateReservationStatusButton({
 
   return (
     <div className="flex items-center gap-2">
-      <Select
-        value={status}
-        onValueChange={(value) => setStatus(value as Status)}
-      >
+      <Select value={status} onValueChange={(value) => setStatus(value as Status)}>
         <SelectTrigger className="w-40">
           <SelectValue />
         </SelectTrigger>
@@ -66,16 +63,8 @@ export default function UpdateReservationStatusButton({
         </SelectContent>
       </Select>
 
-      <Button
-        size="sm"
-        onClick={handleUpdate}
-        disabled={loading || status === currentStatus}
-      >
-        {loading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          "Mettre à jour"
-        )}
+      <Button size="sm" onClick={handleUpdate} disabled={loading || status === currentStatus}>
+        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Mettre à jour"}
       </Button>
     </div>
   );

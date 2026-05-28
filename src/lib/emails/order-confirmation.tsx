@@ -93,7 +93,9 @@ export function OrderConfirmationEmail({
               </tr>
             </thead>
             <tbody>
-              ${items.map((item) => `
+              ${items
+                .map(
+                  (item) => `
                 <tr style="border-bottom:1px solid #f5f5f5;">
                   <td style="padding:12px 0;font-size:14px;color:#171717;">${item.name}</td>
                   <td style="padding:12px 0;font-size:14px;color:#525252;text-align:center;">${item.quantity}</td>
@@ -101,7 +103,9 @@ export function OrderConfirmationEmail({
                     ${formatPrice(item.price * item.quantity)}
                   </td>
                 </tr>
-              `).join("")}
+              `
+                )
+                .join("")}
             </tbody>
           </table>
 

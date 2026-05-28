@@ -19,9 +19,7 @@ export default async function AdminExperiencesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
-            Expériences
-          </h1>
+          <h1 className="text-2xl font-bold text-neutral-900">Expériences</h1>
           <p className="mt-1 text-neutral-500">
             {experiences.length} expérience
             {experiences.length !== 1 ? "s" : ""}
@@ -37,20 +35,15 @@ export default async function AdminExperiencesPage() {
       </div>
 
       {/* Table */}
-      <div className="mt-8 rounded-2xl border bg-white overflow-hidden">
+      <div className="mt-8 overflow-hidden rounded-2xl border bg-white">
         <table className="w-full text-sm">
-          <thead className="bg-neutral-50 border-b">
+          <thead className="border-b bg-neutral-50">
             <tr>
-              {["Ordre", "Titre", "Type", "Prix", "Statut", "Actions"].map(
-                (h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left font-medium text-neutral-500"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
+              {["Ordre", "Titre", "Type", "Prix", "Statut", "Actions"].map((h) => (
+                <th key={h} className="px-4 py-3 text-left font-medium text-neutral-500">
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
 
@@ -58,31 +51,21 @@ export default async function AdminExperiencesPage() {
             {experiences.map((exp) => (
               <tr key={exp.id} className="hover:bg-neutral-50">
                 {/* Ordre */}
-                <td className="px-4 py-3 text-neutral-400">
-                  {exp.order}
-                </td>
+                <td className="px-4 py-3 text-neutral-400">{exp.order}</td>
 
                 {/* Titre */}
                 <td className="px-4 py-3">
                   <div>
-                    <p className="font-medium text-neutral-900">
-                      {exp.title}
-                    </p>
-                    <p className="text-xs text-neutral-400">
-                      {exp.duration}
-                    </p>
+                    <p className="font-medium text-neutral-900">{exp.title}</p>
+                    <p className="text-xs text-neutral-400">{exp.duration}</p>
                   </div>
                 </td>
 
                 {/* Type */}
-                <td className="px-4 py-3 text-neutral-500">
-                  {exp.type}
-                </td>
+                <td className="px-4 py-3 text-neutral-500">{exp.type}</td>
 
                 {/* Prix */}
-                <td className="px-4 py-3 font-medium text-neutral-900">
-                  {exp.price}
-                </td>
+                <td className="px-4 py-3 font-medium text-neutral-900">{exp.price}</td>
 
                 {/* Statut */}
                 <td className="px-4 py-3">
@@ -109,17 +92,13 @@ export default async function AdminExperiencesPage() {
 
                     {/* Modifier */}
                     <Button variant="ghost" size="icon" asChild>
-                      <Link
-                        href={`/dashboard/experiences/${exp.id}/edit`}
-                      >
+                      <Link href={`/dashboard/experiences/${exp.id}/edit`}>
                         <Pencil className="h-4 w-4" />
                       </Link>
                     </Button>
 
                     {/* Supprimer */}
-                    <DeleteExperienceButton
-                      experienceId={exp.id}
-                    />
+                    <DeleteExperienceButton experienceId={exp.id} />
                   </div>
                 </td>
               </tr>
@@ -127,10 +106,7 @@ export default async function AdminExperiencesPage() {
 
             {experiences.length === 0 && (
               <tr>
-                <td
-                  colSpan={6}
-                  className="px-4 py-12 text-center text-neutral-400"
-                >
+                <td colSpan={6} className="px-4 py-12 text-center text-neutral-400">
                   Aucune expérience — créez-en une !
                 </td>
               </tr>

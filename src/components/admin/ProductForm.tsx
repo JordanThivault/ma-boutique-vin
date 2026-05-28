@@ -22,7 +22,7 @@ interface Category {
   name: string;
 }
 
-interface Product {
+interface ProductFormData {
   id: string;
   name: string;
   description: string;
@@ -40,7 +40,7 @@ interface Product {
 
 interface ProductFormProps {
   categories: Category[];
-  product?: Product;
+  product?: ProductFormData;
 }
 
 export function ProductForm({ categories, product }: ProductFormProps) {
@@ -81,9 +81,8 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-
       {/* ===================== INFO ===================== */}
-      <div className="rounded-2xl border bg-white p-6 space-y-4">
+      <div className="space-y-4 rounded-2xl border bg-white p-6">
         <h2 className="font-semibold text-neutral-900">Informations générales</h2>
 
         <div>
@@ -121,7 +120,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       </div>
 
       {/* ===================== PRIX ===================== */}
-      <div className="rounded-2xl border bg-white p-6 space-y-4">
+      <div className="space-y-4 rounded-2xl border bg-white p-6">
         <h2 className="font-semibold text-neutral-900">Prix & Stock</h2>
 
         <div className="grid grid-cols-2 gap-4">
@@ -164,13 +163,14 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       </div>
 
       {/* ===================== IMAGES ===================== */}
-      <div className="rounded-2xl border bg-white p-6 space-y-4">
+      <div className="space-y-4 rounded-2xl border bg-white p-6">
         <h2 className="font-semibold text-neutral-900">Images</h2>
 
         <UploadButton
           endpoint="productImage"
           appearance={{
-            button: "bg-neutral-900 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-neutral-700 ut-uploading:bg-neutral-600",
+            button:
+              "bg-neutral-900 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-neutral-700 ut-uploading:bg-neutral-600",
             allowedContent: "text-neutral-400 text-xs mt-2",
           }}
           onClientUploadComplete={(res) => {
@@ -178,15 +178,22 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             setImages((prev) => [...prev, ...urls]);
             toast.success(`${res.length} image(s) ajoutée(s)`);
           }}
-          onUploadError={(error) => { toast.error(error.message); }}
+          onUploadError={(error) => {
+            toast.error(error.message);
+          }}
         />
 
-        <div className="flex gap-2 mt-3">
+        <div className="mt-3 flex gap-2">
           <Input
             value={newImageUrl}
             onChange={(e) => setNewImageUrl(e.target.value)}
             placeholder="Coller une URL image"
-            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addImage();
+              }
+            }}
           />
           <Button type="button" variant="outline" onClick={addImage}>
             <Plus className="h-4 w-4" />
@@ -194,14 +201,17 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         </div>
 
         {images.length > 0 && (
-          <div className="grid grid-cols-3 gap-3 mt-3">
+          <div className="mt-3 grid grid-cols-3 gap-3">
             {images.map((url) => (
-              <div key={url} className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
+              <div
+                key={url}
+                className="group relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
+              >
                 <Image src={url} alt="Image produit" fill className="h-full w-full object-cover" />
                 <button
                   type="button"
                   onClick={() => removeImage(url)}
-                  className="absolute right-1 top-1 h-6 w-6 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100"
+                  className="absolute top-1 right-1 h-6 w-6 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -212,7 +222,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       </div>
 
       {/* ===================== VISIBILITÉ & OPTIONS ===================== */}
-      <div className="rounded-2xl border bg-white p-6 space-y-4">
+      <div className="space-y-4 rounded-2xl border bg-white p-6">
         <h2 className="font-semibold">Visibilité & options</h2>
 
         <label className="flex items-center gap-2">
@@ -236,7 +246,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         </label>
 
         <div className="border-t pt-4">
-          <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-3">
+          <p className="mb-3 text-xs font-medium tracking-wider text-neutral-500 uppercase">
             Alcool
           </p>
           <label className="flex items-center gap-2">
@@ -248,7 +258,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             />
             <span className="text-sm">Contient de l'alcool</span>
           </label>
-          <p className="text-xs text-neutral-400 mt-1 ml-5">
+          <p className="mt-1 ml-5 text-xs text-neutral-400">
             Décochez pour les vins sans alcool, jus de raisin, condiments sans alcool…
           </p>
         </div>
@@ -265,7 +275,11 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Sauvegarde...
             </>
-          ) : product ? "Mettre à jour" : "Créer"}
+          ) : product ? (
+            "Mettre à jour"
+          ) : (
+            "Créer"
+          )}
         </Button>
       </div>
     </form>

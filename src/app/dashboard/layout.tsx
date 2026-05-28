@@ -4,11 +4,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
-export default async function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) redirect("/login");

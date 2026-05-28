@@ -3,15 +3,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export interface CartProduct {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  slug: string;
-  stock: number;
-}
+import type { CartProduct } from "@/types/product";
 
 export interface CartItem {
   product: CartProduct;
@@ -23,7 +15,6 @@ interface CartStore {
   isOpen: boolean;
   hasHydrated: boolean;
 
-  
   // Actions
   addItem: (product: CartProduct, quantity?: number) => void;
   setHasHydrated: (state: boolean) => void;
@@ -82,9 +73,7 @@ export const useCart = create<CartStore>()(
         }
         set((state) => ({
           items: state.items.map((i) =>
-            i.product.id === productId
-              ? { ...i, quantity: Math.min(quantity, i.product.stock) }
-              : i
+            i.product.id === productId ? { ...i, quantity: Math.min(quantity, i.product.stock) } : i
           ),
         }));
       },
@@ -95,8 +84,7 @@ export const useCart = create<CartStore>()(
       toggleCart: () => set((state) => ({ isOpen: !state.isOpen })),
 
       totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
-      totalPrice: () =>
-        get().items.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+      totalPrice: () => get().items.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
     }),
     {
       name: "cart-storage",

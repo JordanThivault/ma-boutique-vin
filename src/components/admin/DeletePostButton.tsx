@@ -51,11 +51,7 @@ export default function DeletePostButton({ postId }: { postId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-neutral-400 hover:text-red-500"
-        >
+        <Button variant="ghost" size="icon" className="text-neutral-400 hover:text-red-500">
           <Trash2 className="h-4 w-4" />
         </Button>
       </DialogTrigger>
@@ -72,24 +68,12 @@ export default function DeletePostButton({ postId }: { postId: string }) {
         </DialogHeader>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-            disabled={loading}
-          >
+          <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
             Annuler
           </Button>
 
-          <Button
-            variant="destructive"
-            onClick={handleDelete}
-            disabled={loading}
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Supprimer"
-            )}
+          <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Supprimer"}
           </Button>
         </DialogFooter>
       </DialogContent>

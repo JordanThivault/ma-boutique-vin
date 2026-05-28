@@ -5,11 +5,7 @@ import { CartSidebar } from "@/components/store/CartSidebar";
 import { AuthModal } from "@/components/store/AuthModal";
 // import { AgeVerificationModal } from "@/components/store/AgeVerificationModal";
 
-export default function StoreLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       {/* <AgeVerificationModal /> */}

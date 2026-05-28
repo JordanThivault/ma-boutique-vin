@@ -2,6 +2,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { OrderStatus } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -18,7 +19,13 @@ export async function updateOrderStatus(orderId: string, status: string) {
     await requireAdmin();
 
     const validStatuses = [
-      "PENDING", "PAID", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"
+      "PENDING",
+      "PAID",
+      "PROCESSING",
+      "SHIPPED",
+      "DELIVERED",
+      "CANCELLED",
+      "REFUNDED",
     ];
 
     if (!validStatuses.includes(status)) {
@@ -27,7 +34,7 @@ export async function updateOrderStatus(orderId: string, status: string) {
 
     await db.order.update({
       where: { id: orderId },
-      data: { status: status as any },
+      data: { status: status as OrderStatus },
     });
 
     revalidatePath("/dashboard/orders");

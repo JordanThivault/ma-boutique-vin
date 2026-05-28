@@ -19,10 +19,7 @@ async function getCategories() {
 
 export default async function EditProductPage({ params }: Props) {
   const { id } = await params;
-  const [product, categories] = await Promise.all([
-    getProduct(id),
-    getCategories(),
-  ]);
+  const [product, categories] = await Promise.all([getProduct(id), getCategories()]);
 
   if (!product) notFound();
 

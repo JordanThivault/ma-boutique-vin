@@ -4,21 +4,20 @@ import { formatPrice } from "@/lib/utils";
 import { ShoppingBag, Users, Package, TrendingUp } from "lucide-react";
 
 async function getStats() {
-  const [totalOrders, totalRevenue, totalProducts, totalUsers, recentOrders] =
-    await Promise.all([
-      db.order.count({ where: { status: { not: "CANCELLED" } } }),
-      db.order.aggregate({
-        where: { status: { in: ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"] } },
-        _sum: { total: true },
-      }),
-      db.product.count({ where: { published: true } }),
-      db.user.count(),
-      db.order.findMany({
-        take: 5,
-        orderBy: { createdAt: "desc" },
-        include: { items: { include: { product: true } } },
-      }),
-    ]);
+  const [totalOrders, totalRevenue, totalProducts, totalUsers, recentOrders] = await Promise.all([
+    db.order.count({ where: { status: { not: "CANCELLED" } } }),
+    db.order.aggregate({
+      where: { status: { in: ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"] } },
+      _sum: { total: true },
+    }),
+    db.product.count({ where: { published: true } }),
+    db.user.count(),
+    db.order.findMany({
+      take: 5,
+      orderBy: { createdAt: "desc" },
+      include: { items: { include: { product: true } } },
+    }),
+  ]);
 
   return {
     totalOrders,
@@ -81,23 +80,16 @@ export default async function DashboardPage() {
 
       {/* Recent orders */}
       <div className="mt-10">
-        <h2 className="mb-4 text-lg font-semibold text-neutral-900">
-          Dernières commandes
-        </h2>
-        <div className="rounded-2xl border bg-white overflow-hidden">
+        <h2 className="mb-4 text-lg font-semibold text-neutral-900">Dernières commandes</h2>
+        <div className="overflow-hidden rounded-2xl border bg-white">
           <table className="w-full text-sm">
-            <thead className="bg-neutral-50 border-b">
+            <thead className="border-b bg-neutral-50">
               <tr>
-                {["N°", "Client", "Articles", "Total", "Statut", "Date"].map(
-                  (h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-3 text-left font-medium text-neutral-500"
-                    >
-                      {h}
-                    </th>
-                  )
-                )}
+                {["N°", "Client", "Articles", "Total", "Statut", "Date"].map((h) => (
+                  <th key={h} className="px-4 py-3 text-left font-medium text-neutral-500">
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -115,9 +107,7 @@ export default async function DashboardPage() {
                   <td className="px-4 py-3 text-neutral-500">
                     {order.items.length} article{order.items.length > 1 ? "s" : ""}
                   </td>
-                  <td className="px-4 py-3 font-medium">
-                    {formatPrice(order.total)}
-                  </td>
+                  <td className="px-4 py-3 font-medium">{formatPrice(order.total)}</td>
                   <td className="px-4 py-3">
                     <StatusBadge status={order.status} />
                   </td>

@@ -71,14 +71,14 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
 
       {/* Filters */}
       <form method="GET" className="mt-6 flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+        <div className="relative min-w-[200px] flex-1">
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
           <input
             type="text"
             name="q"
             defaultValue={search}
             placeholder="Rechercher un produit…"
-            className="w-full rounded-xl border bg-white pl-9 pr-4 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900"
+            className="w-full rounded-xl border bg-white py-2 pr-4 pl-9 text-sm text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:ring-neutral-900 focus:outline-none"
           />
         </div>
 
@@ -87,7 +87,9 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
           <AdminSelect name="category" defaultValue={categoryFilter}>
             <option value="">Toutes les catégories</option>
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.slug}>{cat.name}</option>
+              <option key={cat.id} value={cat.slug}>
+                {cat.name}
+              </option>
             ))}
           </AdminSelect>
         )}
@@ -96,7 +98,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
 
         <button
           type="submit"
-          className="rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700 transition-colors"
+          className="rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
         >
           Filtrer
         </button>
@@ -104,7 +106,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
         {(search || categoryFilter) && (
           <a
             href="/dashboard/products"
-            className="rounded-xl border px-4 py-2 text-sm text-neutral-500 hover:bg-neutral-50 transition-colors"
+            className="rounded-xl border px-4 py-2 text-sm text-neutral-500 transition-colors hover:bg-neutral-50"
           >
             Réinitialiser
           </a>
@@ -112,9 +114,9 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
       </form>
 
       {/* Table */}
-      <div className="mt-6 rounded-2xl border bg-white overflow-hidden">
+      <div className="mt-6 overflow-hidden rounded-2xl border bg-white">
         <table className="w-full text-sm">
-          <thead className="bg-neutral-50 border-b">
+          <thead className="border-b bg-neutral-50">
             <tr>
               {["Produit", "Catégorie", "Prix", "Stock", "Statut", "Actions"].map((h) => (
                 <th key={h} className="px-4 py-3 text-left font-medium text-neutral-500">
@@ -134,27 +136,25 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
                         alt={product.name}
                         width={40}
                         height={40}
-                        className="h-10 w-10 rounded-lg object-cover bg-neutral-100"
+                        className="h-10 w-10 rounded-lg bg-neutral-100 object-cover"
                       />
                     )}
                     <div>
                       <p className="font-medium text-neutral-900">{product.name}</p>
-                      <p className="text-neutral-400 text-xs">{product.slug}</p>
+                      <p className="text-xs text-neutral-400">{product.slug}</p>
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-neutral-500">
-                  {product.category?.name ?? "—"}
-                </td>
+                <td className="px-4 py-3 text-neutral-500">{product.category?.name ?? "—"}</td>
                 <td className="px-4 py-3 font-medium">{formatPrice(product.price)}</td>
                 <td className="px-4 py-3">
                   <span
                     className={
                       product.stock === 0
-                        ? "text-red-500 font-medium"
+                        ? "font-medium text-red-500"
                         : product.stock <= 5
-                        ? "text-amber-500 font-medium"
-                        : "text-neutral-700"
+                          ? "font-medium text-amber-500"
+                          : "text-neutral-700"
                     }
                   >
                     {product.stock}

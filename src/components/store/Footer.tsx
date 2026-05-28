@@ -17,61 +17,73 @@ export default function Footer() {
   const mounted = useIsMounted();
 
   return (
-    <footer className="bg-stone-950 text-stone-400 pt-16 pb-8 px-6">
-      <div className="max-w-7xl mx-auto">
-
+    <footer className="bg-stone-950 px-6 pt-16 pb-8 text-stone-400">
+      <div className="mx-auto max-w-7xl">
         {/* TOP GRID */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-14 border-b border-stone-800">
-
+        <div className="grid grid-cols-2 gap-10 border-b border-stone-800 pb-14 md:grid-cols-5">
           {/* BRAND */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex flex-col leading-none mb-5">
-              <span className="font-sans text-[9px] tracking-[0.25em] uppercase text-stone-600">
+            <div className="mb-5 flex flex-col leading-none">
+              <span className="font-sans text-[9px] tracking-[0.25em] text-stone-600 uppercase">
                 Domaine
               </span>
-              <span className="font-serif text-xl text-white">
-                test
-              </span>
-              <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-stone-600">
+              <span className="font-serif text-xl text-white">test</span>
+              <span className="font-sans text-[9px] tracking-[0.3em] text-stone-600 uppercase">
                 Chinon
               </span>
             </div>
 
-            <p className="text-xs text-stone-500 leading-relaxed">
+            <p className="text-xs leading-relaxed text-stone-500">
               Vins et expériences au cœur du terroir de Chinon.
             </p>
           </div>
 
           {/* NAVIGATION */}
           <div>
-            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+            <h4 className="mb-5 text-[10px] tracking-[0.3em] text-stone-500 uppercase">
               Navigation
             </h4>
 
             <ul className="space-y-3 text-sm">
-              <li><Link href="/products">Produits</Link></li>
-              <li><Link href="/experiences">Expériences</Link></li>
-              <li><Link href="/journal">Journal</Link></li>
-              <li><Link href="/cart">Panier</Link></li>
+              <li>
+                <Link href="/products">Produits</Link>
+              </li>
+              <li>
+                <Link href="/experiences">Expériences</Link>
+              </li>
+              <li>
+                <Link href="/journal">Journal</Link>
+              </li>
+              <li>
+                <Link href="/cart">Panier</Link>
+              </li>
             </ul>
           </div>
 
           {/* MON COMPTE */}
           <div>
-            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+            <h4 className="mb-5 text-[10px] tracking-[0.3em] text-stone-500 uppercase">
               Mon compte
             </h4>
 
             <ul className="space-y-3 text-sm">
               {!mounted || !session ? (
                 <>
-                  <li><Link href="/login">Connexion</Link></li>
-                  <li><Link href="/register">Créer un compte</Link></li>
+                  <li>
+                    <Link href="/login">Connexion</Link>
+                  </li>
+                  <li>
+                    <Link href="/register">Créer un compte</Link>
+                  </li>
                 </>
               ) : (
                 <>
-                  <li><Link href="/account/orders">Commandes</Link></li>
-                  <li><Link href="/account/profile">Profil</Link></li>
+                  <li>
+                    <Link href="/account/orders">Commandes</Link>
+                  </li>
+                  <li>
+                    <Link href="/account/profile">Profil</Link>
+                  </li>
                 </>
               )}
             </ul>
@@ -79,20 +91,26 @@ export default function Footer() {
 
           {/* LEGAL */}
           <div>
-            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+            <h4 className="mb-5 text-[10px] tracking-[0.3em] text-stone-500 uppercase">
               Informations
             </h4>
 
             <ul className="space-y-3 text-sm">
-              <li><Link href="/mentions-legales">Mentions légales</Link></li>
-              <li><Link href="/confidentialite">Confidentialité</Link></li>
-              <li><Link href="/cgv">CGV</Link></li>
+              <li>
+                <Link href="/mentions-legales">Mentions légales</Link>
+              </li>
+              <li>
+                <Link href="/confidentialite">Confidentialité</Link>
+              </li>
+              <li>
+                <Link href="/cgv">CGV</Link>
+              </li>
             </ul>
           </div>
 
           {/* RÉSEAUX SOCIAUX */}
           <div>
-            <h4 className="text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-5">
+            <h4 className="mb-5 text-[10px] tracking-[0.3em] text-stone-500 uppercase">
               Nous suivre
             </h4>
 
@@ -103,10 +121,10 @@ export default function Footer() {
                   href="https://www.instagram.com/domaine_gaud"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 text-sm text-stone-400 hover:text-white transition-colors group"
+                  className="group flex items-center gap-2.5 text-sm text-stone-400 transition-colors hover:text-white"
                 >
                   <svg
-                    className="w-4 h-4 shrink-0 text-stone-500 group-hover:text-white transition-colors"
+                    className="h-4 w-4 shrink-0 text-stone-500 transition-colors group-hover:text-white"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -123,10 +141,10 @@ export default function Footer() {
                   href="https://www.facebook.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 text-sm text-stone-400 hover:text-white transition-colors group"
+                  className="group flex items-center gap-2.5 text-sm text-stone-400 transition-colors hover:text-white"
                 >
                   <svg
-                    className="w-4 h-4 shrink-0 text-stone-500 group-hover:text-white transition-colors"
+                    className="h-4 w-4 shrink-0 text-stone-500 transition-colors group-hover:text-white"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -138,18 +156,16 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-
         </div>
 
         {/* BOTTOM */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-600">
+        <div className="flex flex-col items-center justify-between gap-4 pt-8 text-xs text-stone-600 md:flex-row">
           <p>© {new Date().getFullYear()} Domaine test</p>
 
-          <p className="text-center text-stone-700 text-[11px]">
+          <p className="text-center text-[11px] text-stone-700">
             L'abus d'alcool est dangereux pour la santé.
           </p>
         </div>
-
       </div>
     </footer>
   );

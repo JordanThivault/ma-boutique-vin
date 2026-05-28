@@ -13,27 +13,17 @@ export async function POST(req: NextRequest) {
   const signature = req.headers.get("stripe-signature");
 
   if (!signature) {
-    return NextResponse.json(
-      { error: "Signature manquante" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Signature manquante" }, { status: 400 });
   }
 
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err) {
     console.error("[WEBHOOK] Signature invalide:", err);
 
-    return NextResponse.json(
-      { error: "Signature invalide" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Signature invalide" }, { status: 400 });
   }
 
   switch (event.type) {
@@ -48,26 +38,19 @@ export async function POST(req: NextRequest) {
     case "payment_intent.payment_failed": {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-      console.log(
-        "[WEBHOOK] Paiement échoué:",
-        paymentIntent.id
-      );
+      console.log("[WEBHOOK] Paiement échoué:", paymentIntent.id);
 
       break;
     }
 
     default:
-      console.log(
-        `[WEBHOOK] Événement non géré: ${event.type}`
-      );
+      console.log(`[WEBHOOK] Événement non géré: ${event.type}`);
   }
 
   return NextResponse.json({ received: true });
 }
 
-async function handleCheckoutCompleted(
-  session: Stripe.Checkout.Session
-) {
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   if (session.payment_status !== "paid") return;
 
   // ✅ Guard anti-doublon — crucial en prod
@@ -78,9 +61,7 @@ async function handleCheckoutCompleted(
   });
 
   if (existing) {
-    console.log(
-      `[WEBHOOK] Commande déjà existante: ${existing.id}`
-    );
+    console.log(`[WEBHOOK] Commande déjà existante: ${existing.id}`);
 
     return;
   }
@@ -115,8 +96,7 @@ async function handleCheckoutCompleted(
         data: {
           stripeSessionId: session.id,
 
-          stripePaymentId:
-            session.payment_intent as string,
+          stripePaymentId: session.payment_intent as string,
 
           status: "PAID",
 
@@ -126,34 +106,23 @@ async function handleCheckoutCompleted(
 
           currency: session.currency ?? "eur",
 
-          shippingName:
-            customerDetails?.name ?? "Inconnu",
+          shippingName: customerDetails?.name ?? "Inconnu",
 
-          shippingEmail:
-            customerDetails?.email ?? "",
+          shippingEmail: customerDetails?.email ?? "",
 
-          shippingAddress:
-            customerDetails?.address?.line1 ?? "",
+          shippingAddress: customerDetails?.address?.line1 ?? "",
 
-          shippingCity:
-            customerDetails?.address?.city ?? "",
+          shippingCity: customerDetails?.address?.city ?? "",
 
-          shippingPostal:
-            customerDetails?.address?.postal_code ?? "",
+          shippingPostal: customerDetails?.address?.postal_code ?? "",
 
-          shippingCountry:
-            customerDetails?.address?.country ?? "",
+          shippingCountry: customerDetails?.address?.country ?? "",
 
-          userId:
-            metadata.userId !== "guest"
-              ? metadata.userId
-              : undefined,
+          userId: metadata.userId !== "guest" ? metadata.userId : undefined,
 
           items: {
             create: items.map((item) => {
-              const product = products.find(
-                (p) => p.id === item.productId
-              )!;
+              const product = products.find((p) => p.id === item.productId)!;
 
               return {
                 productId: item.productId,
@@ -189,32 +158,24 @@ async function handleCheckoutCompleted(
         });
       }
 
-      console.log(
-        `[WEBHOOK] Commande créée: ${order.id}`
-      );
+      console.log(`[WEBHOOK] Commande créée: ${order.id}`);
 
       // ✅ Envoi email confirmation
       try {
         await resend.emails.send({
-          from:
-            "Ma Boutique <onboarding@resend.dev>", // Mode test (sans domaine vérifié) // Mode prod <commandes@tondomaine.fr> (avec domaine vérifié sur resend.com)
+          from: "Ma Boutique <onboarding@resend.dev>", // Mode test (sans domaine vérifié) // Mode prod <commandes@tondomaine.fr> (avec domaine vérifié sur resend.com)
 
           to: customerDetails?.email ?? "",
 
-          subject: `Confirmation de votre commande #${order.orderNumber
-            .slice(-8)
-            .toUpperCase()}`,
+          subject: `Confirmation de votre commande #${order.orderNumber.slice(-8).toUpperCase()}`,
 
           html: OrderConfirmationEmail({
             orderNumber: order.orderNumber,
 
-            customerName:
-              customerDetails?.name ?? "Client",
+            customerName: customerDetails?.name ?? "Client",
 
             items: items.map((item) => {
-              const product = products.find(
-                (p) => p.id === item.productId
-              )!;
+              const product = products.find((p) => p.id === item.productId)!;
 
               return {
                 name: product.name,
@@ -227,36 +188,24 @@ async function handleCheckoutCompleted(
             shippingCost,
             total,
 
-            shippingAddress:
-              customerDetails?.address?.line1 ?? "",
+            shippingAddress: customerDetails?.address?.line1 ?? "",
 
-            shippingCity:
-              customerDetails?.address?.city ?? "",
+            shippingCity: customerDetails?.address?.city ?? "",
 
-            shippingPostal:
-              customerDetails?.address?.postal_code ?? "",
+            shippingPostal: customerDetails?.address?.postal_code ?? "",
 
-            shippingCountry:
-              customerDetails?.address?.country ?? "",
+            shippingCountry: customerDetails?.address?.country ?? "",
           }),
         });
 
-        console.log(
-          `[EMAIL] Confirmation envoyée à: ${customerDetails?.email}`
-        );
+        console.log(`[EMAIL] Confirmation envoyée à: ${customerDetails?.email}`);
       } catch (emailError) {
         // ✅ Ne pas bloquer la commande si l'email échoue
-        console.error(
-          "[EMAIL] Erreur envoi confirmation:",
-          emailError
-        );
+        console.error("[EMAIL] Erreur envoi confirmation:", emailError);
       }
     });
   } catch (error) {
-    console.error(
-      "[WEBHOOK] Erreur création commande:",
-      error
-    );
+    console.error("[WEBHOOK] Erreur création commande:", error);
 
     throw error;
   }

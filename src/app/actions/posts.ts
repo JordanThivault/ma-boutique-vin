@@ -60,8 +60,7 @@ async function buildPostData(data: PostInput) {
 
   const values = parsed.data;
 
-  const baseSlug =
-    values.slug?.trim() || slugify(values.title);
+  const baseSlug = values.slug?.trim() || slugify(values.title);
 
   return {
     data: {
@@ -72,9 +71,7 @@ async function buildPostData(data: PostInput) {
       coverImage: values.coverImage || null,
       category: values.category,
       published: values.published,
-      publishedAt: values.published
-        ? new Date()
-        : null,
+      publishedAt: values.published ? new Date() : null,
     },
   };
 }
@@ -83,9 +80,7 @@ async function buildPostData(data: PostInput) {
 // CREATE POST
 // --------------------------------------------------
 
-export async function createPost(
-  data: PostInput
-) {
+export async function createPost(data: PostInput) {
   await requireAdmin();
 
   const result = await buildPostData(data);
@@ -104,8 +99,7 @@ export async function createPost(
 
     if (existingPost) {
       return {
-        error:
-          "Un post avec ce slug existe déjà",
+        error: "Un post avec ce slug existe déjà",
       };
     }
 
@@ -119,8 +113,7 @@ export async function createPost(
     console.error(error);
 
     return {
-      error:
-        "Erreur lors de la création du post",
+      error: "Erreur lors de la création du post",
     };
   }
 
@@ -131,10 +124,7 @@ export async function createPost(
 // UPDATE POST
 // --------------------------------------------------
 
-export async function updatePost(
-  id: string,
-  data: PostInput
-) {
+export async function updatePost(id: string, data: PostInput) {
   await requireAdmin();
 
   const result = await buildPostData(data);
@@ -156,8 +146,7 @@ export async function updatePost(
 
     if (existingPost) {
       return {
-        error:
-          "Un autre post utilise déjà ce slug",
+        error: "Un autre post utilise déjà ce slug",
       };
     }
 
@@ -173,8 +162,7 @@ export async function updatePost(
     console.error(error);
 
     return {
-      error:
-        "Erreur lors de la mise à jour du post",
+      error: "Erreur lors de la mise à jour du post",
     };
   }
 
@@ -203,8 +191,7 @@ export async function deletePost(id: string) {
     console.error(error);
 
     return {
-      error:
-        "Impossible de supprimer ce post",
+      error: "Impossible de supprimer ce post",
     };
   }
 }

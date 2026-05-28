@@ -156,9 +156,10 @@ export async function deleteProduct(id: string) {
     revalidatePath("/products");
     return { success: true };
   } catch (error) {
-    console.log(error);
+    console.error("deleteProduct error:", error);
     return {
-      error: "Impossible de supprimer ce produit. Il est probablement lié à une commande existante.",
+      error:
+        "Impossible de supprimer ce produit. Il est probablement lié à une commande existante.",
     };
   }
 }

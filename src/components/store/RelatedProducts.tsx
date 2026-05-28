@@ -23,14 +23,12 @@ export async function RelatedProducts({ productId }: { productId: string }) {
   if (products.length === 0) return null;
 
   return (
-    <section className="border-t pt-16 mt-16">
+    <section className="mt-16 border-t pt-16">
       <div className="mb-8">
-        <p className="text-xs tracking-[0.3em] uppercase text-amber-700 font-sans mb-2">
+        <p className="mb-2 font-sans text-xs tracking-[0.3em] text-amber-700 uppercase">
           Notre sélection
         </p>
-        <h2 className="font-serif text-3xl font-light text-neutral-900">
-          Vous aimerez aussi
-        </h2>
+        <h2 className="font-serif text-3xl font-light text-neutral-900">Vous aimerez aussi</h2>
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

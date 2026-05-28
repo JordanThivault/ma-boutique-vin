@@ -18,42 +18,105 @@ export default function GlobalError({
   return (
     <html lang="fr">
       <body style={{ margin: 0, background: "#0c0a09", fontFamily: "Georgia, serif" }}>
-        <div style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "1.5rem",
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}>
-
+        <div
+          style={{
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1.5rem",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
           {/* Logo */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", lineHeight: 1, marginBottom: "4rem" }}>
-            <span style={{ fontFamily: "sans-serif", fontSize: "9px", letterSpacing: "0.35em", textTransform: "uppercase", color: "#57534e" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              lineHeight: 1,
+              marginBottom: "4rem",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "sans-serif",
+                fontSize: "9px",
+                letterSpacing: "0.35em",
+                textTransform: "uppercase",
+                color: "#57534e",
+              }}
+            >
               Domaine
             </span>
             <span style={{ fontSize: "20px", color: "white", fontWeight: 300 }}>Test</span>
-            <span style={{ fontFamily: "sans-serif", fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#57534e" }}>
+            <span
+              style={{
+                fontFamily: "sans-serif",
+                fontSize: "9px",
+                letterSpacing: "0.4em",
+                textTransform: "uppercase",
+                color: "#57534e",
+              }}
+            >
               Chinon
             </span>
           </div>
 
           {/* 500 fantôme */}
-          <p style={{ position: "absolute", fontSize: "clamp(8rem,20vw,14rem)", fontWeight: 300, color: "rgba(255,255,255,0.04)", lineHeight: 1, userSelect: "none", margin: 0 }}>
+          <p
+            style={{
+              position: "absolute",
+              fontSize: "clamp(8rem,20vw,14rem)",
+              fontWeight: 300,
+              color: "rgba(255,255,255,0.04)",
+              lineHeight: 1,
+              userSelect: "none",
+              margin: 0,
+            }}
+          >
             500
           </p>
 
           <div style={{ position: "relative" }}>
-            <p style={{ fontFamily: "sans-serif", fontSize: "10px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#d97706", marginBottom: "1rem" }}>
+            <p
+              style={{
+                fontFamily: "sans-serif",
+                fontSize: "10px",
+                letterSpacing: "0.4em",
+                textTransform: "uppercase",
+                color: "#d97706",
+                marginBottom: "1rem",
+              }}
+            >
               Erreur critique
             </p>
-            <h1 style={{ fontSize: "clamp(2rem,6vw,4rem)", fontWeight: 300, color: "white", margin: "0 0 1.25rem", lineHeight: 1.2 }}>
-              Le site rencontre<br />un problème
+            <h1
+              style={{
+                fontSize: "clamp(2rem,6vw,4rem)",
+                fontWeight: 300,
+                color: "white",
+                margin: "0 0 1.25rem",
+                lineHeight: 1.2,
+              }}
+            >
+              Le site rencontre
+              <br />
+              un problème
             </h1>
-            <p style={{ color: "#78716c", fontFamily: "sans-serif", fontSize: "14px", lineHeight: 1.7, maxWidth: "360px", margin: "0 auto 2.5rem" }}>
+            <p
+              style={{
+                color: "#78716c",
+                fontFamily: "sans-serif",
+                fontSize: "14px",
+                lineHeight: 1.7,
+                maxWidth: "360px",
+                margin: "0 auto 2.5rem",
+              }}
+            >
               Une erreur inattendue s'est produite. Nos équipes ont été notifiées.
             </p>
 
@@ -75,7 +138,16 @@ export default function GlobalError({
             </button>
           </div>
 
-          <p style={{ position: "absolute", bottom: "1.5rem", fontFamily: "sans-serif", fontSize: "10px", color: "#44403c", letterSpacing: "0.05em" }}>
+          <p
+            style={{
+              position: "absolute",
+              bottom: "1.5rem",
+              fontFamily: "sans-serif",
+              fontSize: "10px",
+              color: "#44403c",
+              letterSpacing: "0.05em",
+            }}
+          >
             L'abus d'alcool est dangereux pour la santé. À consommer avec modération.
           </p>
         </div>

@@ -60,11 +60,7 @@ export function UpdateOrderStatusButton({
           ))}
         </SelectContent>
       </Select>
-      <Button
-        size="sm"
-        onClick={handleUpdate}
-        disabled={loading || status === currentStatus}
-      >
+      <Button size="sm" onClick={handleUpdate} disabled={loading || status === currentStatus}>
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Mettre à jour"}
       </Button>
     </div>

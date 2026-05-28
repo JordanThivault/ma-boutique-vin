@@ -54,11 +54,7 @@ export default function SendCampaignButton({
           size="icon"
           className="text-amber-700 hover:text-amber-900"
           disabled={subscriberCount === 0}
-          title={
-            subscriberCount === 0
-              ? "Aucun abonné"
-              : "Envoyer la campagne"
-          }
+          title={subscriberCount === 0 ? "Aucun abonné" : "Envoyer la campagne"}
         >
           <Send className="h-4 w-4" />
         </Button>
@@ -69,31 +65,19 @@ export default function SendCampaignButton({
           <DialogTitle>Envoyer la campagne</DialogTitle>
 
           <DialogDescription>
-            Envoyer cette campagne à{" "}
-            <strong>{subscriberCount}</strong> abonné(s) ?
+            Envoyer cette campagne à <strong>{subscriberCount}</strong> abonné(s) ?
             <br />
             Cette action est irréversible.
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-            disabled={loading}
-          >
+          <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
             Annuler
           </Button>
 
-          <Button
-            onClick={handleSend}
-            disabled={loading || subscriberCount === 0}
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Envoyer"
-            )}
+          <Button onClick={handleSend} disabled={loading || subscriberCount === 0}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Envoyer"}
           </Button>
         </DialogFooter>
       </DialogContent>

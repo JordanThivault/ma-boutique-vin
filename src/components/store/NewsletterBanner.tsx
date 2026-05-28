@@ -17,7 +17,9 @@ export default function NewsletterBanner() {
     const result = await subscribeToNewsletter(email, consent);
     if (result.success) {
       setStatus("success");
-      setMessage("Un email de confirmation vous a été envoyé. Cliquez sur le lien pour finaliser votre inscription.");
+      setMessage(
+        "Un email de confirmation vous a été envoyé. Cliquez sur le lien pour finaliser votre inscription."
+      );
       setEmail("");
       setConsent(false);
     } else {
@@ -27,61 +29,74 @@ export default function NewsletterBanner() {
   }
 
   return (
-    <section className="bg-stone-900 py-20 px-6">
-      <div className="max-w-2xl mx-auto text-center">
-        <p className="text-xs tracking-[0.35em] uppercase text-amber-500 font-sans mb-4">
+    <section className="bg-stone-900 px-6 py-20">
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="mb-4 font-sans text-xs tracking-[0.35em] text-amber-500 uppercase">
           Newsletter
         </p>
-        <h2 className="font-serif text-3xl lg:text-4xl font-light text-white mb-3">
+        <h2 className="mb-3 font-serif text-3xl font-light text-white lg:text-4xl">
           Recevez les nouvelles du domaine
         </h2>
-        <p className="text-stone-400 font-sans text-sm mb-10">
+        <p className="mb-10 font-sans text-sm text-stone-400">
           Millésimes, vendanges, événements — les nouvelles du domaine directement dans votre boîte.
         </p>
 
         {status === "success" ? (
-          <div className="max-w-md mx-auto">
-            <div className="w-10 h-10 rounded-full bg-amber-700/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <div className="mx-auto max-w-md">
+            <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-amber-700/20">
+              <svg
+                className="h-5 w-5 text-amber-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
               </svg>
             </div>
-            <p className="text-amber-400 font-sans text-sm tracking-wide leading-relaxed">
+            <p className="font-sans text-sm leading-relaxed tracking-wide text-amber-400">
               {message}
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-4">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Votre e-mail"
                 required
-                className="flex-1 bg-transparent border border-stone-600 text-white placeholder-stone-500 px-5 py-3 text-sm font-sans focus:outline-none focus:border-stone-400 transition-colors"
+                className="flex-1 border border-stone-600 bg-transparent px-5 py-3 font-sans text-sm text-white placeholder-stone-500 transition-colors focus:border-stone-400 focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={status === "loading" || !consent}
-                className="px-8 py-3 bg-amber-700 text-white text-sm font-sans tracking-[0.15em] uppercase hover:bg-amber-600 transition-colors disabled:opacity-50 whitespace-nowrap"
+                className="bg-amber-700 px-8 py-3 font-sans text-sm tracking-[0.15em] whitespace-nowrap text-white uppercase transition-colors hover:bg-amber-600 disabled:opacity-50"
               >
                 {status === "loading" ? "..." : "S'inscrire"}
               </button>
             </div>
 
-            <label className="flex items-start gap-3 text-left cursor-pointer group">
+            <label className="group flex cursor-pointer items-start gap-3 text-left">
               <input
                 type="checkbox"
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
                 required
-                className="mt-0.5 h-4 w-4 shrink-0 accent-amber-600 cursor-pointer"
+                className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-amber-600"
               />
-              <span className="text-xs text-stone-400 font-sans leading-relaxed group-hover:text-stone-300 transition-colors">
-                J'accepte de recevoir la newsletter du Domaine de la Rochette. Je peux me désinscrire
-                à tout moment via le lien présent dans chaque email.{" "}
-                <a href="/confidentialite" className="underline hover:text-stone-200 transition-colors">
+              <span className="font-sans text-xs leading-relaxed text-stone-400 transition-colors group-hover:text-stone-300">
+                J'accepte de recevoir la newsletter du Domaine de la Rochette. Je peux me
+                désinscrire à tout moment via le lien présent dans chaque email.{" "}
+                <a
+                  href="/confidentialite"
+                  className="underline transition-colors hover:text-stone-200"
+                >
                   Politique de confidentialité
                 </a>
                 .
@@ -90,9 +105,7 @@ export default function NewsletterBanner() {
           </form>
         )}
 
-        {status === "error" && (
-          <p className="text-red-400 font-sans text-xs mt-3">{message}</p>
-        )}
+        {status === "error" && <p className="mt-3 font-sans text-xs text-red-400">{message}</p>}
       </div>
     </section>
   );

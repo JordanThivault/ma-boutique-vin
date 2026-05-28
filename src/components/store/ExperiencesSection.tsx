@@ -10,33 +10,31 @@ export default function ExperiencesSection() {
           src="https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=1600&q=80"
           alt="Dégustation au domaine"
           fill
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-black/55" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center text-white px-6 py-24">
-        <p className="text-xs tracking-[0.35em] uppercase text-stone-300 font-sans mb-5">
+      <div className="relative z-10 flex flex-col items-center justify-center px-6 py-24 text-center text-white">
+        <p className="mb-5 font-sans text-xs tracking-[0.35em] text-stone-300 uppercase">
           Expériences
         </p>
-        <h2 className="font-serif text-4xl lg:text-6xl font-light mb-4">
-          Vivre le domaine
-        </h2>
-        <p className="font-sans text-stone-300 text-base tracking-wide mb-12">
+        <h2 className="mb-4 font-serif text-4xl font-light lg:text-6xl">Vivre le domaine</h2>
+        <p className="mb-12 font-sans text-base tracking-wide text-stone-300">
           Déguster, visiter, comprendre.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <Link
             href="/experiences#degustation"
-            className="px-8 py-3.5 bg-white text-stone-900 text-sm font-sans tracking-[0.15em] uppercase hover:bg-stone-100 transition-colors duration-300"
+            className="bg-white px-8 py-3.5 font-sans text-sm tracking-[0.15em] text-stone-900 uppercase transition-colors duration-300 hover:bg-stone-100"
           >
             Réserver une dégustation
           </Link>
           <Link
             href="/experiences#visite"
-            className="px-8 py-3.5 border border-white/60 text-white text-sm font-sans tracking-[0.15em] uppercase hover:bg-white/10 transition-colors duration-300"
+            className="border border-white/60 px-8 py-3.5 font-sans text-sm tracking-[0.15em] text-white uppercase transition-colors duration-300 hover:bg-white/10"
           >
             Visiter le domaine
           </Link>

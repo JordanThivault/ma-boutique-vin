@@ -24,10 +24,8 @@ export default async function EditPostPage({ params }: PageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-serif">Modifier l article</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Modifiez le contenu du journal du domaine.
-        </p>
+        <h1 className="font-serif text-2xl">Modifier l article</h1>
+        <p className="mt-1 text-sm text-gray-500">Modifiez le contenu du journal du domaine.</p>
       </div>
 
       <PostForm post={post} />

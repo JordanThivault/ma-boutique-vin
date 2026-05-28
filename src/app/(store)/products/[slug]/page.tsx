@@ -43,19 +43,12 @@ export default async function ProductPage({ params }: Props) {
   const mainImage = product.images[0] ?? "/placeholder-product.jpg";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 pt-20 lg:pt-26">
+    <div className="mx-auto max-w-7xl px-4 py-12 pt-20 sm:px-6 lg:px-8 lg:pt-26">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-
         {/* Images */}
         <div className="space-y-4">
           <div className="relative aspect-square overflow-hidden rounded-2xl bg-neutral-100">
-            <Image
-              src={mainImage}
-              alt={product.name}
-              fill
-              className="object-cover"
-              priority
-            />
+            <Image src={mainImage} alt={product.name} fill className="object-cover" priority />
             {!inStock && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                 <Badge variant="destructive" className="text-base">
@@ -67,7 +60,10 @@ export default async function ProductPage({ params }: Props) {
           {product.images.length > 1 && (
             <div className="grid grid-cols-4 gap-2">
               {product.images.slice(1, 5).map((img, i) => (
-                <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
+                <div
+                  key={i}
+                  className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
+                >
                   <Image src={img} alt={`${product.name} ${i + 2}`} fill className="object-cover" />
                 </div>
               ))}
@@ -77,11 +73,9 @@ export default async function ProductPage({ params }: Props) {
 
         {/* Infos */}
         <div className="flex flex-col">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center gap-2">
             {product.category && (
-              <span className="text-sm font-medium text-amber-600">
-                {product.category.name}
-              </span>
+              <span className="text-sm font-medium text-amber-600">{product.category.name}</span>
             )}
             {!product.hasAlcohol && (
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
@@ -91,9 +85,7 @@ export default async function ProductPage({ params }: Props) {
             )}
           </div>
 
-          <h1 className="mt-2 text-4xl font-bold text-neutral-900">
-            {product.name}
-          </h1>
+          <h1 className="mt-2 text-4xl font-bold text-neutral-900">{product.name}</h1>
 
           {/* Prix */}
           <div className="mt-4 flex items-baseline gap-3">
@@ -106,7 +98,11 @@ export default async function ProductPage({ params }: Props) {
                   {formatPrice(product.comparePrice)}
                 </span>
                 <Badge className="bg-red-500 text-white">
-                  -{Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}%
+                  -
+                  {Math.round(
+                    ((product.comparePrice - product.price) / product.comparePrice) * 100
+                  )}
+                  %
                 </Badge>
               </>
             )}
@@ -117,7 +113,9 @@ export default async function ProductPage({ params }: Props) {
             {inStock ? (
               <div className="flex items-center gap-2 text-sm text-emerald-600">
                 <Package className="h-4 w-4" />
-                <span>En stock ({product.stock} disponible{product.stock > 1 ? "s" : ""})</span>
+                <span>
+                  En stock ({product.stock} disponible{product.stock > 1 ? "s" : ""})
+                </span>
               </div>
             ) : (
               <div className="flex items-center gap-2 text-sm text-red-500">
@@ -129,7 +127,7 @@ export default async function ProductPage({ params }: Props) {
 
           <Separator className="my-6" />
 
-          <p className="text-neutral-600 leading-relaxed">{product.description}</p>
+          <p className="leading-relaxed text-neutral-600">{product.description}</p>
 
           {/* Mention alcool conditionnelle */}
           {product.hasAlcohol && (
@@ -149,9 +147,12 @@ export default async function ProductPage({ params }: Props) {
               { icon: ShieldCheck, label: "Paiement\nsécurisé" },
               { icon: RefreshCcw, label: "Retours\ngratuits" },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex flex-col items-center gap-2 rounded-xl bg-neutral-50 p-4 text-center">
+              <div
+                key={label}
+                className="flex flex-col items-center gap-2 rounded-xl bg-neutral-50 p-4 text-center"
+              >
                 <Icon className="h-5 w-5 text-neutral-600" />
-                <span className="text-xs text-neutral-500 whitespace-pre-line">{label}</span>
+                <span className="text-xs whitespace-pre-line text-neutral-500">{label}</span>
               </div>
             ))}
           </div>

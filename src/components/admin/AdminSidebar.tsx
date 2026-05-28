@@ -44,8 +44,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
   return (
     // sticky + h-screen so the sidebar never scrolls with the page
-    <aside className="sticky top-0 flex h-screen w-64 flex-col border-r bg-white overflow-hidden">
-
+    <aside className="sticky top-0 flex h-screen w-64 flex-col overflow-hidden border-r bg-white">
       {/* Header */}
       <div className="flex-shrink-0 border-b px-6 py-5">
         <Link
@@ -59,7 +58,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       </div>
 
       {/* Navigation — scrollable if many items */}
-      <nav className="flex-1 overflow-y-auto space-y-1 px-3 py-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {navItems.map(({ href, label, icon: Icon, exact }) => (
           <Link
             key={href}

@@ -6,7 +6,7 @@ export const metadata = { title: "Nouvel article — Dashboard" };
 export default function NewPostPage() {
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-gray-900 mb-8">Nouvel article</h1>
+      <h1 className="mb-8 text-2xl font-semibold text-gray-900">Nouvel article</h1>
       <PostForm />
     </div>
   );

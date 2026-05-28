@@ -1,8 +1,9 @@
 // src/app/api/checkout/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { SHIPPING_COST,EXPRESS_SHIPPING_COST } from "@/lib/shipping";
 import { headers } from "next/headers";
 
 export async function POST(req: NextRequest) {
@@ -70,7 +71,7 @@ export async function POST(req: NextRequest) {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: { amount: 490, currency: "eur" },
+            fixed_amount: { amount: SHIPPING_COST, currency: "eur" },
             display_name: "Livraison standard",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 3 },
@@ -81,7 +82,7 @@ export async function POST(req: NextRequest) {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: { amount: 990, currency: "eur" },
+            fixed_amount: { amount: EXPRESS_SHIPPING_COST, currency: "eur" },
             display_name: "Livraison express",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 1 },
@@ -99,9 +100,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     console.error("[CHECKOUT_ERROR]", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la création du paiement" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Erreur lors de la création du paiement" }, { status: 500 });
   }
 }
