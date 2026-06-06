@@ -6,6 +6,7 @@ import { authClient, signUp } from "@/lib/auth-client";
 import { useAuthModal } from "@/hooks/useAuthModal";
 import { toast } from "sonner";
 import { Loader2, X, Wine, Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 
 export function AuthModal() {
   const { isOpen, view, close, setView } = useAuthModal();
@@ -102,18 +103,16 @@ export function AuthModal() {
               <div className="absolute bottom-0 left-0 h-40 w-40 -translate-x-10 translate-y-10 rounded-full border border-white" />
             </div>
 
-            <div className="mb-6 flex flex-col leading-none">
-              <span className="font-sans text-[9px] tracking-[0.3em] text-stone-400 uppercase">
-                Domaine
-              </span>
-              <span className="font-serif text-xl text-white">Test</span>
-              <span className="font-sans text-[9px] tracking-[0.35em] text-stone-400 uppercase">
-                Chinon
-              </span>
-            </div>
-
-            <div>
-              <p className="mb-1 font-sans text-[10px] tracking-[0.3em] text-amber-500 uppercase">
+            <div className="mb-8 text-center brightness-0 invert">
+              <Image
+                src="/logo.png"
+                alt="Domaine Gaud"
+                width={439}
+                height={267}
+                className="mx-auto h-auto w-[180px]"
+                priority
+              />
+              <p className="mb-1 font-sans text-[10px] pt-8 tracking-[0.3em] text-amber-500 uppercase">
                 {sub}
               </p>
               <h2 className="font-serif text-3xl font-light text-white">{heading}</h2>

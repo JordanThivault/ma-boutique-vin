@@ -13,7 +13,7 @@ const STEPS = [
     title: "Vendanges manuelles",
     description:
       "Nous récoltons intégralement à la main, en plusieurs passages dans les vignes, pour sélectionner les grappes à leur parfaite maturité. Les vendangeurs trient au fur et à mesure, dans les rangs, pour ne garder que les meilleures baies.",
-    image: "https://images.unsplash.com/photo-1543418219-44e30b057fea?w=800&q=80",
+    image: "/images/vendanges_manuelles.jpg",
   },
   {
     number: "02",
@@ -21,7 +21,7 @@ const STEPS = [
     description:
       "Chaque récolte passe sur table de tri. Les raisins sont ensuite foulés doucement ou pressés selon les cuvées. Nous privilégions des pressions lentes, respectueuses du raisin, pour extraire le meilleur du fruit sans amertume.",
     image:
-      "https://images.unsplash.com/photo-1605673349582-03eb37bc7bb5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByZXNzYWdlJTIwdmlufGVufDB8fDB8fHwy",
+      "/images/tri_pressurage.jpg",
   },
   {
     number: "03",
@@ -29,14 +29,14 @@ const STEPS = [
     description:
       "Les fermentations se déroulent en cuves béton thermorégulées, à des températures maîtrisées. Nous pratiquons des remontages doux et des délestages ponctuels pour structurer les tanins sans les durcir.",
     image:
-      "https://images.unsplash.com/photo-1605673393348-ea896a63541f?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "/images/vinification.jpg",
   },
   {
     number: "04",
     title: "Élevage en cave tuffeau",
     description:
       "Nos vins s'élèvent dans la cave creusée dans le tuffeau, à hygrométrie naturellement stable. Selon les cuvées : cuves inox pour préserver la fraîcheur, fûts de 228L ou demi-muids pour apporter structure et complexité.",
-    image: "https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=800&q=80",
+    image: "/images/cave.jpg",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function SavoirFairePage() {
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[450px] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1504279577054-acfeccf8fc52?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="/images/savoir_faire_hero.jpg"
           alt="Cave à vins"
           fill
           className="h-full w-full object-cover"
@@ -66,7 +66,7 @@ export default function SavoirFairePage() {
       {/* Intro */}
       <section className="mx-auto max-w-3xl px-6 py-20 text-center">
         <p className="font-serif text-xl leading-relaxed font-light text-stone-600 lg:text-2xl">
-          Ici, rien n est laissé au hasard. Chaque geste, de la taille des vignes à la mise en
+          Ici, rien n'est laissé au hasard. Chaque geste, de la taille des vignes à la mise en
           bouteille, est pensé pour révéler ce que le terroir a de plus précieux à offrir.
         </p>
       </section>
@@ -121,11 +121,11 @@ export default function SavoirFairePage() {
       <section className="bg-amber-50 px-6 py-20 text-center">
         <blockquote className="mx-auto max-w-2xl">
           <p className="mb-6 font-serif text-2xl leading-relaxed font-light text-stone-800 italic lg:text-3xl">
-            Un vin ne s invente pas. Il se révèle, année après année, millésime après millésime, au
+            Un vin ne s'invente pas. Il se révèle, année après année, millésime après millésime, au
             fil des saisons et du soin apporté à chaque vigne.
           </p>
           <cite className="font-sans text-sm tracking-[0.2em] text-amber-700 uppercase not-italic">
-            Marie Mercier, vigneronne
+            Sébastien Gaud, vigneron
           </cite>
         </blockquote>
       </section>

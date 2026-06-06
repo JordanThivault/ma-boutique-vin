@@ -24,7 +24,7 @@ export default async function ExperiencesPage() {
       {/* Hero */}
       <section className="relative h-[65vh] min-h-[450px] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=1600&q=80"
+          src="/images/exp_hero3.jpg"
           alt="Dégustation au domaine"
           fill
           priority

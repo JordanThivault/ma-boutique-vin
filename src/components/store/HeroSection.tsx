@@ -20,25 +20,13 @@ export default function HeroSection() {
         className="absolute inset-0 scale-110"
         style={{ transform: `translateY(${scrollY * 0.3}px) scale(1.1)` }}
       >
-        {/* Desktop / tablet video */}
-        <video
-          className="hidden h-full w-full object-cover sm:block"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
-
-        {/* Mobile fallback image */}
         <Image
-          src="https://images.unsplash.com/photo-1504279577054-acfeccf8fc52?w=1800&q=85"
+          src="/images/hero_homepage_responsiv.jpg"
           alt="Vignes de Chinon"
-          width={1920}
-          height={1080}
-          className="block h-full w-full object-cover sm:hidden"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
       </div>
 
