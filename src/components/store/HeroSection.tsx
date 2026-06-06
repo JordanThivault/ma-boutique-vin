@@ -49,14 +49,18 @@ export default function HeroSection() {
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
         {/* Eyebrow */}
         <p className="animate-fade-in mb-6 font-sans text-xs tracking-[0.35em] text-stone-300 uppercase">
-          Domaine test · Chinon
+          AOP · Chinon
         </p>
 
-        {/* Main headline */}
-        <h1 className="animate-fade-in-up mb-6 font-serif text-[clamp(2.8rem,8vw,7rem)] leading-[0.95] font-light tracking-tight">
-          Le Chinon
-          <br />
-          <em>dans sa vérité</em>
+        {/* Logo (remplace le titre texte) */}
+        <h1 className="animate-fade-in-up mb-6">
+          <Image
+            src="/logo.png"
+            alt="Domaine Gaud"
+            width={439}
+            height={267}
+            className="h-auto w-[clamp(260px,58vw,520px)] brightness-0 invert"
+          />
         </h1>
 
         {/* Subline */}

@@ -77,8 +77,8 @@ export default function ConfidentialitePage() {
           </ul>
           <p className="mt-2">
             Pour exercer ces droits, contactez-nous à :{" "}
-            <a href="mailto:contact@maboutique.fr" className="text-amber-600 hover:text-amber-500">
-              contact@maboutique.fr
+            <a href="mailto:contact@domaine-gaud.com" className="text-amber-600 hover:text-amber-500">
+              contact@domaine-gaud.com
             </a>
           </p>
         </section>
@@ -99,8 +99,8 @@ export default function ConfidentialitePage() {
           </h2>
           <p>
             Pour toute question relative à vos données personnelles :{" "}
-            <a href="mailto:contact@maboutique.fr" className="text-amber-600 hover:text-amber-500">
-              contact@maboutique.fr
+            <a href="mailto:contact@domaine-gaud.com" className="text-amber-600 hover:text-amber-500">
+              contact@domaine-gaud.com
             </a>
           </p>
         </section>

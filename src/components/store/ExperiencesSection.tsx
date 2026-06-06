@@ -7,7 +7,7 @@ export default function ExperiencesSection() {
       {/* Background */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=1600&q=80"
+          src="/images/exp_home_page.jpg"
           alt="Dégustation au domaine"
           fill
           className="h-full w-full object-cover"

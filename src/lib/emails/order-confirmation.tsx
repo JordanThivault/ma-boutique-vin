@@ -53,7 +53,7 @@ export function OrderConfirmationEmail({
         <!-- Header -->
         <div style="background:#171717;padding:32px;text-align:center;">
           <h1 style="color:white;margin:0;font-size:24px;font-weight:700;">
-            Ma Boutique
+            Domaine Gaud
           </h1>
           <p style="color:#a3a3a3;margin:8px 0 0;font-size:14px;">
             Confirmation de commande
@@ -160,7 +160,7 @@ export function OrderConfirmationEmail({
         <!-- Footer -->
         <div style="background:#f5f5f5;padding:24px;text-align:center;border-top:1px solid #e5e5e5;">
           <p style="margin:0;font-size:12px;color:#a3a3a3;">
-            © ${new Date().getFullYear()} Ma Boutique — Tous droits réservés
+            © ${new Date().getFullYear()} Domaine Gaud — Tous droits réservés
           </p>
           <p style="margin:8px 0 0;font-size:12px;color:#a3a3a3;">
             Cet email a été envoyé suite à votre commande sur notre boutique.

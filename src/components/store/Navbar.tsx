@@ -8,6 +8,7 @@ import { useCart } from "@/hooks/useCart";
 import { useAuthModal } from "@/hooks/useAuthModal";
 import { ShoppingBag, User, Menu, X } from "lucide-react";
 import type { SessionUser } from "@/lib/auth-client";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,22 +54,16 @@ export default function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:h-20">
         {/* Logo */}
-        <Link href="/" className="flex flex-col leading-none">
-          <span
-            className={`text-[9px] tracking-[0.25em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}
-          >
-            Domaine
-          </span>
-          <span
-            className={`font-serif text-lg transition-colors ${isTop ? "text-white" : "text-stone-900"}`}
-          >
-            Test
-          </span>
-          <span
-            className={`text-[9px] tracking-[0.3em] uppercase transition-colors ${isTop ? "text-white/70" : "text-stone-400"}`}
-          >
-            Chinon
-          </span>
+        <Link href="/" aria-label="Domaine Gaud — Accueil" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="Domaine Gaud"
+            width={439}
+            height={267}
+            className={`h-10 lg:h-12 w-auto transition-[filter] duration-500 ${
+              isTop ? "brightness-0 invert" : ""
+            }`}
+          />
         </Link>
 
         {/* Desktop nav */}

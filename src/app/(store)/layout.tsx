@@ -3,12 +3,12 @@ import Navbar from "@/components/store/Navbar";
 import Footer from "@/components/store/Footer";
 import { CartSidebar } from "@/components/store/CartSidebar";
 import { AuthModal } from "@/components/store/AuthModal";
-// import { AgeVerificationModal } from "@/components/store/AgeVerificationModal";
+import { AgeVerificationModal } from "@/components/store/AgeVerificationModal";
 
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* <AgeVerificationModal /> */}
+      <AgeVerificationModal />
       <Navbar />
       <CartSidebar />
       <AuthModal />

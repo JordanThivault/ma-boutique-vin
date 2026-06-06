@@ -91,7 +91,7 @@ export default function NewsletterBanner() {
                 className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-amber-600"
               />
               <span className="font-sans text-xs leading-relaxed text-stone-400 transition-colors group-hover:text-stone-300">
-                J'accepte de recevoir la newsletter du Domaine de la Rochette. Je peux me
+                J'accepte de recevoir la newsletter du Domaine Gaud. Je peux me
                 désinscrire à tout moment via le lien présent dans chaque email.{" "}
                 <a
                   href="/confidentialite"

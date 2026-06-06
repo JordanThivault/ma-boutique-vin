@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { useSyncExternalStore } from "react";
+import Image from "next/image";
 
 function useIsMounted() {
   return useSyncExternalStore(
@@ -23,17 +24,16 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-10 border-b border-stone-800 pb-14 md:grid-cols-5">
           {/* BRAND */}
           <div className="col-span-2 md:col-span-1">
-            <div className="mb-5 flex flex-col leading-none">
-              <span className="font-sans text-[9px] tracking-[0.25em] text-stone-600 uppercase">
-                Domaine
-              </span>
-              <span className="font-serif text-xl text-white">test</span>
-              <span className="font-sans text-[9px] tracking-[0.3em] text-stone-600 uppercase">
-                Chinon
-              </span>
-            </div>
-
-            <p className="text-xs leading-relaxed text-stone-500">
+            <Link href="/" aria-label="Domaine Gaud — Accueil" className="inline-block mb-5">
+              <Image
+                src="/logo.png"
+                alt="Domaine Gaud"
+                width={439}
+                height={267}
+                className="h-16 w-auto brightness-0 invert"
+              />
+            </Link>
+            <p className="text-xs text-stone-500 leading-relaxed">
               Vins et expériences au cœur du terroir de Chinon.
             </p>
           </div>
@@ -138,7 +138,7 @@ export default function Footer() {
               {/* Facebook */}
               <li>
                 <a
-                  href="https://www.facebook.com/"
+                  href="https://www.facebook.com/profile.php?id=61578830927179&rdid=TBNNworyQGqvbejM&share_url=https://www.facebook.com/share/1Enz96B5J2/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-2.5 text-sm text-stone-400 transition-colors hover:text-white"
@@ -160,7 +160,7 @@ export default function Footer() {
 
         {/* BOTTOM */}
         <div className="flex flex-col items-center justify-between gap-4 pt-8 text-xs text-stone-600 md:flex-row">
-          <p>© {new Date().getFullYear()} Domaine test</p>
+          <p>© {new Date().getFullYear()} Domaine Gaud</p>
 
           <p className="text-center text-[11px] text-stone-700">
             L'abus d'alcool est dangereux pour la santé.
