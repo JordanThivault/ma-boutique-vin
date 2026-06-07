@@ -9,7 +9,6 @@ import { ShoppingCart, Eye } from "lucide-react";
 import { toast } from "sonner";
 import type { Product } from "@/types/product";
 
-
 export function ProductCard({ product }: { product: Product }) {
   const { addItem, openCart } = useCart();
   const image = product.images[0] ?? "/placeholder-product.jpg";
@@ -24,6 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
       image,
       slug: product.slug,
       stock: product.stock,
+      isBottle: product.isBottle,
     });
     openCart();
     toast.success(`${product.name} ajouté au panier`);

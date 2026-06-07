@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { SHIPPING_COST,EXPRESS_SHIPPING_COST } from "@/lib/shipping";
+import { computeShippingCents } from "@/lib/shipping";
 import { headers } from "next/headers";
 
 export async function POST(req: NextRequest) {
@@ -55,11 +55,22 @@ export async function POST(req: NextRequest) {
       };
     });
 
+    // Frais de livraison : 1 € / bouteille + 4,90 € si la commande
+    // contient un colis (sel, condiment…)
+    const shippingAmount = computeShippingCents(
+      items.map((item) => {
+        const product = products.find((p) => p.id === item.productId)!;
+        return { quantity: item.quantity, isBottle: product.isBottle };
+      })
+    );
+
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
     // Créer la session Stripe Checkout
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
+      payment_method_types: ["card"],
+      allow_promotion_codes: true,
       line_items: lineItems,
       success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl}/cart`,
@@ -71,22 +82,11 @@ export async function POST(req: NextRequest) {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: { amount: SHIPPING_COST, currency: "eur" },
-            display_name: "Livraison standard",
+            fixed_amount: { amount: shippingAmount, currency: "eur" },
+            display_name: "Livraison",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 3 },
               maximum: { unit: "business_day", value: 5 },
-            },
-          },
-        },
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: EXPRESS_SHIPPING_COST, currency: "eur" },
-            display_name: "Livraison express",
-            delivery_estimate: {
-              minimum: { unit: "business_day", value: 1 },
-              maximum: { unit: "business_day", value: 2 },
             },
           },
         },

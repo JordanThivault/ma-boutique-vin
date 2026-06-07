@@ -34,6 +34,7 @@ interface ProductFormData {
   featured: boolean;
   published: boolean;
   hasAlcohol: boolean;
+  isBottle: boolean;
   sku?: string | null;
   weight?: number | null;
 }
@@ -260,6 +261,23 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           </label>
           <p className="mt-1 ml-5 text-xs text-neutral-400">
             Décochez pour les vins sans alcool, jus de raisin, condiments sans alcool…
+          </p>
+        </div>
+        <div className="border-t pt-4">
+          <p className="mb-3 text-xs font-medium tracking-wider text-neutral-500 uppercase">
+            Livraison
+          </p>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="isBottle"
+              value="true"
+              defaultChecked={product?.isBottle ?? true}
+            />
+            <span className="text-sm">Bouteille (1 € / unité)</span>
+          </label>
+          <p className="mt-1 ml-5 text-xs text-neutral-400">
+            Décochez pour un colis standard à 4,90 € (sel, condiment…).
           </p>
         </div>
       </div>

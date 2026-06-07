@@ -12,6 +12,7 @@ export interface Product {
   featured: boolean;
   category?: { name: string } | null;
   description?: string | null;
+  isBottle?: boolean;
 }
 
 // Type allégé pour le cart (ce que Zustand stocke)
@@ -22,4 +23,5 @@ export type CartProduct = {
   image: string;
   slug: string;
   stock: number;
+  isBottle?: boolean;
 };

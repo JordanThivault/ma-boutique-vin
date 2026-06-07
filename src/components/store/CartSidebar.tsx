@@ -9,13 +9,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCheckout } from "@/hooks/useCheckout";
 
-
 export function CartSidebar() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice } = useCart();
-  
+
   const subtotal = totalPrice();
   const { checkout, loading } = useCheckout();
-
 
   if (!isOpen) return null;
 

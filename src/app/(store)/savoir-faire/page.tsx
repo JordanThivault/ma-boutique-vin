@@ -20,16 +20,14 @@ const STEPS = [
     title: "Tri et pressurage",
     description:
       "Chaque récolte passe sur table de tri. Les raisins sont ensuite foulés doucement ou pressés selon les cuvées. Nous privilégions des pressions lentes, respectueuses du raisin, pour extraire le meilleur du fruit sans amertume.",
-    image:
-      "/images/tri_pressurage.jpg",
+    image: "/images/tri_pressurage.jpg",
   },
   {
     number: "03",
     title: "Vinification en cuves",
     description:
       "Les fermentations se déroulent en cuves béton thermorégulées, à des températures maîtrisées. Nous pratiquons des remontages doux et des délestages ponctuels pour structurer les tanins sans les durcir.",
-    image:
-      "/images/vinification.jpg",
+    image: "/images/vinification.jpg",
   },
   {
     number: "04",

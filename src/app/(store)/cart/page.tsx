@@ -3,7 +3,7 @@
 
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/utils";
-import { FREE_SHIPPING_THRESHOLD, calculateShipping } from "@/lib/shipping";
+import { computeShippingCents } from "@/lib/shipping";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
@@ -11,15 +11,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCheckout } from "@/hooks/useCheckout";
 
-
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice } = useCart();
   const { checkout, loading } = useCheckout();
 
   const subtotal = totalPrice();
-  const shipping = calculateShipping(subtotal);
+  const shipping = computeShippingCents(
+    items.map((i) => ({
+      quantity: i.quantity,
+      isBottle: i.product.isBottle ?? true,
+    }))
+  );
   const total = subtotal + shipping;
-
 
   if (items.length === 0) {
     return (
@@ -129,19 +132,12 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-neutral-500">Livraison</span>
-                <span>
-                  {shipping === 0 ? (
-                    <span className="font-medium text-emerald-600">Offerte</span>
-                  ) : (
-                    formatPrice(shipping)
-                  )}
-                </span>
+                <span>{formatPrice(shipping)}</span>
               </div>
-              {subtotal < 6000 && (
-                <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-600">
-                  Plus que {formatPrice(FREE_SHIPPING_THRESHOLD - subtotal)} pour la livraison offerte !
-                </p>
-              )}
+              <p className="rounded-lg bg-neutral-50 px-3 py-2 text-xs text-neutral-500">
+                1&nbsp;€ / bouteille · 4,90&nbsp;€ pour les autres produits. Code promo à saisir au
+                paiement.
+              </p>
             </div>
 
             <Separator className="my-4" />

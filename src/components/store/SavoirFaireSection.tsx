@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 
-
 export default function SavoirFaireSection() {
   return (
     <section className="grid min-h-[600px] lg:grid-cols-2">
@@ -13,14 +12,13 @@ export default function SavoirFaireSection() {
           </p>
           <h2 className="mb-6 font-serif text-4xl leading-tight font-light text-white lg:text-5xl">
             De la vigne
-            <br />
-            à la cave
+            <br />à la cave
           </h2>
           <p className="mb-10 font-sans text-base leading-relaxed text-stone-400">
-            Ici, tout se fait à deux. Sébastien travaille la vigne et la cave, de la conduite
-            du vignoble à la vinification, avec une attention constante portée à la qualité du
-            raisin et à l’équilibre des vins. Pas à pas, avec exigence et engagement, nous
-            construisons un domaine à taille humaine et des vins sincères, fidèles à nos terroirs.
+            Ici, tout se fait à deux. Sébastien travaille la vigne et la cave, de la conduite du
+            vignoble à la vinification, avec une attention constante portée à la qualité du raisin
+            et à l’équilibre des vins. Pas à pas, avec exigence et engagement, nous construisons un
+            domaine à taille humaine et des vins sincères, fidèles à nos terroirs.
           </p>
 
           <Link

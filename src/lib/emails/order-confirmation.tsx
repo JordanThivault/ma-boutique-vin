@@ -165,6 +165,9 @@ export function OrderConfirmationEmail({
           <p style="margin:8px 0 0;font-size:12px;color:#a3a3a3;">
             Cet email a été envoyé suite à votre commande sur notre boutique.
           </p>
+          <p style="margin:8px 0 0;font-size:11px;color:#a3a3a3;">
+            Document commercial simplifié d'accompagnement pour la circulation de produits soumis à accises en régime de droits acquittés.
+          </p>
         </div>
 
       </div>

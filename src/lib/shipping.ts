@@ -1,9 +1,31 @@
 // src/lib/shipping.ts
 
-export const FREE_SHIPPING_THRESHOLD = 6000; // en centimes = 60€
-export const SHIPPING_COST = 490;             // en centimes = 4,90€
-export const EXPRESS_SHIPPING_COST = 990; // 9,90€
+// Frais de livraison
+export const SHIPPING_PER_BOTTLE_CENTS = 100; // 1 € par bouteille
+export const SHIPPING_PARCEL_CENTS = 490; // 4,90 € forfait colis (sel, condiment…)
 
-export function calculateShipping(subtotalCents: number): number {
-  return subtotalCents >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+export interface ShippableItem {
+  quantity: number;
+  isBottle: boolean;
+}
+
+/**
+ * Frais de livraison en centimes :
+ *  - 1 € par bouteille
+ *  - + 4,90 € forfaitaire (une seule fois) si la commande contient
+ *    au moins un produit non-bouteille (sel, condiment…)
+ */
+export function computeShippingCents(items: ShippableItem[]): number {
+  let bottles = 0;
+  let hasParcel = false;
+
+  for (const item of items) {
+    if (item.isBottle) {
+      bottles += item.quantity;
+    } else {
+      hasParcel = true;
+    }
+  }
+
+  return bottles * SHIPPING_PER_BOTTLE_CENTS + (hasParcel ? SHIPPING_PARCEL_CENTS : 0);
 }

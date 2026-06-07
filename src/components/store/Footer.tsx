@@ -24,7 +24,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-10 border-b border-stone-800 pb-14 md:grid-cols-5">
           {/* BRAND */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" aria-label="Domaine Gaud — Accueil" className="inline-block mb-5">
+            <Link href="/" aria-label="Domaine Gaud — Accueil" className="mb-5 inline-block">
               <Image
                 src="/logo.png"
                 alt="Domaine Gaud"
@@ -33,7 +33,7 @@ export default function Footer() {
                 className="h-16 w-auto brightness-0 invert"
               />
             </Link>
-            <p className="text-xs text-stone-500 leading-relaxed">
+            <p className="text-xs leading-relaxed text-stone-500">
               Vins et expériences au cœur du terroir de Chinon.
             </p>
           </div>

@@ -112,7 +112,7 @@ export function AuthModal() {
                 className="mx-auto h-auto w-[180px]"
                 priority
               />
-              <p className="mb-1 font-sans text-[10px] pt-8 tracking-[0.3em] text-amber-500 uppercase">
+              <p className="mb-1 pt-8 font-sans text-[10px] tracking-[0.3em] text-amber-500 uppercase">
                 {sub}
               </p>
               <h2 className="font-serif text-3xl font-light text-white">{heading}</h2>

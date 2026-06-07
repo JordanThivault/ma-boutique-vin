@@ -121,6 +121,7 @@ model Product {
   weight       Float? // en grammes
   featured     Boolean  @default(false)
   published    Boolean  @default(true)
+  isBottle     Boolean  @default(true) // false = colis (sel, condiment…)
   hasAlcohol   Boolean  @default(true) 
 
   categoryId String?

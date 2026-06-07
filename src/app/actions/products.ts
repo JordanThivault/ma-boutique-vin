@@ -20,6 +20,7 @@ const ProductSchema = z.object({
   featured: z.boolean().default(false),
   published: z.boolean().default(true),
   hasAlcohol: z.boolean().default(true),
+  isBottle: z.boolean().default(true),
   sku: z.string().optional(),
   weight: z.coerce.number().optional(),
 });
@@ -46,6 +47,7 @@ export async function createProduct(formData: FormData) {
     featured: formData.get("featured") === "true",
     published: formData.get("published") === "true",
     hasAlcohol: formData.get("hasAlcohol") === "true",
+    isBottle: formData.get("isBottle") === "true",
     sku: formData.get("sku") || undefined,
     weight: formData.get("weight") || undefined,
   };
@@ -72,6 +74,7 @@ export async function createProduct(formData: FormData) {
         featured: rest.featured,
         published: rest.published,
         hasAlcohol: rest.hasAlcohol,
+        isBottle: rest.isBottle,
         sku: rest.sku || null,
         weight: rest.weight,
       },
@@ -103,6 +106,7 @@ export async function updateProduct(id: string, formData: FormData) {
     featured: formData.get("featured") === "true",
     published: formData.get("published") === "true",
     hasAlcohol: formData.get("hasAlcohol") === "true",
+    isBottle: formData.get("isBottle") === "true",
     sku: formData.get("sku") || undefined,
     weight: formData.get("weight") || undefined,
   };
@@ -130,6 +134,7 @@ export async function updateProduct(id: string, formData: FormData) {
         featured: rest.featured,
         published: rest.published,
         hasAlcohol: rest.hasAlcohol,
+        isBottle: rest.isBottle,
         sku: rest.sku || null,
         weight: rest.weight,
       },

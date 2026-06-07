@@ -8,9 +8,10 @@ import { RelatedProducts } from "@/components/store/RelatedProducts";
 import { RelatedProductsSkeleton } from "@/components/store/RelatedProductsSkeleton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ShieldCheck, Truck, RefreshCcw, Package, Leaf } from "lucide-react";
+import { ShieldCheck, Truck, Package, Leaf } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ShippingInfoBanner } from "@/components/store/ShippingInfoBanner";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -138,14 +139,15 @@ export default async function ProductPage({ params }: Props) {
 
           <Separator className="my-6" />
 
+          <ShippingInfoBanner isBottle={product.isBottle} className="mb-6" />
+
           <AddToCartButton product={product} />
 
           {/* Garanties */}
-          <div className="mt-8 grid grid-cols-3 gap-4">
+          <div className="mt-8 grid grid-cols-2 gap-4">
             {[
-              { icon: Truck, label: "Livraison\nrapide" },
+              { icon: Truck, label: "Livraison\n1 €/bouteille" },
               { icon: ShieldCheck, label: "Paiement\nsécurisé" },
-              { icon: RefreshCcw, label: "Retours\ngratuits" },
             ].map(({ icon: Icon, label }) => (
               <div
                 key={label}

@@ -8,7 +8,6 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import type { Product } from "@/types/product";
 
-
 export function AddToCartButton({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const { addItem, openCart } = useCart();
@@ -23,6 +22,7 @@ export function AddToCartButton({ product }: { product: Product }) {
         image: product.images[0] ?? "",
         slug: product.slug,
         stock: product.stock,
+        isBottle: product.isBottle,
       },
       quantity
     );

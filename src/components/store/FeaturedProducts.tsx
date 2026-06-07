@@ -3,7 +3,6 @@ import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import type { Product } from "@/types/product";
 
-
 interface FeaturedProductsProps {
   products: Product[];
 }

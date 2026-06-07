@@ -60,7 +60,7 @@ export default function Navbar() {
             alt="Domaine Gaud"
             width={439}
             height={267}
-            className={`h-10 lg:h-12 w-auto transition-[filter] duration-500 ${
+            className={`h-10 w-auto transition-[filter] duration-500 lg:h-12 ${
               isTop ? "brightness-0 invert" : ""
             }`}
           />
