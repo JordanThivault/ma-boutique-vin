@@ -253,14 +253,14 @@ async function sendConfirmationEmail(email: string, token: string) {
       <tr>
         <td style="background:#1c1917;padding:32px 40px;text-align:center;">
           <p style="margin:0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Domaine</p>
-          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">de la Rochette</p>
+          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">Gaud</p>
           <p style="margin:2px 0 0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Chinon</p>
         </td>
       </tr>
       <tr>
         <td style="padding:40px;color:#292524;line-height:1.7;font-size:16px;">
           <p style="margin:0 0 16px;">Bonjour,</p>
-          <p style="margin:0 0 24px;">Merci de votre intérêt pour la newsletter du Domaine de la Rochette. Cliquez sur le bouton ci-dessous pour confirmer votre inscription.</p>
+          <p style="margin:0 0 24px;">Merci de votre intérêt pour la newsletter du Domaine Gaud. Cliquez sur le bouton ci-dessous pour confirmer votre inscription.</p>
           <p style="text-align:center;margin:32px 0;">
             <a href="${confirmUrl}" style="background:#92400e;color:#fff;padding:14px 32px;text-decoration:none;font-family:sans-serif;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;display:inline-block;">
               Confirmer mon inscription
@@ -297,7 +297,7 @@ function buildNewsletterHtml(subject: string, body: string, unsubscribeToken: st
       <tr>
         <td style="background:#1c1917;padding:32px 40px;text-align:center;">
           <p style="margin:0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Domaine</p>
-          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">de la Rochette</p>
+          <p style="margin:4px 0 0;font-size:22px;color:#fff;font-weight:300;letter-spacing:0.05em;">Gaud</p>
           <p style="margin:2px 0 0;font-family:sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#78716c;">Chinon</p>
         </td>
       </tr>
@@ -309,7 +309,7 @@ function buildNewsletterHtml(subject: string, body: string, unsubscribeToken: st
       <tr>
         <td style="border-top:1px solid #e7e5e4;padding:24px 40px;text-align:center;">
           <p style="margin:0;font-family:sans-serif;font-size:11px;color:#a8a29e;">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
-          <p style="margin:8px 0 0;font-family:sans-serif;font-size:11px;color:#a8a29e;">Vous recevez cet email car vous êtes inscrit(e) à la newsletter du Domaine de la Rochette.</p>
+          <p style="margin:8px 0 0;font-family:sans-serif;font-size:11px;color:#a8a29e;">Vous recevez cet email car vous êtes inscrit(e) à la newsletter du Domaine Gaud.</p>
           <p style="margin:8px 0 0;">
             <a href="${unsubscribeUrl}" style="font-family:sans-serif;font-size:11px;color:#a8a29e;text-decoration:underline;">Se désinscrire</a>
           </p>

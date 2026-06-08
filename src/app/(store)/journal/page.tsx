@@ -1,13 +1,13 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Journal du domaine — Domaine de la Rochette",
+  title: "Journal du domaine — Domaine Gaud",
   description:
-    "Actualités, vendanges, événements : suivez la vie du Domaine de la Rochette au fil des saisons.",
+    "Actualités, vendanges, événements : suivez la vie du Domaine Gaud au fil des saisons.",
 };
 
 const CATEGORIES = ["Tous", "Vendanges", "Coulisses", "Événement", "Actualité", "Millésimes"];
@@ -36,7 +36,7 @@ export default async function JournalPage({
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[380px] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1543418219-44e30b057fea?w=1600&q=80"
+          src="/images/journal.jpg"
           alt="Journal du domaine"
           fill
           className="h-full w-full object-cover"

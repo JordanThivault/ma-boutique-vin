@@ -1,10 +1,10 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Savoir-faire — Domaine de la Rochette",
+  title: "Savoir-faire",
   description:
-    "De la vigne à la bouteille, découvrez les méthodes de vinification du Domaine de la Rochette à Chinon.",
+    "De la vigne à la bouteille, découvrez les méthodes de vinification du Domaine Gaud, AOP Chinon.",
 };
 
 const STEPS = [
@@ -17,23 +17,16 @@ const STEPS = [
   },
   {
     number: "02",
-    title: "Tri et pressurage",
-    description:
-      "Chaque récolte passe sur table de tri. Les raisins sont ensuite foulés doucement ou pressés selon les cuvées. Nous privilégions des pressions lentes, respectueuses du raisin, pour extraire le meilleur du fruit sans amertume.",
-    image: "/images/tri_pressurage.jpg",
-  },
-  {
-    number: "03",
     title: "Vinification en cuves",
     description:
-      "Les fermentations se déroulent en cuves béton thermorégulées, à des températures maîtrisées. Nous pratiquons des remontages doux et des délestages ponctuels pour structurer les tanins sans les durcir.",
+      "La vinification est réalisée dans des cuves béton et inox thermorégulées, permettant un contrôle précis des températures tout au long des fermentations. La durée de macération est adaptée à chaque cuvée afin d'obtenir l'équilibre recherché entre structure, concentration et expression du fruit. Les remontages sont effectués en douceur pour favoriser une extraction délicate et préserver le caractère fruité des vins. Pour le rosé de saignée, un bâtonnage des lies fines est réalisé afin d'apporter davantage de rondeur et de complexité aromatique.",
     image: "/images/vinification.jpg",
   },
   {
-    number: "04",
+    number: "03",
     title: "Élevage en cave tuffeau",
     description:
-      "Nos vins s'élèvent dans la cave creusée dans le tuffeau, à hygrométrie naturellement stable. Selon les cuvées : cuves inox pour préserver la fraîcheur, fûts de 228L ou demi-muids pour apporter structure et complexité.",
+      "Notre cuvée Coup de foudre est élevée en barrique plus d'un an dans une cave en tuffeau située sous la maison. La température stable de cet environnement favorise un élevage lent et régulier, permettant au vin de gagner en complexité, en équilibre et en finesse.",
     image: "/images/cave.jpg",
   },
 ];

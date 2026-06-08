@@ -1,6 +1,6 @@
 // src/app/dashboard/orders/page.tsx
 import { db } from "@/lib/db";
-import { OrderStatus } from "@prisma/client";
+import type { OrderStatus } from "@prisma/client";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { UpdateOrderStatusButton } from "@/components/admin/UpdateOrderStatusButton";
 import { Pagination } from "@/components/admin/Pagination";

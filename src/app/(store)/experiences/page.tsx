@@ -1,10 +1,10 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { db } from "@/lib/db";
 import ReservationForm from "@/components/store/ReservationForm";
 
 export const metadata: Metadata = {
-  title: "Expériences — Domaine test",
+  title: "Expériences — Domaine Gaud",
   description:
     "Venez déguster nos vins et visiter le domaine. Réservez votre expérience unique au cœur du Chinon.",
 };

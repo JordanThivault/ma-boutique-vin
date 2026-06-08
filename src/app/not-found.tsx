@@ -18,9 +18,9 @@ export default function NotFound() {
           <span className="font-sans text-[9px] tracking-[0.35em] text-stone-500 uppercase">
             Domaine
           </span>
-          <span className="font-serif text-2xl text-white">Test</span>
+          <span className="font-serif text-2xl text-white">Gaud</span>
           <span className="font-sans text-[9px] tracking-[0.4em] text-stone-500 uppercase">
-            Chinon
+            AOP Chinon
           </span>
         </div>
 

@@ -21,8 +21,8 @@ const jost = Jost({
 
 export const metadata: Metadata = {
   title: {
-    default: "Domaine Test — Chinon, Val de Loire",
-    template: "%s — Domaine Test",
+    default: "Domaine Gaud — AOP Chinon, Val de Loire",
+    template: "%s — Domaine Gaud",
   },
   description: "Vins de caractère issus du terroir de Chinon.",
 };

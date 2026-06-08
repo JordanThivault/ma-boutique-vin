@@ -25,7 +25,7 @@ export default function MentionsLegalesPage() {
             <br />
             RCS de Tours
             <br />
-            Email : isa.seb.gaud@gmail.com
+            Email : contact@domaine-gaud.com
             <br />
             Téléphone : 06 41 83 44 05
           </p>

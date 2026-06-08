@@ -2,7 +2,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { OrderStatus } from "@prisma/client";
+import type { OrderStatus } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";

@@ -2,7 +2,7 @@ import { confirmNewsletterSubscription } from "@/app/actions/newsletter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Confirmation newsletter — Domaine test",
+  title: "Confirmation newsletter — Domaine Gaud",
   robots: { index: false },
 };
 

@@ -1,8 +1,9 @@
 // src/app/api/webhooks/stripe/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
-import Stripe from "stripe";
+import type Stripe from "stripe";
 
 // ✅ Emails
 import { resend } from "@/lib/emails/resend";

@@ -55,9 +55,9 @@ export async function submitReservation(
     });
 
     await resend.emails.send({
-      from: "Domaine test <onboarding@resend.dev>",
+      from: "Domaine Gaud <onboarding@resend.dev>",
       to: data.email,
-      subject: "Votre demande de réservation — Domaine test",
+      subject: "Votre demande de réservation — Domaine Gaud",
       html: `
         <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;color:#292524;line-height:1.6;">
           <h1 style="font-weight:300;">Demande reçue</h1>
