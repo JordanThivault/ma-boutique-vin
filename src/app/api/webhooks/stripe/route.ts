@@ -164,9 +164,10 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       // ✅ Envoi email confirmation
       try {
         await resend.emails.send({
-          from: "Domaine Gaud <onboarding@resend.dev>", // Mode test (sans domaine vérifié) // Mode prod <commandes@tondomaine.fr> (avec domaine vérifié sur resend.com)
+          from: "Domaine Gaud <commandes@domaine-gaud.com>", 
 
           to: customerDetails?.email ?? "",
+          replyTo: "contact@domaine-gaud.com",
 
           subject: `Confirmation de votre commande #${order.orderNumber.slice(-8).toUpperCase()}`,
 

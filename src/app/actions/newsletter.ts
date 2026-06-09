@@ -211,7 +211,7 @@ export async function sendCampaign(
       const chunk = subscribers.slice(i, i + BATCH_SIZE);
       await resend.batch.send(
         chunk.map((sub) => ({
-          from: "Domaine Gaud <onboarding@resend.dev>",
+          from: "Domaine Gaud <newsletter@domaine-gaud.com>",
           to: sub.email,
           subject: campaign.subject,
           html: buildNewsletterHtml(campaign.subject, campaign.content, sub.unsubscribeToken),
@@ -237,11 +237,11 @@ export async function sendCampaign(
 // ============================================================
 
 async function sendConfirmationEmail(email: string, token: string) {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://votredomaine.fr";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://domaine-gaud.com";
   const confirmUrl = `${appUrl}/confirm-newsletter?token=${token}`;
 
   await resend.emails.send({
-    from: "Domaine Gaud <onboarding@resend.dev>",
+    from: "Domaine Gaud <newsletter@domaine-gaud.com>",
     to: email,
     subject: "Confirmez votre inscription à la newsletter",
     html: `<!DOCTYPE html>
@@ -284,7 +284,7 @@ async function sendConfirmationEmail(email: string, token: string) {
 }
 
 function buildNewsletterHtml(subject: string, body: string, unsubscribeToken: string): string {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://votredomaine.fr";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://domaine-gaud.com";
   const unsubscribeUrl = `${appUrl}/unsubscribe?token=${unsubscribeToken}`;
   const safeSubject = escapeHtml(subject);
 

@@ -17,7 +17,7 @@ export const auth = betterAuth({
     // ✅ Mot de passe oublié
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "contact@domaine-gaud.com",
         to: user.email,
         subject: "Réinitialisation de votre mot de passe",
         html: `

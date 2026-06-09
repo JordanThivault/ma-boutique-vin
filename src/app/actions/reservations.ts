@@ -55,7 +55,7 @@ export async function submitReservation(
     });
 
     await resend.emails.send({
-      from: "Domaine Gaud <onboarding@resend.dev>",
+      from: "Domaine Gaud <reservations@domaine-gaud.com>",
       to: data.email,
       subject: "Votre demande de réservation — Domaine Gaud",
       html: `
@@ -74,7 +74,7 @@ export async function submitReservation(
     const adminEmail = process.env.ADMIN_EMAIL;
     if (adminEmail) {
       await resend.emails.send({
-        from: "Notifications <onboarding@resend.dev>",
+        from: "Notifications <reservations@domaine-gaud.com>",
         to: adminEmail,
         subject: `Nouvelle réservation — ${data.nom}`,
         html: `
