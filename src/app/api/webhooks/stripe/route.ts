@@ -89,7 +89,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   const subtotal = session.amount_subtotal ?? 0;
   const total = session.amount_total ?? 0;
-  const shippingCost = total - subtotal;
+  const shippingCost = session.total_details?.amount_shipping ?? 0;
 
   try {
     await db.$transaction(async (tx) => {
