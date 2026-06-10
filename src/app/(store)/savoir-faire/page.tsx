@@ -13,7 +13,7 @@ const STEPS = [
     title: "Vendanges manuelles",
     description:
       "Nous récoltons intégralement à la main, en plusieurs passages dans les vignes, pour sélectionner les grappes à leur parfaite maturité. Les vendangeurs trient au fur et à mesure, dans les rangs, pour ne garder que les meilleures baies.",
-    image: "/images/vendanges_manuelles.jpg",
+    image: "/images/vendanges_manuelles2.jpg",
   },
   {
     number: "02",
