@@ -14,22 +14,22 @@ const TEMPLATES = [
     content: `<h2 style="font-family:Georgia,serif;font-weight:300;font-size:24px;color:#1c1917;margin:0 0 16px;">Bonjour,</h2>
 <p style="color:#57534e;margin:0 0 16px;">Voici les dernières nouvelles du domaine.</p>
 <p style="color:#57534e;margin:0 0 24px;">[Votre contenu ici]</p>
-<a href="https://domaine-test.fr/journal" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 28px;text-decoration:none;font-family:sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;">Lire la suite</a>`,
+<a href="https://domaine-gaud.com/journal" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 28px;text-decoration:none;font-family:sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;">Lire la suite</a>`,
   },
   {
     label: "Nouveau millésime",
     content: `<h2 style="font-family:Georgia,serif;font-weight:300;font-size:24px;color:#1c1917;margin:0 0 8px;">Le millésime [ANNÉE] est arrivé</h2>
 <p style="color:#a8a29e;font-family:sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 20px;">Nouveau millésime</p>
 <p style="color:#57534e;margin:0 0 16px;">[Description du millésime]</p>
-<a href="https://domaine-test.fr/products" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 28px;text-decoration:none;font-family:sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;">Découvrir les vins</a>`,
+<a href="https://domaine-gaud.com/products" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 28px;text-decoration:none;font-family:sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;">Découvrir les vins</a>`,
   },
   {
     label: "Invitation événement",
     content: `<h2 style="font-family:Georgia,serif;font-weight:300;font-size:24px;color:#1c1917;margin:0 0 8px;">Vous êtes invité(e)</h2>
 <p style="color:#57534e;margin:0 0 8px;"><strong>Date :</strong> [DATE]</p>
-<p style="color:#57534e;margin:0 0 8px;"><strong>Lieu :</strong> Domaine de la test, Chinon</p>
+<p style="color:#57534e;margin:0 0 8px;"><strong>Lieu :</strong> Domaine Gaud AOP Chinon</p>
 <p style="color:#57534e;margin:0 0 20px;">[Description de l'événement]</p>
-<a href="https://domaine-test.fr/experiences" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 28px;text-decoration:none;font-family:sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;">Réserver ma place</a>`,
+<a href="https://domaine-gaud.com/experiences" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 28px;text-decoration:none;font-family:sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;">Réserver ma place</a>`,
   },
 ];
 

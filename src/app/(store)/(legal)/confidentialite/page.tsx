@@ -18,7 +18,7 @@ export default function ConfidentialitePage() {
             1. Responsable du traitement
           </h2>
           <p>
-            Ma Boutique est responsable du traitement de vos données personnelles conformément au
+            EARL Domaine Gaud est responsable du traitement de vos données personnelles conformément au
             Règlement Général sur la Protection des Données (RGPD).
           </p>
         </section>

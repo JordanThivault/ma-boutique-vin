@@ -11,8 +11,8 @@ import NewsletterBanner from "@/components/store/NewsletterBanner";
 import { db } from "@/lib/db";
 
 export const metadata = {
-  title: "Domaine test — Chinon",
-  description: "Vins de caractère issus du terroir de Chinon. Cabernet Franc élevé avec soin.",
+  title: "Domaine Gaud — AOP Chinon, Val de Loire",
+  description: "Vins de caractère issus du terroir de Chinon.",
 };
 
 // ─── Composants async séparés ────────────────────────────

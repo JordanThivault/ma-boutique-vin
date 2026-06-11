@@ -2,7 +2,7 @@ import { unsubscribeNewsletter } from "@/app/actions/newsletter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Désinscription newsletter — Domaine de la Rochette",
+  title: "Désinscription newsletter — Domaine Gaud",
   robots: { index: false },
 };
 

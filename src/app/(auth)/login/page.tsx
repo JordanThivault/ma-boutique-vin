@@ -55,7 +55,7 @@ export default function LoginPage() {
         <div className="rounded-2xl border bg-white p-8 shadow-sm">
           <div className="mb-8 text-center">
             <Link href="/" className="text-2xl font-bold text-neutral-900">
-              Ma Boutique
+              Domaine Gaud
             </Link>
             <h1 className="mt-2 text-xl font-semibold text-neutral-700">Connexion</h1>
             <p className="mt-1 text-sm text-neutral-500">Accédez à votre compte</p>

@@ -52,7 +52,7 @@ export default function GlobalError({
             >
               Domaine
             </span>
-            <span style={{ fontSize: "20px", color: "white", fontWeight: 300 }}>Test</span>
+            <span style={{ fontSize: "20px", color: "white", fontWeight: 300 }}>Gaud</span>
             <span
               style={{
                 fontFamily: "sans-serif",
