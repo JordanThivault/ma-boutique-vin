@@ -33,8 +33,18 @@ async function requireAdmin() {
   return session;
 }
 
+// Revalide toutes les surfaces publiques + admin impactées par un produit
+function revalidateProductPaths() {
+  revalidatePath("/"); // home → produits vedettes
+  revalidatePath("/products"); // catalogue
+  revalidatePath("/products/[slug]", "page"); // fiches produit
+  revalidatePath("/dashboard/products"); // liste admin
+}
+
 export async function createProduct(formData: FormData) {
   await requireAdmin();
+
+  const rawCategoryId = formData.get("categoryId");
 
   const raw = {
     name: formData.get("name"),
@@ -43,7 +53,7 @@ export async function createProduct(formData: FormData) {
     comparePrice: formData.get("comparePrice") || undefined,
     stock: formData.get("stock"),
     images: formData.get("images") || "[]",
-    categoryId: formData.get("categoryId") || undefined,
+    categoryId: rawCategoryId && rawCategoryId !== "none" ? rawCategoryId : undefined,
     featured: formData.get("featured") === "true",
     published: formData.get("published") === "true",
     hasAlcohol: formData.get("hasAlcohol") === "true",
@@ -80,8 +90,7 @@ export async function createProduct(formData: FormData) {
       },
     });
 
-    revalidatePath("/dashboard/products");
-    revalidatePath("/products");
+    revalidateProductPaths();
   } catch (error: unknown) {
     if ((error as { code?: string })?.code === "P2002") {
       return { error: "Un produit avec ce nom existe déjà" };
@@ -95,6 +104,8 @@ export async function createProduct(formData: FormData) {
 export async function updateProduct(id: string, formData: FormData) {
   await requireAdmin();
 
+  const rawCategoryId = formData.get("categoryId");
+
   const raw = {
     name: formData.get("name"),
     description: formData.get("description"),
@@ -102,7 +113,7 @@ export async function updateProduct(id: string, formData: FormData) {
     comparePrice: formData.get("comparePrice") || undefined,
     stock: formData.get("stock"),
     images: formData.get("images") || "[]",
-    categoryId: formData.get("categoryId") || undefined,
+    categoryId: rawCategoryId && rawCategoryId !== "none" ? rawCategoryId : undefined,
     featured: formData.get("featured") === "true",
     published: formData.get("published") === "true",
     hasAlcohol: formData.get("hasAlcohol") === "true",
@@ -140,8 +151,7 @@ export async function updateProduct(id: string, formData: FormData) {
       },
     });
 
-    revalidatePath("/dashboard/products");
-    revalidatePath("/products");
+    revalidateProductPaths();
   } catch (error: unknown) {
     if ((error as { code?: string })?.code === "P2002") {
       return { error: "Un produit avec ce nom existe déjà" };
@@ -157,8 +167,7 @@ export async function deleteProduct(id: string) {
 
   try {
     await db.product.delete({ where: { id } });
-    revalidatePath("/dashboard/products");
-    revalidatePath("/products");
+    revalidateProductPaths();
     return { success: true };
   } catch (error) {
     console.error("deleteProduct error:", error);
