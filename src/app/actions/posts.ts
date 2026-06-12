@@ -108,7 +108,8 @@ export async function createPost(data: PostInput) {
     });
 
     revalidatePath("/dashboard/posts");
-    revalidatePath("/blog");
+    revalidatePath("/journal");
+    revalidatePath("/");
   } catch (error) {
     console.error(error);
 
@@ -156,8 +157,9 @@ export async function updatePost(id: string, data: PostInput) {
     });
 
     revalidatePath("/dashboard/posts");
-    revalidatePath("/blog");
-    revalidatePath(`/blog/${result.data.slug}`);
+    revalidatePath("/journal");
+    revalidatePath(`/journal/${result.data.slug}`);
+    revalidatePath("/");
   } catch (error) {
     console.error(error);
 
@@ -182,7 +184,8 @@ export async function deletePost(id: string) {
     });
 
     revalidatePath("/dashboard/posts");
-    revalidatePath("/blog");
+    revalidatePath("/journal");
+    revalidatePath("/");
 
     return {
       success: true,
