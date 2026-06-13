@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 
 import "./globals.css";
@@ -38,6 +39,7 @@ export default function RootLayout({
         {children}
 
         <Toaster position="top-right" richColors closeButton duration={3000} />
+        <Analytics />
       </body>
     </html>
   );
