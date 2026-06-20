@@ -11,7 +11,9 @@ import NewsletterBanner from "@/components/store/NewsletterBanner";
 import { db } from "@/lib/db";
 
 export const metadata = {
-  title: "Domaine Gaud — AOP Chinon, Val de Loire",
+  title: {
+    absolute: "Domaine Gaud — AOP Chinon, Val de Loire",
+  },
   description: "Vins de caractère issus du terroir de Chinon.",
 };
 
