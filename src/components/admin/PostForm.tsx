@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createPost, updatePost } from "@/app/actions/posts";
-import { UploadButton } from "@/lib/uploadthing"; // ← comme ProductForm
+import { UploadButton } from "@/lib/uploadthing";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import Image from "next/image";
 
 interface PostFormProps {
@@ -28,6 +29,7 @@ export default function PostForm({ post }: PostFormProps) {
   const [coverImage, setCoverImage] = useState(post?.coverImage ?? "");
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
+  const [content, setContent] = useState(post?.content ?? "");
 
   const isEditing = !!post;
 
@@ -43,6 +45,13 @@ export default function PostForm({ post }: PostFormProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // Garde-fou : Tiptap renvoie "<p></p>" quand c'est vide → on le traite comme vide
+    if (!content || content === "<p></p>") {
+      setError("Le contenu de l'article ne peut pas être vide.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -168,17 +177,10 @@ export default function PostForm({ post }: PostFormProps) {
 
       {/* CONTENU */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
-          Contenu * <span className="font-normal text-gray-400">(HTML accepté)</span>
-        </label>
-        <textarea
-          name="content"
-          rows={16}
-          required
-          defaultValue={post?.content}
-          placeholder="<p>Contenu de l'article...</p>"
-          className="w-full resize-y rounded border border-gray-300 px-4 py-2.5 font-mono text-sm focus:border-gray-500 focus:outline-none"
-        />
+        <label className="mb-1 block text-sm font-medium text-gray-700">Contenu *</label>
+        <RichTextEditor value={content} onChange={setContent} />
+        {/* L'éditeur écrit son HTML ici → récupéré par fd.get("content") dans handleSubmit */}
+        <input type="hidden" name="content" value={content} />
       </div>
 
       {/* PUBLIER */}

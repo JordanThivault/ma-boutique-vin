@@ -21,7 +21,7 @@ const TIMELINE = [
   {
     year: "2024",
     title: "Premières vignes & travaux",
-    text: "Nous plantons les premières vignes et lançons les travaux d’aménagement.",
+    text: "Nous récupérons nos premières vignes et lançons les travaux d'aménagement",
   },
   {
     year: "2025",
