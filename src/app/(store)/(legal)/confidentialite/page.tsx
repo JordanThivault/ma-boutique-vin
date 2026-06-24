@@ -18,8 +18,8 @@ export default function ConfidentialitePage() {
             1. Responsable du traitement
           </h2>
           <p>
-            EARL Domaine Gaud est responsable du traitement de vos données personnelles conformément au
-            Règlement Général sur la Protection des Données (RGPD).
+            EARL Domaine Gaud est responsable du traitement de vos données personnelles conformément
+            au Règlement Général sur la Protection des Données (RGPD).
           </p>
         </section>
 

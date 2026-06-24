@@ -13,7 +13,25 @@ export function AddToCartButton({ product }: { product: Product }) {
   const { addItem, openCart } = useCart();
   const inStock = product.stock > 0;
 
+  function handleQuantityChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    // On autorise le champ vide pendant la saisie (sentinelle 0)
+    if (value === "") {
+      setQuantity(0);
+      return;
+    }
+    const parsed = Number.parseInt(value, 10);
+    if (Number.isNaN(parsed)) return;
+    setQuantity(Math.min(parsed, product.stock));
+  }
+
+  function handleQuantityBlur() {
+    // À la sortie du champ, on revient à 1 minimum
+    if (quantity < 1) setQuantity(1);
+  }
+
   function handleAdd() {
+    const qty = Math.max(1, quantity); // garde-fou si le champ est resté "vide"
     addItem(
       {
         id: product.id,
@@ -24,7 +42,7 @@ export function AddToCartButton({ product }: { product: Product }) {
         stock: product.stock,
         isBottle: product.isBottle,
       },
-      quantity
+      qty
     );
     openCart();
     toast.success(`${product.name} ajouté au panier`);
@@ -52,7 +70,16 @@ export function AddToCartButton({ product }: { product: Product }) {
           >
             <Minus className="h-4 w-4" />
           </Button>
-          <span className="w-8 text-center font-medium">{quantity}</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={product.stock}
+            value={quantity === 0 ? "" : quantity}
+            onChange={handleQuantityChange}
+            onBlur={handleQuantityBlur}
+            className="w-12 [appearance:textfield] bg-transparent text-center font-medium outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          />
           <Button
             variant="ghost"
             size="icon"

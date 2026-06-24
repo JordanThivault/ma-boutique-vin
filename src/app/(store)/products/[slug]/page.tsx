@@ -8,10 +8,15 @@ import { RelatedProducts } from "@/components/store/RelatedProducts";
 import { RelatedProductsSkeleton } from "@/components/store/RelatedProductsSkeleton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ShieldCheck, Truck, Package, Leaf } from "lucide-react";
+import { ShieldCheck, Truck, Package, Leaf, Gift } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ShippingInfoBanner } from "@/components/store/ShippingInfoBanner";
+import {
+  SHIPPING_PER_BOTTLE_CENTS,
+  SHIPPING_PARCEL_CENTS,
+  FREE_SHIPPING_THRESHOLD_CENTS,
+} from "@/lib/shipping";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -42,6 +47,11 @@ export default async function ProductPage({ params }: Props) {
 
   const inStock = product.stock > 0;
   const mainImage = product.images[0] ?? "/placeholder-product.jpg";
+
+  const isBottle = product.isBottle ?? true;
+  const shippingLabel = isBottle
+    ? `Livraison\n${formatPrice(SHIPPING_PER_BOTTLE_CENTS)}/bouteille`
+    : `Livraison\n${formatPrice(SHIPPING_PARCEL_CENTS)}`;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 pt-20 sm:px-6 lg:px-8 lg:pt-26">
@@ -144,9 +154,13 @@ export default async function ProductPage({ params }: Props) {
           <AddToCartButton product={product} />
 
           {/* Garanties */}
-          <div className="mt-8 grid grid-cols-2 gap-4">
+          <div className="mt-8 grid grid-cols-3 gap-4">
             {[
-              { icon: Truck, label: "Livraison\n1 €/bouteille" },
+              { icon: Truck, label: shippingLabel },
+              {
+                icon: Gift,
+                label: `Livraison offerte dès\n${formatPrice(FREE_SHIPPING_THRESHOLD_CENTS)}`,
+              },
               { icon: ShieldCheck, label: "Paiement\nsécurisé" },
             ].map(({ icon: Icon, label }) => (
               <div

@@ -55,12 +55,16 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    // Frais de livraison : 1 € / bouteille + 4,90 € si la commande
+    // Frais de livraison : 1 € / bouteille + 4,90 € si la commande / livraison offert 250€
     // contient un colis (sel, condiment…)
     const shippingAmount = computeShippingCents(
       items.map((item) => {
         const product = products.find((p) => p.id === item.productId)!;
-        return { quantity: item.quantity, isBottle: product.isBottle };
+        return {
+          quantity: item.quantity,
+          isBottle: product.isBottle,
+          priceCents: product.price,
+        };
       })
     );
 
@@ -83,7 +87,7 @@ export async function POST(req: NextRequest) {
           shipping_rate_data: {
             type: "fixed_amount",
             fixed_amount: { amount: shippingAmount, currency: "eur" },
-            display_name: "Livraison",
+            display_name: shippingAmount === 0 ? "Livraison offerte" : "Livraison",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 3 },
               maximum: { unit: "business_day", value: 5 },

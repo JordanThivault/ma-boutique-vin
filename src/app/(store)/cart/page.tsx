@@ -3,7 +3,7 @@
 
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/utils";
-import { computeShippingCents } from "@/lib/shipping";
+import { computeShippingCents, FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/shipping";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
@@ -20,6 +20,7 @@ export default function CartPage() {
     items.map((i) => ({
       quantity: i.quantity,
       isBottle: i.product.isBottle ?? true,
+      priceCents: i.product.price,
     }))
   );
   const total = subtotal + shipping;
@@ -132,8 +133,20 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-neutral-500">Livraison</span>
-                <span>{formatPrice(shipping)}</span>
+                <span>
+                  {shipping === 0 ? (
+                    <span className="font-medium text-emerald-600">Offerte</span>
+                  ) : (
+                    formatPrice(shipping)
+                  )}
+                </span>
               </div>
+              {subtotal < FREE_SHIPPING_THRESHOLD_CENTS && (
+                <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-600">
+                  Plus que {formatPrice(FREE_SHIPPING_THRESHOLD_CENTS - subtotal)} pour la livraison
+                  offerte !
+                </p>
+              )}
               <p className="rounded-lg bg-neutral-50 px-3 py-2 text-xs text-neutral-500">
                 1&nbsp;€ / bouteille · 4,90&nbsp;€ pour les autres produits. Code promo à saisir au
                 paiement.

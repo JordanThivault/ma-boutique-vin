@@ -1,5 +1,5 @@
 // src/app/api/webhooks/stripe/route.ts
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
@@ -164,7 +164,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       // ✅ Envoi email confirmation
       try {
         await resend.emails.send({
-          from: "Domaine Gaud <commandes@domaine-gaud.com>", 
+          from: "Domaine Gaud <commandes@domaine-gaud.com>",
 
           to: customerDetails?.email ?? "",
           replyTo: "contact@domaine-gaud.com",

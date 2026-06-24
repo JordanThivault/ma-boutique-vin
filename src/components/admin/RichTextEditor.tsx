@@ -33,8 +33,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
 
     editorProps: {
       attributes: {
-        class:
-          "prose prose-stone max-w-none min-h-[320px] px-4 py-3 focus:outline-none",
+        class: "prose prose-stone max-w-none min-h-[320px] px-4 py-3 focus:outline-none",
       },
     },
   });
