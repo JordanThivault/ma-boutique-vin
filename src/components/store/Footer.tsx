@@ -36,6 +36,28 @@ export default function Footer() {
             <p className="text-xs leading-relaxed text-stone-500">
               Vins et expériences au cœur du terroir de Chinon.
             </p>
+
+            <address className="mt-5 space-y-1.5 text-xs leading-relaxed text-stone-500 not-italic">
+              <p>EARL Domaine Gaud</p>
+              <p>
+                3 Rue Grande
+                <br />
+                37220 Tavant
+              </p>
+              <p>
+                <a href="tel:+33641834405" className="transition-colors hover:text-white">
+                  06 41 83 44 05
+                </a>
+              </p>
+              <p>
+                <a
+                  href="mailto:contact@domaine-gaud.com"
+                  className="transition-colors hover:text-white"
+                >
+                  contact@domaine-gaud.com
+                </a>
+              </p>
+            </address>
           </div>
 
           {/* NAVIGATION */}
@@ -96,6 +118,9 @@ export default function Footer() {
             </h4>
 
             <ul className="space-y-3 text-sm">
+              <li>
+                <Link href="/contact">Nous contacter</Link>
+              </li>
               <li>
                 <Link href="/mentions-legales">Mentions légales</Link>
               </li>
