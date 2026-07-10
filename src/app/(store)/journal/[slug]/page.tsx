@@ -72,7 +72,7 @@ export default async function PostPage({ params }: PageProps) {
       {/* Article content */}
       <article className="mx-auto max-w-3xl px-6 py-16">
         {post.excerpt && (
-          <p className="mb-12 border-l-2 border-amber-600 pl-6 font-serif text-xl leading-relaxed text-stone-600">
+          <p className="mb-12 border-l-2 border-amber-600 pl-6 font-serif text-xl leading-relaxed whitespace-pre-line text-stone-600">
             {post.excerpt}
           </p>
         )}

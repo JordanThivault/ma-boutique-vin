@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* --- Éditeur Tiptap : listes --- */
 .ProseMirror ul {

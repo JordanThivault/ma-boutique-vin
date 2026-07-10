@@ -89,7 +89,7 @@ export default async function ExperiencesPage() {
                     <span className="font-sans text-sm text-stone-400">💰 {exp.price}</span>
                   </div>
 
-                  <p className="mb-6 font-sans leading-relaxed text-stone-500">{exp.description}</p>
+                  <p className="mb-6 font-sans leading-relaxed whitespace-pre-line text-stone-500">{exp.description}</p>
 
                   {exp.includes.length > 0 && (
                     <ul className="mb-8 space-y-2">

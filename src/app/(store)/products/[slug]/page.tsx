@@ -138,7 +138,7 @@ export default async function ProductPage({ params }: Props) {
 
           <Separator className="my-6" />
 
-          <p className="leading-relaxed text-neutral-600">{product.description}</p>
+          <p className="leading-relaxed whitespace-pre-line text-neutral-600">{product.description}</p>
 
           {/* Mention alcool conditionnelle */}
           {product.hasAlcohol && (

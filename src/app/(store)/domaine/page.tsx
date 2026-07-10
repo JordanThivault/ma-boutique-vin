@@ -104,8 +104,8 @@ export default function DomainePage() {
                 constante portée à la qualité du raisin et à l’équilibre des vins.
               </p>
               <p>
-                De mon côté, je m’occupe du développement du domaine, de la partie administrative,
-                commerciale et de l’accueil. Je participe également aux vinifications et je
+                <span className="font-medium text-stone-900">Isabelle</span> s’occupe du développement du domaine, de la partie administrative,
+                commerciale et de l’accueil. Elle participe également aux vinifications et
                 contribue à faire vivre le lien entre le domaine et ceux qui découvrent nos vins.
               </p>
             </div>
